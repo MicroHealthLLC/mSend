@@ -1,5 +1,6 @@
 <?php
 
+
 /**
 
  * Allows to hide, show or delete the files assigend to the
@@ -1082,7 +1083,7 @@ cursor: pointer;
 			$fq .= "ORDER BY tbl_files_relations.timestamp DESC";
 
 			$sql_files = $dbh->prepare($fq);
-
+// echo "<pre>";print_r($sql_files);echo "</pre>";exit;
 			if (!empty($found_groups)) {
 
 				$sql_files->bindParam(':groups', $found_groups);
@@ -1468,7 +1469,7 @@ cursor: pointer;
 							$sql_files->setFetchMode(PDO::FETCH_ASSOC);
 
 							//echo CURRENT_USER_USERNAME;
-
+// echo "<pre>";print_r($tbl_drop_off_request_info);echo "</pre>";exit;
 							while( $row = $sql_files->fetch() ) {
 
 								$uploader_cc= trim($row['uploader']);
@@ -1502,10 +1503,24 @@ cursor: pointer;
 								 * Construct the complete file URI to use on the download button.
 
 								 */
+								 
+						    	if($row['req_type']==1){
+                                    if($row['req_status']=='1'){
+                                        $this_file_absolute = UPLOADED_FILES_FOLDER.'../../upload/files/mysignature/'.$row["client_id"].'/'.$row["tbl_drop_off_request_id"].'/'.$row["url"];
+                                    }else{
+                                        $this_file_absolute = UPLOADED_FILES_FOLDER.'../../upload/files/mysignature/'.$row["client_id"].'/'.$row["tbl_drop_off_request_id"].'/signed/'.$row["url"];
+                                    }
+                                
+                                
+                                
+							 //   UPLOADED_FILES_FOLDER.'../../upload/files/mysignature/'.$this->download_filedata1["from_id"].'/'.$this->download_filedata['tbl_drop_off_request_id'].'/signed/'.$this->download_filedata['filename'].'.pdf';
+								// $this_file_absolute = UPLOADED_FILES_FOLDER.'../../upload/files/mysignature/'.$row["client_id"].'/'.$row["tbl_drop_off_request_id"].'/signed/'.$row["url"];
+								//  echo "<pre>";print_r($this_file_absolute);echo "</pre>";exit;
+							}else{
+							    $this_file_absolute = UPLOADED_FILES_FOLDER.$row['url'];
+							}
 
-								$this_file_absolute = UPLOADED_FILES_FOLDER.$row['url'];
-
-								$this_file_uri = BASE_URI.UPLOADED_FILES_URL.$row['url'];
+								// $this_file_uri = BASE_URI.UPLOADED_FILES_URL.$row['url'];
 
 																
 
@@ -1678,8 +1693,20 @@ cursor: pointer;
                                     <td class="file_name">
 
                                         <?php
+                                            if($row['req_type']==1){
+                                                if($row['req_status']=='1'){
+                                                    $stmt55 = $dbh->prepare("SELECT * FROM tbl_draw_sign_details WHERE drop_off_request_id=:drop_off_request_id");
+                                                    $stmt55->execute(['drop_off_request_id' => $row["tbl_drop_off_request_id"]]); 
+                                                    $data55 = $stmt55->fetch();
+                    						        $download_link = BASE_URI.'sign_document.php?auth='.$data55['keypath'].'&key=sign';
+                                                }else{
+                                                    $download_link = BASE_URI.'process.php?do=req_download&amp;client='.$global_user.'&amp;id='.$row['file_id'].'&amp;n=1&amp;request_type='.$row['request_type'].'';
+                                                }
+                                            }else{
+                                                $download_link = BASE_URI.'process.php?do=download&amp;client='.$global_user.'&amp;id='.$row['file_id'].'&amp;n=1&amp;request_type='.$row['request_type'].'';
+                                            }
 
-                                            $download_link = BASE_URI.'process.php?do=download&amp;client='.$global_user.'&amp;id='.$row['file_id'].'&amp;n=1&amp;request_type='.$row['request_type'].'';
+                                                
 
 
 
@@ -2065,14 +2092,20 @@ cursor: pointer;
 									<td>
 
 									<?php
-
 									if ($row['request_type'] == '0' || $row['request_type'] == null)
 
 														{ echo("<span class='requestType normal'> Normal </span>"); }
 
 														else if ($row['request_type'] == '1')
 
-														{ echo("<span class='requestType requested'> Requested </span>"); }
+														{ 
+														    if($row['tbl_drop_off_request_id']!=0){
+														        echo("<span class='requestType requested'> Signature </span>");
+														    }else{
+														        echo("<span class='requestType requested'> Requested </span>");
+														    }
+														    
+														}
 
 														else if ($row['request_type'] == '2')
 

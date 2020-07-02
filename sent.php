@@ -5,6 +5,7 @@
  *
  * @package ProjectSend
  */
+ 
 $load_scripts   = array(
                         'footable',
                     ); 
@@ -399,6 +400,7 @@ include('header.php');
             $fq .= "ORDER BY tfr.timestamp DESC";
             $sql_files = $dbh->prepare($fq);
             $sql_files->execute();
+            // echo "<pre>";print_r($sql_files);echo "</pre>";exit;
             // var_dump($sql_files);die();
 			$count = $sql_files->rowCount();
 			/*$sql_files->setFetchMode(PDO::FETCH_ASSOC);
@@ -619,8 +621,20 @@ if(isset($_REQUEST['edit']) == 1){echo '<div class="alert alert-success"><a href
 						/**
 						 * Construct the complete file URI to use on the download button.
 						 */
-						$this_file_absolute = UPLOADED_FILES_FOLDER.$row['url'];
-						$this_file_uri = BASE_URI.UPLOADED_FILES_URL.$row['url'];
+						if($row['req_type']==1){
+						    if($row['req_status']=='1'){
+						        $this_file_absolute = UPLOADED_FILES_FOLDER.'../../upload/files/mysignature/'.$row["client_id"].'/'.$row["tbl_drop_off_request_id"].'/'.$row["url"];
+						    }else{
+						        $this_file_absolute = UPLOADED_FILES_FOLDER.'../../upload/files/mysignature/'.$row["client_id"].'/'.$row["tbl_drop_off_request_id"].'/signed/'.$row["url"];
+						    }
+						}else{
+						    $this_file_absolute = UPLOADED_FILES_FOLDER.$row['url'];
+						}
+						 
+						 
+						 
+				// 		$this_file_absolute = UPLOADED_FILES_FOLDER.$row['url'];
+				// 		$this_file_uri = BASE_URI.UPLOADED_FILES_URL.$row['url'];
 						/**
 						 * Download count and visibility status are only available when
 						 * filtering by client or group.
@@ -705,7 +719,23 @@ if(isset($_REQUEST['edit']) == 1){echo '<div class="alert alert-success"><a href
 										 */
 											if(($row['expires'] == '0') || (time() < strtotime($row['expiry_date'])))
 											{
-												$download_link = BASE_URI.'process.php?do=download&amp;client='.$global_user.'&amp;id='.$row['file_id'].'&amp;n=1';
+											    if($row['req_type']==1){
+                        						    if($row['req_status']=='1'){
+                        						        $download_link = BASE_URI.'process.php?do=req_download&amp;client='.$global_user.'&amp;id='.$row['file_id'].'&amp;req_status='.$row['req_status'].'&amp;completed=sign&amp;n=1&amp;request_type='.$row['request_type'].'';
+                        						    }else{
+                        						        $download_link = BASE_URI.'process.php?do=req_download&amp;client='.$global_user.'&amp;id='.$row['file_id'].'&amp;n=1&amp;request_type='.$row['request_type'].'';
+                        						    }
+                                                    // $download_link = BASE_URI.'process.php?do=req_download&amp;client='.$global_user.'&amp;id='.$row['file_id'].'&amp;n=1&amp;request_type='.$row['request_type'].'';
+                                                    // $download_link = BASE_URI.'process.php?do=req_download&amp;client='.$global_user.'&amp;id='.$row['file_id'].'&amp;n=1&amp;request_type='.$row['request_type'].'';
+                                                }else{
+                                                    $download_link = BASE_URI.'process.php?do=download&amp;client='.$global_user.'&amp;id='.$row['file_id'].'&amp;n=1';
+                                               
+                                                }
+											    
+											    
+											    
+											    
+												// $download_link = BASE_URI.'process.php?do=download&amp;client='.$global_user.'&amp;id='.$row['file_id'].'&amp;n=1';
 											?>
 												<a href="<?php echo $download_link; ?>" target="_blank"> <?php echo html_output($row['filename']); ?> </a>
 											<?php

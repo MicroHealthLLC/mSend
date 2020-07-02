@@ -44,7 +44,9 @@ $actual_link = SITE_URI.'requested_file.php';
             <div class="row">
                 <div class="col-md-12">
                     <h2 class="page-title txt-color-blueDark"><?php echo $page_title; ?></h2>
-                        <a href="request-drop-off.php" class="btn btn-sm btn-primary right-btn">Request File(s)</a>
+                        <a href="request-drop-off.php/sign" class="btn btn-sm btn-info right-btn" style="margin-left:2px;">Signature Request File(s)</a>
+                        <a href="request-drop-off.php" class="btn btn-sm btn-primary right-btn" style="">Normal Request File(s)</a> 
+                        
 
           <?php
         /**
@@ -225,6 +227,7 @@ $actual_link = SITE_URI.'requested_file.php';
                     <th data-hide="phone,tablet"><?php _e('To Organization','cftp_admin'); ?></th>
                     <th><?php _e('To Email','cftp_admin'); ?></th>
                     <th><?php _e('Note','cftp_admin'); ?></th>
+                    <th><?php _e('Signature Required','cftp_admin'); ?></th>
                     <th><?php _e('Status','cftp_admin'); ?></th>
                     <th><?php _e('Requested Time','cftp_admin'); ?></th>
                     <th><?php _e('Action','cftp_admin'); ?></th>
@@ -249,6 +252,7 @@ $actual_link = SITE_URI.'requested_file.php';
                     <td><?php if($row['to_organization'] != NULL){ echo $row['to_organization']; } else { echo ("--"); } ?></td>
                     <td><?php echo $row['to_email']; ?></td>
                                         <td><?php echo $row['to_note_request']; ?></td>
+                                        <td><?php if($row['signaturestatus']==0){?>No<?php }else{?>Yes<?php }?></td>
                     <td class="<?php echo (!empty($row['hidden'])) ? 'file_status_hidden' : 'file_status_visible'; ?>"><?php
                                         $status_hidden  = __('Pending','cftp_admin');
                                         $hidden = $row['status'];
@@ -309,6 +313,7 @@ $actual_link = SITE_URI.'requested_file.php';
 									<th data-hide="phone,tablet"><?php _e('From Organization','cftp_admin'); ?></th>
 									<th><?php _e('From Email','cftp_admin'); ?></th>
 									<th><?php _e('Note','cftp_admin'); ?></th>
+									<th><?php _e('Signature Required','cftp_admin'); ?></th>
 									<th><?php _e('Status','cftp_admin'); ?></th>
 									<th><?php _e('Requested Time','cftp_admin'); ?></th>
 									<th><?php _e('Action','cftp_admin'); ?></th>
@@ -323,6 +328,9 @@ $actual_link = SITE_URI.'requested_file.php';
 										if($row['status']== 1) {
 											$disabled_list="disabled";
 										}
+										
+                                        
+						                
 									?>
 								<tr>
 										<td><label class="cc-chk-container">
@@ -333,6 +341,7 @@ $actual_link = SITE_URI.'requested_file.php';
                     <td><?php if($row['from_organization'] != NULL){ echo $row['from_organization']; } else { echo ("--"); } ?></td>
 										<td><?php echo $row['from_email']; ?></td>
 										<td><?php echo $row['to_note_request']; ?></td>
+										 <td><?php if($row['signaturestatus']==0){?>No<?php }else{?>Yes<?php }?></td>
 										<td class="<?php echo (!empty($row['hidden'])) ? 'file_status_hidden' : 'file_status_visible'; ?>">
 											<?php
 
@@ -347,8 +356,21 @@ $actual_link = SITE_URI.'requested_file.php';
 										</td>
 										<td><?php echo $row['requested_time']; ?></td>
 										<td>
-											<a <?php if($row['status'] != '1') { ?> href="dropoff.php?auth=<?php echo $row['auth_key']; ?>" <?php } ?> <?php if($row['status'] == '1') { echo ("disabled ='disabled'");} ?> class="btn btn-primary btn-sm"  id="<?php echo $row['id']; ?>" >
+										    <?php if($row['signaturestatus']==0){?>
+											    <a <?php if($row['status'] != '1') { ?> href="dropoff.php?auth=<?php echo $row['auth_key']; ?>" <?php } ?> <?php if($row['status'] == '1') { echo ("disabled ='disabled'");} ?> class="btn btn-primary btn-sm"  id="<?php echo $row['id']; ?>" >
 												<?php _e('Go','cftp_admin'); ?>
+											<?php }else{
+											    $drop_off_request_id=$row['id'];
+                
+                                                $sql12 = $dbh->prepare( 'SELECT keypath FROM tbl_draw_sign_details WHERE drop_off_request_id = "'.$drop_off_request_id.'"' );	
+                                            	$sql12->execute();
+                                            	$sql12->setFetchMode(PDO::FETCH_ASSOC);
+                                            	$grow = $sql12->fetch();
+											
+											?>
+											    <a <?php if($row['status'] != '1') { ?> href="sign_document.php?auth=<?php echo $grow['keypath']; ?>" <?php } ?> <?php if($row['status'] == '1') { echo ("disabled ='disabled'");} ?> class="btn btn-primary btn-sm"  id="<?php echo $row['id']; ?>" >
+												<?php _e('Go','cftp_admin'); ?>
+											<?php }?>
 											</div>
 										</td>
 								</tr>

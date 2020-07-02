@@ -1,3 +1,4 @@
+
 <?php
 /**
  * Contains the form that is used when user request a drop-off.
@@ -6,10 +7,11 @@
  * @subpackage	Request a drop-off
  *
  */
+
 ?>
 
 
-<form action="<?php echo $form_action; ?>" name="addclient" method="post" class="form-horizontal">
+<form action="<?php echo BASE_URI.$form_action; ?>" name="addclient" method="post" class="form-horizontal" enctype="multipart/form-data">
 	<div class="form-group">
 		<div class="col-sm-4"></div>		<div class="col-sm-8" style="padding-bottom: 10px;">
 		This page will allow you to send a request to one or more people requesting that they send (upload) one or more files for you.
@@ -71,14 +73,21 @@
 		</div>
 	</div>
 
-	<div class="form-group">
+	<div class="form-group" id="signature_tab">
 		<label for="signaturestatus" class="col-sm-4 control-label"><?php _e('Signature','cftp_admin'); ?></label>
 		<div class="col-sm-8">
-			<input type="checkbox" name="signaturestatus" id="signaturestatus" <?php if (isset($signaturestatus)) { echo 'checked'; }else{echo '';} ?>/> <?php _e('Check if Signature is required','cftp_admin'); ?>
-			 <span style="color:#F00"><?php if(isset($to_signatureErr)){  echo $to_signatureErr; } ?></span>
+			<!--<input type="checkbox" name="signaturestatus" id="signaturestatus" <?php //if (isset($signaturestatus)) { echo 'checked'; }else{echo '';} ?>/ onclick="sigrequired()"> <?php //_e('Check if Signature is required','cftp_admin'); ?>-->
+			<input type="checkbox" name="signaturestatus" id="signaturestatus" <?php //if (isset($signaturestatus)) { echo 'checked'; }else{echo '';} ?>/ > <?php _e('Check if Signature is required','cftp_admin'); ?>
 		</div>
 	</div> 
 	
+	<div class="form-group disnone" id="sigfile">
+		<label  class="col-sm-4 control-label"><?php _e('Upload File','cftp_admin'); ?></label>
+		<div class="col-sm-8">
+			<input type="file" name="userfile"  id="userfile" class="required File" value="" placeholder="upload file">
+			<span style="color:#F00"><?php echo isset($to_fileErr)?$to_fileErr:''; ?></span>
+		</div>
+	</div>
 	<?php
 		if ( isset($clients_form_type ) && ($clients_form_type != 'new_client_self') ) {
 			if ( defined('RECAPTCHA_AVAILABLE') ) {
@@ -101,3 +110,22 @@
 	</div>
 
 </form>
+<script type="text/javascript">
+// 	function sigrequired() {
+// 		if($('#signaturestatus').is(':checked')){
+// 			$('#sigfile').removeClass('disnone');
+// 			 $('#signature_tab').removeClass('disnone').addClass('disnone');
+// 		}else{
+// 			$('#sigfile').removeClass('disnone').addClass('disnone');
+// 		}
+// 	}
+	$(document).ready(function() {
+        <?php if($url_argument=='sign'){ ?>	
+            $('#signaturestatus').prop('checked', true);
+            $('#sigfile').removeClass('disnone');
+        <?php }else{?>	
+            $('#signature_tab').removeClass('disnone').addClass('disnone');
+            $('#sigfile').removeClass('disnone').addClass('disnone');
+        <?php }?>	
+    });
+</script>

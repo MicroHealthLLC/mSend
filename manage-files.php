@@ -51,7 +51,7 @@ $current_level = get_current_user_level();
 
 
 /*
-
+''
  * Get the total downloads count here. The results are then
 
  * referenced on the results table.
@@ -633,6 +633,7 @@ error_reporting(E_ALL);
 			else {
 
 				$count = 0;
+				$count_non = 0;
 
 				$no_results_error = 'filter';
 
@@ -783,14 +784,24 @@ error_reporting(E_ALL);
 			}
 
 
-
+		
 			$fq .= "ORDER BY timestamp DESC";
 
 			$sql_files = $dbh->prepare($fq);
 
 			$sql_files->execute( $params );
-
 			$count = $sql_files->rowCount();
+			
+			if($count>0){
+                $sql_files1 = $dbh->prepare("SELECT * from " . TABLE_FILES . " WHERE req_status='0' AND tbl_drop_off_request_id!='0'");
+            	$sql_files1->execute();
+            	$sql_files1->setFetchMode(PDO::FETCH_ASSOC);
+            	$countinfo=$sql_files1->fetch();
+            	$count_non = $sql_files1->rowCount();
+            	if($count_non>0){
+            	    $count=$count-$count_non;
+            	}
+            }
 
 		}
 
@@ -918,7 +929,8 @@ error_reporting(E_ALL);
 
                 <?php _e('Showing','cftp_admin'); ?>
 
-                : <span><?php echo $count; ?>
+                : <span>
+                <?php echo $count; ?>
 
                 <?php _e('files','cftp_admin'); ?>
 
@@ -1097,7 +1109,15 @@ error_reporting(E_ALL);
 							$sql_files->setFetchMode(PDO::FETCH_ASSOC);
 
 							while( $row = $sql_files->fetch() ) {
-
+                                if($row['req_status']=='1' || $row['tbl_drop_off_request_id']=='0'){
+                               
+                                    if($row['tbl_drop_off_request_id']!='0'){
+                                        $sql_files = $dbh->prepare("SELECT * from " . TABLE_DROPOFF . " WHERE id=:drop_id");
+                                    	$sql_files->bindParam(':drop_id', $row['tbl_drop_off_request_id'], PDO::PARAM_INT);
+                                    	$sql_files->execute();
+                                    	$sql_files->setFetchMode(PDO::FETCH_ASSOC);
+                                    	$req_info=$sql_files->fetch();
+                                    }
 								$file_id = $row['id'];
 
 								/**
@@ -1105,12 +1125,30 @@ error_reporting(E_ALL);
 								 * Construct the complete file URI to use on the download button.
 
 								 */
+								//  echo "<pre>";print_r($req_info['status']);echo "</pre>";
+								  
+							
+							
+							
+							
+							 if($row['req_status']=='1'){
+                                        $this_file_absolute = UPLOADED_FILES_FOLDER.'../../upload/files/mysignature/'.$row["client_id"].'/'.$row["tbl_drop_off_request_id"].'/'.$row["url"];
+                                    }else{
+                                        $this_file_absolute = UPLOADED_FILES_FOLDER.'../../upload/files/mysignature/'.$row["client_id"].'/'.$row["tbl_drop_off_request_id"].'/signed/'.$row["url"];
+                                    }
+							
 
-								$this_file_absolute = UPLOADED_FILES_FOLDER.$row['url'];
+                                if($req_info['status']=='1'){
+                                    $this_file_absolute = UPLOADED_FILES_FOLDER.'mysignature/'.$req_info["from_id"].'/'.$row["tbl_drop_off_request_id"].'/signed/'.$row['url'];
+                                }else if($req_info['status']=='0'){
+                                    $this_file_absolute = UPLOADED_FILES_FOLDER.'mysignature/'.$req_info["reqclientid"].'/'.$row["tbl_drop_off_request_id"].'/'.$row['url'];
+                                }else{
+                                    $this_file_absolute = UPLOADED_FILES_FOLDER.$row['url'];
+                                }
 
-								$this_file_uri = BASE_URI.UPLOADED_FILES_URL.$row['url'];
+								
 
-																
+								$this_file_uri = BASE_URI.UPLOADED_FILES_URL.$row['url'];					
 
 								/**
 
@@ -1129,7 +1167,6 @@ error_reporting(E_ALL);
 
 
 								if (isset($search_on)) {
-
 									$query_this_file .= " AND $search_on = :id";
 
 									$params[':id'] = $this_id;
@@ -1269,8 +1306,44 @@ error_reporting(E_ALL);
 											 */
 
 											if($current_level != '0') {
+                                            //     $sql_file_data = $dbh->prepare("SELECT * from " . TABLE_FILES_RELATIONS . " WHERE file_id = :file_id");
+                                            // 	$sql_file_data->bindParam(':file_id', $row['id'], PDO::PARAM_INT);
+                                            // 	$sql_file_data->execute();
+                                            // 	$sql_file_data->setFetchMode(PDO::FETCH_ASSOC);
+                                            // 	$file_relation_info=$sql_file_data->fetch();
+                                            
+                                            
+                                            if($req_info['status']=='0'){
+                                                $download_link = BASE_URI.'process.php?do=req_download&amp;client='.$global_user.'&amp;id='.$row['id'].'&amp;req_status='.$row['req_status'].'&amp;completed=sign&amp;n=1&amp;request_type='.$row['request_type'].'';
+                                            }else if($req_info['status']=='1'){
+                                                $download_link = BASE_URI.'process.php?do=req_download&amp;client='.$global_user.'&amp;id='.$row['id'].'&amp;n=1&amp;request_type='.$row['request_type'].'';
+                                            }else{
+                                                $download_link = BASE_URI.'process.php?do=download&amp;client='.$global_user.'&amp;id='.$row['id'].'&amp;n=1&amp;request_type='.$row['request_type'].'';
+                                            }
+                                            
+                                            
+                                            
+                                            
+// var_dump($req_info['status']);
+// // var_dump('form_id : '. $req_info['form_id']);
+//                                                 if($file_relation_info['req_type']==1){
+//                         						    if($row['req_status']=='1'){
+//                         						        var_dump('1111111111111111111111111111');
+//                         						        $download_link = BASE_URI.'process.php?do=req_download&amp;client='.$global_user.'&amp;id='.$row['id'].'&amp;req_status='.$row['req_status'].'&amp;completed=sign&amp;n=1&amp;request_type='.$row['request_type'].'';
+//                         						    }else{
+//                         						        var_dump('22222222222222222222222222222');
+//                         						        $download_link = BASE_URI.'process.php?do=req_download&amp;client='.$global_user.'&amp;id='.$row['id'].'&amp;n=1&amp;request_type='.$row['request_type'].'';
+//                         						    }
+                        						    
+//                                                 }else{
+//                                                     $download_link = BASE_URI.'process.php?do=download&amp;client='.$global_user.'&amp;id='.$row['id'].'&amp;n=1&amp;request_type='.$row['request_type'].'';
+//                                                 }
 
-												$download_link = BASE_URI.'process.php?do=download&amp;client='.$global_user.'&amp;id='.$row['id'].'&amp;n=1&amp;request_type='.$row['request_type'].'';
+
+
+
+
+												
 
 										?>
 
@@ -1575,7 +1648,7 @@ error_reporting(E_ALL);
                 </tr>
 
                 <?php
-
+							}
 							}
 
 						}

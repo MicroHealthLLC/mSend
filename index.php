@@ -25,6 +25,7 @@ include('header-unlogged.php');
 	 * Google Sign-in
 	 */
 	if ( GOOGLE_SIGNIN_ENABLED == '1' ) {
+	   // echo "<pre>";print_r('111');echo "</pre>";
 		$googleClient = new Google_Client();
 		$googleClient->setApplicationName(THIS_INSTALL_SET_TITLE);
 		$googleClient->setClientSecret(GOOGLE_CLIENT_SECRET);
@@ -41,6 +42,8 @@ include('header-unlogged.php');
 		$googleClient->setScopes(array('profile','email'));
 		$auth_url = $googleClient->createAuthUrl();
 	}
+	
+	 
 
 	/** The form was submitted */
 	if ($_POST) {
@@ -49,6 +52,8 @@ include('header-unlogged.php');
 		$sysuser_password	= $_POST['login_form_pass'];
 		$selected_form_lang	= $_POST['login_form_lang'];
 		$drop_off_auth      = isset($_POST['drop_off_auth'])?$_POST['drop_off_auth']:'';
+		$drop_off_key     = isset($_POST['drop_off_key'])?$_POST['drop_off_key']:'';
+		
 
 		/** Look up the system users table to see if the entered username exists */
 		$statement = $dbh->prepare("SELECT * FROM " . TABLE_USERS . " WHERE user= :username OR email= :email");
@@ -122,7 +127,11 @@ include('header-unlogged.php');
 										);
 					$new_record_action = $new_log_action->log_action_save($log_action_args);
 					if(!empty($drop_off_auth) && $drop_off_auth!='') {
-						header("location:".BASE_URI."dropoff.php?auth=".$drop_off_auth);
+					    if(empty($drop_off_key) && $drop_off_key=='') {
+						    header("location:".BASE_URI."dropoff.php?auth=".$drop_off_auth);
+					    }else{
+					         header("location:".BASE_URI."sign_document.php?auth=".$drop_off_auth."&key=".$drop_off_key);
+					    }
 					}
 					else if ($user_level == '0') {
 						header("location:".BASE_URI."inbox.php");
@@ -218,12 +227,14 @@ catch ( Exception $e ) {
                         </script>
         <form action="index.php" method="post" name="login_admin" role="form" id="login-form" class="smart-form client-form">
         <input type="hidden" name="drop_off_auth" value = "<?php echo isset($_GET['auth'])?$_GET['auth']:''; ?>" />
+        <input type="hidden" name="drop_off_key" value = "<?php echo isset($_GET['key'])?$_GET['key']:''; ?>" />
           <header> Sign In </header>
           <?php
                             /**
                              * Show login errors
                              */
                             if (isset($errorstate)) {
+                                //  echo "<pre>";print_r('333');echo "</pre>";
                                 switch ($errorstate) {
                                     case 'invalid_credentials':
                                         $login_err_message = __("The supplied credentials are not valid.",'cftp_admin');
@@ -308,6 +319,7 @@ catch ( Exception $e ) {
       <ul class="list-inline text-center">
         <li>
 					<?php if(SAML_SIGNIN_ENABLED == '1'){
+					   //  echo "<pre>";print_r('444');echo "</pre>";
 						if(isset($_GET['auth'])) {
 							$drop_off_auth =$_GET['auth']; ?>
 							<a href="<?php echo BASE_URI; ?>saml_app/index.php? <?php echo('auth='.$drop_off_auth); ?>" name="Sign in with SAML" class="" title="Sign in with SAML"><img style="width: 150px;" src="img/saml_logo.png" class="img-responsive"/></a>

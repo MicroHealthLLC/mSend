@@ -34,8 +34,23 @@ if(!empty($_SESSION))
 									$to_email_request = $row['to_email'];
 									$to_subject_request = $row['to_subject_request'];
 									$to_note_request = $row['to_note_request'];
+									$signaturestatus = $row['signaturestatus'];
+									$drop_off_request_id = $row['id'];
 						}
+						$stmt = $dbh->prepare("SELECT * FROM tbl_draw_sign_details WHERE drop_off_request_id=:drop_off_request_id");
+                		$stmt->execute(['drop_off_request_id' => $drop_off_request_id]); 
+                		$data = $stmt->fetch();
+                		$keypath=$data['keypath'];
 					}
+					$page_url='';
+					if($signaturestatus==0){
+					    $signatureinstruction='';
+					    $page_url=" <a href='".BASE_URI."dropoff.php?auth=".$randomString."' target='_blank' style='text-decoration:underline;background-color:#ffffff;border:solid 1px #3498db;border-radius:5px;box-sizing:border-box;color:#3498db;cursor:pointer;display:inline-block;font-size:14px;font-weight:bold;margin:0;padding:12px 25px;text-decoration:none;text-transform:capitalize;background-color:#3498db;border-color:#3498db;color:#ffffff;'>go</a>";
+					}else{
+				    	$signatureinstruction='<br> <strong>Step 4: Your signature will be required.</strong>';
+				    	$page_url=" <a href='".BASE_URI."sign_document.php?auth=".$keypath."&key=sign' target='_blank' style='text-decoration:underline;background-color:#ffffff;border:solid 1px #3498db;border-radius:5px;box-sizing:border-box;color:#3498db;cursor:pointer;display:inline-block;font-size:14px;font-weight:bold;margin:0;padding:12px 25px;text-decoration:none;text-transform:capitalize;background-color:#3498db;border-color:#3498db;color:#ffffff;'>go</a>";
+					}
+					
 					$message ="<html>
 					<head>
 					<meta name='viewport' content='width=device-width'>
@@ -135,7 +150,7 @@ if(!empty($_SESSION))
                   <p>INSTRUCTIONS:<br>
                   Step 1: Click the Go link below.<br>
                   Step 2: If already logged in to MicroHealth Send in this browser, go to Step 3. Otherwise, log in on the Index screen.<br>
-                  Step 3: Continue the uploading process on the Drop-off Request screen.</p>
+                  Step 3: Continue the uploading process on the Drop-off Request screen.".$signatureinstruction."</p>
 
 										<table border='0' cellpadding='0' cellspacing='0' class='btn btn-primary' style='border-collapse:separate;mso-table-lspace:0pt;mso-table-rspace:0pt;box-sizing:border-box;width:100%;'>
 										  <tbody>
@@ -144,7 +159,7 @@ if(!empty($_SESSION))
 												<table border='0' cellpadding='0' cellspacing='0' style='border-collapse:separate;mso-table-lspace:0pt;mso-table-rspace:0pt;width:100%;width:auto;'>
 												  <tbody>
 													<tr>
-													  <td style='font-family:sans-serif;font-size:14px;vertical-align:top;background-color:#ffffff;border-radius:5px;text-align:center;background-color:#3498db;'> <a href='".BASE_URI."dropoff.php?auth=".$randomString."' target='_blank' style='text-decoration:underline;background-color:#ffffff;border:solid 1px #3498db;border-radius:5px;box-sizing:border-box;color:#3498db;cursor:pointer;display:inline-block;font-size:14px;font-weight:bold;margin:0;padding:12px 25px;text-decoration:none;text-transform:capitalize;background-color:#3498db;border-color:#3498db;color:#ffffff;'>go</a> </td>
+													  <td style='font-family:sans-serif;font-size:14px;vertical-align:top;background-color:#ffffff;border-radius:5px;text-align:center;background-color:#3498db;'>".$page_url." </td>
 													</tr>
 												  </tbody>
 												</table>

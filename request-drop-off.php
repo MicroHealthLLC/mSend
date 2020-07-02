@@ -1,3 +1,8 @@
+<style>
+    .disnone{
+        display:none;
+    }
+</style>
 <?php
 /**
  * Show the form to request a drop-off
@@ -6,7 +11,12 @@
  */
 $allowed_levels = array(9,8,7,0);
 require_once('sys.includes.php');
-$form_action = "request-drop-off.php";
+$url_argument = end(explode('/', $_SERVER['REQUEST_URI']));
+if($url_argument=='sign'){
+    $form_action = "request-drop-off.php/sign";
+}else{
+    $form_action = "request-drop-off.php";
+}
 $active_nav = 'request-a-drop-off';
 $cc_active_page = 'Request a File';
 $page_title = __('Request a Drop-off','cftp_admin');
@@ -17,6 +27,7 @@ $this_current_id = CURRENT_USER_ID;
 $client_info = get_client_by_username($this_user);
 $logged_in_email = isset($client_info['email'])?$client_info['email']:'';
 $logged_in_name = isset($client_info['name'])?$client_info['name']:'';
+
     
 function generate_random_string($length = 30) {
     $characters = '0123456789!@#$%^&*()_+abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -38,10 +49,176 @@ if ($_POST) {
 	$to_subject_request = $_POST['to_subject_request'];
 	$to_note_request = $_POST['to_note_request'];
 	$signaturestatus = $_POST['signaturestatus'];
-	if($signaturestatus){
-		$signatureinstruction='<br> <strong>Step 4: Your signature will be required.</strong>';
-	}
-	//validation start --------------------
+	if($signaturestatus){   
+        //validation start --------------------
+        $validate_err['count'] = 0;
+        if(!preg_match("^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$^",$to_email_request))
+        { 
+        	$to_emailErr  = "<div class=\"alert alert-danger cc-failed\">Invalid E-mail</div>";
+        	
+        }else{
+        	$to_emailErr = '';
+        }
+        if($to_subject_request == '')
+        {     
+        	$to_subErr  = "<div class=\"alert alert-danger cc-failed\">Invalid Subject</div>"; 
+        }else
+        {
+        	$to_subErr = '';
+        }
+        if($from_organization == '')
+        {
+        	$from_OrgErr  = "<div class=\"alert alert-danger cc-failed\">Specify your Organization</div>";
+        }else
+        {
+        	$from_OrgErr = '';
+        }
+        if($to_organization == '')
+        {
+        $to_OrgErr  = "<div class=\"alert alert-danger cc-failed\">Specify To Organization</div>";
+        }else
+        {
+        $to_OrgErr = '';
+        }
+        if($to_name_request == '')
+        { 
+        	$to_nameErr  = "<div class=\"alert alert-danger cc-failed\">Invalid To Name</div>"; 
+        }else
+        {
+        	$to_nameErr = '';
+        }
+        if($_FILES["userfile"]["error"] != 0)
+        { 
+        	$to_fileErr  = "<div class=\"alert alert-danger cc-failed\">Please upload a file</div>"; 
+        }else
+        {
+        	$to_fileErr = '';
+        }
+        
+        
+        if($to_email_request!='' && $to_subject_request != '' && $to_name_request != '' && $from_organization != ''&& $to_organization != '' /*&& $signaturestatus != null */) {
+        
+        	if (!filter_var($to_email_request, FILTER_VALIDATE_EMAIL) === false)
+        	{
+        		/* check email ID exist in the system */
+        		$stmt = $dbh->prepare("SELECT * FROM ".TABLE_USERS." WHERE email=:email");
+        		$stmt->execute(['email' => $to_email_request]); 
+        		$email_exist = $stmt->fetch();
+        		if(!empty($email_exist) && count($email_exist)>0) 
+        		{
+        			$to_emailErr='';
+        			if(isset($email_exist['active']) && $email_exist['active']== 1) 
+        			{
+        				$targetsignature_dir = UPLOADED_FILES_FOLDER.'../../upload/files/mysignature/'.$email_exist['id'].'/';
+        				if($_FILES){
+        					// var_dump('3');
+        					if($_FILES["userfile"]["error"] == 0) {
+        						// var_dump('4');
+        						if (!file_exists($targetsignature_dir)) {
+        							mkdir($targetsignature_dir, 0777, true);
+        						}
+        				// 		if (!file_exists($targetsignature_dir.'temp/')) {
+        				// 			mkdir($targetsignature_dir.'temp/', 0777, true);
+        				// 		}
+        						$target_file = $targetsignature_dir;
+        						$uploadOk = 1;
+        						
+        						
+    						    if($signaturestatus){
+    								$statement = $dbh->prepare("INSERT INTO ".TABLE_DROPOFF." (from_id,to_name,to_subject_request,from_organization,to_organization,to_email,to_note_request,requested_time,auth_key,status,from_name,from_email,signaturestatus,reqclientid) VALUES (:from_id, :to_name, :to_subject_request, :from_organization,:to_organization, :to_email, :to_note_request, :requested_time, :auth_key, :status,:from_name, :from_email, :signaturestatus, :reqclientid )");
+    							}
+    							$statement->bindParam(':from_id', $this_current_id);
+    							$statement->bindValue(':to_name', $to_name_request);
+    							$statement->bindValue(':to_subject_request', $to_subject_request);
+    							$statement->bindValue(':from_organization', $from_organization);
+    							$statement->bindValue(':to_organization', $to_organization);
+    							$statement->bindValue(':to_email', $to_email_request);
+    							$statement->bindValue(':to_note_request', $to_note_request);
+    							$statement->bindValue(':requested_time', date("Y-m-d H:i:s"));
+    							$statement->bindValue(':auth_key', $randomString);
+    							$statement->bindValue(':status', '0');
+    							if($signaturestatus){
+    								$statement->bindValue(':signaturestatus', '1');
+    								$statement->bindValue(':reqclientid', $email_exist['id']);
+    							}
+    							$statement->bindValue(':from_email', isset($logged_in_email)?$logged_in_email:'' );
+    							$statement->bindValue(':from_name', isset($logged_in_name)?$logged_in_name:'' );
+    							if($statement->execute()) {
+    								$reqid = $dbh->lastInsertId();
+    							}
+    							
+    							if (!file_exists($targetsignature_dir .$reqid. "/")) {
+        							mkdir($targetsignature_dir .$reqid. "/", 0777, true);
+        						}
+        						
+        						$target_file = $targetsignature_dir . "/".basename($_FILES["userfile"]["name"]);
+        						$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+        						
+        						
+        						$target_file = $targetsignature_dir.$reqid.'/'.$_FILES["userfile"]["name"];
+        						if (!file_exists($targetsignature_dir.$reqid.'/')) {
+        							mkdir($targetsignature_dir.$reqid.'/', 0777, true);
+        						}
+        				// 		$target_file = $targetsignature_dir.$_FILES["userfile"]["name"];
+        						
+        						if (file_exists($target_file)) {
+        								unlink($target_file);
+        								// echo("<br>Unlinked Oldfile");
+        						}
+        						
+        						
+        						
+        						
+        						if (move_uploaded_file($_FILES["userfile"]["tmp_name"], $target_file)) {
+        
+        
+        				// 			if($signaturestatus){
+        				// 				$statement = $dbh->prepare("INSERT INTO ".TABLE_DROPOFF." (from_id,to_name,to_subject_request,from_organization,to_organization,to_email,to_note_request,requested_time,auth_key,status,from_name,from_email,signaturestatus,reqclientid) VALUES (:from_id, :to_name, :to_subject_request, :from_organization,:to_organization, :to_email, :to_note_request, :requested_time, :auth_key, :status,:from_name, :from_email, :signaturestatus, :reqclientid )");
+        				// 			}
+        				// 			$statement->bindParam(':from_id', $this_current_id);
+        				// 			$statement->bindValue(':to_name', $to_name_request);
+        				// 			$statement->bindValue(':to_subject_request', $to_subject_request);
+        				// 			$statement->bindValue(':from_organization', $from_organization);
+        				// 			$statement->bindValue(':to_organization', $to_organization);
+        				// 			$statement->bindValue(':to_email', $to_email_request);
+        				// 			$statement->bindValue(':to_note_request', $to_note_request);
+        				// 			$statement->bindValue(':requested_time', date("Y-m-d H:i:s"));
+        				// 			$statement->bindValue(':auth_key', $randomString);
+        				// 			$statement->bindValue(':status', '0');
+        				// 			if($signaturestatus){
+        				// 				$statement->bindValue(':signaturestatus', '1');
+        				// 				$statement->bindValue(':reqclientid', $email_exist['id']);
+        				// 			}
+        				// 			$statement->bindValue(':from_email', isset($logged_in_email)?$logged_in_email:'' );
+        				// 			$statement->bindValue(':from_name', isset($logged_in_name)?$logged_in_name:'' );
+        				// 			if($statement->execute()) {
+        				// 				$reqid = $dbh->lastInsertId();
+        				// 			}
+        							
+        							// var_dump('5');
+        			                // header('Location:'.BASE_URI.'create_signature_spot.php?pdf_name='.$_FILES["userfile"]["name"].'&id='.$email_exist['id'].'&req_id='.$reqid);
+        			                header('Location:'.BASE_URI.'create_signature_spot.php?pdf_name='.$_FILES["userfile"]["name"].'&id='.$email_exist['id'].'&req_id='.$reqid);
+        						} else {
+        							echo "Sorry, there was an error uploading your file.";
+        						}
+        					}
+        
+        				}
+        
+        			}
+        			else {
+        			    $to_emailErr  = "<div class=\"alert alert-danger cc-failed\">The user related with this Email ID is not active.</div>";
+        				// $to_emailErr = "The user related with this Email ID is not active.";
+        			}
+        		}else {
+        // 			$to_emailErr = "This email ID is not registerd with our system.";
+        			$to_emailErr  = "<div class=\"alert alert-danger cc-failed\">This email ID is not registerd with our system.</div>";
+        		}
+        	}	/* IF Email Validation close */
+        }	/* IF Null check close */
+	    
+	}else{
+		//validation start --------------------
 	$validate_err['count'] = 0;
 	if(!preg_match("^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$^",$to_email_request))
 	{ 
@@ -290,12 +467,16 @@ if($to_organization == '')
 					}
 					else {
 						$to_emailErr = "The user related with this Email ID is not active.";
+						$to_emailErr  = "<div class=\"alert alert-danger cc-failed\">The user related with this Email ID is not active.</div>";
 					}
 				}else {
-					$to_emailErr = "This email ID is not registerd with our system.";
+				// 	$to_emailErr = "This email ID is not registerd with our system.";
+					$to_emailErr  = "<div class=\"alert alert-danger cc-failed\">This email ID is not registerd with our system.</div>";
 				}
 			}	/* IF Email Validation close */
         }	/* IF Null check close */
+	}
+	
 	}	/* Post Close */
 ?>
 <!----------------------------------------------------------------------------------------->
@@ -356,4 +537,16 @@ if($to_organization == '')
 $(".clear_button").click(function() {
     $(this).closest('form').find("input[type=text], textarea").val("");
 });
+
+$(document).ready(function() {
+    <?php if($url_argument=='sign'){ ?>	
+         $('#signature_tab').removeClass('disnone').addClass('disnone');
+    <?php }else{?>	
+        $('#signature_tab').removeClass('disnone').addClass('disnone');
+    <?php }?>	
+});
 </script>
+
+
+
+

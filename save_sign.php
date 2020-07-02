@@ -2,8 +2,15 @@
 require_once('sys.includes.php');
 // Define the Base64 value you need to save as an image
 $b64 = $_POST['img_data'];
+$doc_sign_page = $_POST['doc_sign_page'];
+
 // var_dump($b64);die();
 $user_id_mic =$_POST['user_id_mic'];
+
+if($doc_sign_page=="true"){
+   	$sign_save = $dbh->prepare( "INSERT INTO " . TABLE_USER_EXTRA_PROFILE . " (user_id, name, sig_type, value) VALUES (".$user_id_mic.",'signature_pic','2','".$user_id_mic.".png' ) ");
+	$prochange=$sign_save->execute();
+}
   $targetsignature_dir = UPLOADED_FILES_FOLDER.'../../img/avatars/tempsignature/'.$user_id_mic.'/';
 if (!file_exists($targetsignature_dir)) {
     mkdir($targetsignature_dir, 0777, true);
