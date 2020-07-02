@@ -73,6 +73,7 @@ function check_valid_cookie()
 function check_for_session()
 {
 	$auth = isset($_GET['auth']) ? htmlspecialchars($_GET['auth'],ENT_QUOTES, 'UTF-8') : '';
+	$key = isset($_GET['key']) ? htmlspecialchars($_GET['key'],ENT_QUOTES, 'UTF-8') : '';
 	$is_logged_now = false;
 	if (isset($_SESSION['loggedin'])) {
 		$is_logged_now = true;
@@ -84,7 +85,11 @@ function check_for_session()
 		$is_logged_now = true;
 	}
 	else if (!$is_logged_now && !empty($auth)) {
-		header('Location:'.SITE_URI.'?auth='.$auth);
+	    if($key==''){
+	        header('Location:'.SITE_URI.'?auth='.$auth);
+	    }else{
+	        header('Location:'.SITE_URI.'?auth='.$auth.'&key='.$key);
+	    }
 	}
 	if(!$is_logged_now && empty($auth)) {
 		header("location:" . BASE_URI . "index.php");

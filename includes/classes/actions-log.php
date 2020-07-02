@@ -76,6 +76,8 @@ class LogActions
 		$this->affected_account = (!empty($arguments['affected_account'])) ? $arguments['affected_account'] : '';
 		$this->affected_file_name = (!empty($arguments['affected_file_name'])) ? $arguments['affected_file_name'] : '';
 		$this->affected_account_name = (!empty($arguments['affected_account_name'])) ? $arguments['affected_account_name'] : '';
+		$this->file_type = (!empty($arguments['file_type'])) ? $arguments['file_type'] : '';
+// 		var_dump($this->file_type);die();
 		
 		/** Get the real name of the client or user */
 		if (!empty($arguments['get_user_real_name'])) {
@@ -110,6 +112,7 @@ class LogActions
 			if (!empty($this->affected_account)) { $lq .= ",affected_account"; }
 			if (!empty($this->affected_file_name)) { $lq .= ",affected_file_name"; }
 			if (!empty($this->affected_account_name)) { $lq .= ",affected_account_name"; }
+// 			if (!empty($this->file_type)) { $lq .= ",file_type"; }
 		
 		$lq .= ") VALUES (:action, :owner_id, :owner_user";
 
@@ -123,11 +126,16 @@ class LogActions
 			if (!empty($this->affected_account)) {		$lq .= ", :account";	$params['account'] = $this->affected_account; }
 			if (!empty($this->affected_file_name)) {	$lq .= ", :title";		$params['title'] = $this->affected_file_name; }
 			if (!empty($this->affected_account_name)) {	$lq .= ", :name";		$params['name'] = $this->affected_account_name; }
+// 			if (!empty($this->file_type)) {	$lq .= ", :name";		$params['name'] = $this->file_type; }
 
 		$lq .= ")";
 
 		$this->sql_query = $dbh->prepare( $lq );
-		$this->sql_query->execute( $params );
+// 		$this->sql_query->execute( $params );
+		if($this->sql_query->execute( $params )){
+		    $log_id = $dbh->lastInsertId();
+		}
+		return $log_id;
 	}
 }
 ?>

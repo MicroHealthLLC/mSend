@@ -38,6 +38,8 @@ if (defined('TRY_INSTALL')) {
 								  `public_token` varchar(32) NULL,
 								  `request_type` INT(10) NULL,
 								  `prev_assign` ENUM(\'0\',\'1\',\'2\') NOT NULL DEFAULT \'0\',
+								  `tbl_drop_off_request_id` INT(1) NOT NULL default \'0\',
+								  `req_status` INT(1) NOT NULL default \'0\',
 								  PRIMARY KEY (`id`)
 								) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 								',
@@ -151,6 +153,7 @@ if (defined('TRY_INSTALL')) {
 								  `download_count` int(16) NOT NULL DEFAULT \'0\',
 								  `hide_inbox` ENUM(\'0\',\'1\') NOT NULL DEFAULT \'0\' ,
 								  `hide_sent` ENUM(\'0\',\'1\') NOT NULL DEFAULT \'0\' ,
+								  `req_type` int(11) NOT NULL DEFAULT \'0\',
 								  FOREIGN KEY (`file_id`) REFERENCES '.TABLE_FILES.'(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 								  FOREIGN KEY (`client_id`) REFERENCES '.TABLE_USERS.'(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 								  FOREIGN KEY (`group_id`) REFERENCES '.TABLE_GROUPS.'(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -177,6 +180,7 @@ if (defined('TRY_INSTALL')) {
 								  `affected_account` int(11) DEFAULT NULL,
 								  `affected_file_name` text DEFAULT NULL,
 								  `affected_account_name` text DEFAULT NULL,
+								  `file_type` text DEFAULT NULL,
 								  PRIMARY KEY (`id`)
 								) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 								',
@@ -396,6 +400,7 @@ if (defined('TRY_INSTALL')) {
 					'query'	=> 'CREATE TABLE IF NOT EXISTS `tbl_drop_off_request` (
 							`id` int(11) NOT NULL AUTO_INCREMENT,
 							  `from_id` int(11) DEFAULT NULL,
+							  `reqclientid` int(11) DEFAULT 0,
 							  `to_name` varchar(50) DEFAULT NULL,
 							  `to_subject_request` varchar(500) DEFAULT NULL,
 							  `from_organization` varchar(100) DEFAULT NULL,
@@ -464,6 +469,39 @@ if (defined('TRY_INSTALL')) {
 				'query'	=> 'CREATE TABLE IF NOT EXISTS `'.tbl_blacklist.'` (
 							  `id` int(10) NOT NULL AUTO_INCREMENT,
 							  `mail` varchar(255) COLLATE utf8_general_ci NOT NULL,
+							  PRIMARY KEY (`id`)
+							) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+							',
+				'params' => array(),
+	),
+	'21' =>  array(
+				'table'	=> tbl_draw_sign_details,
+				'query'	=> 'CREATE TABLE IF NOT EXISTS `'.tbl_draw_sign_details.'` (
+							  `id` int(11) NOT NULL AUTO_INCREMENT,
+							  `user_id` int(11) NOT NULL,
+							  `drop_off_request_id` int(11) NOT NULL,
+							  `drop_off_request` int(11) NOT NULL,
+							  `img_name` varchar(500) DEFAULT NULL,
+							  `image_width` varchar(100) DEFAULT NULL,
+							  `no_of_pages` int(11) DEFAULT 0,
+							  `keypath` varchar(200) DEFAULT NULL,
+							  `signed_status` int(11) DEFAULT 0,
+							  PRIMARY KEY (`id`)
+							) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+							',
+				'params' => array(),
+	),
+	'22' =>  array(
+				'table'	=> tbl_draw_sign_pos_details,
+				'query'	=> 'CREATE TABLE IF NOT EXISTS `'.tbl_draw_sign_pos_details.'` (
+							  `id` int(11) NOT NULL AUTO_INCREMENT,
+							  `sign_left_pos` varchar(50) DEFAULT NULL,
+							  `sign_top_pos` varchar(50) DEFAULT NULL,
+							  `sign_width` varchar(50) DEFAULT NULL,
+							  `sign_height` varchar(50) DEFAULT NULL,
+							  `sig_type` varchar(50) DEFAULT NULL,
+							  `tbl_draw_sign_details_id` int(11) DEFAULT NULL,
+							  `status` int(11) DEFAULT NULL,
 							  PRIMARY KEY (`id`)
 							) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 							',

@@ -207,5 +207,83 @@ class AESENCRYPT {
       }
       return $error ? false : $dest;
   }
+  
+  
+  
+    function reqencryptFile($source,$req_by_id='',$req_of_id='')
+    {
+        rename('upload/files/mysignature/'.$req_by_id.'/'.$req_of_id.'/signed/'.$source,'upload/files/mysignature/'.$req_by_id.'/'.$req_of_id.'/signed/en_'.$source);
+        $dest = 'upload/files/mysignature/'.$req_by_id.'/'.$req_of_id.'/signed/'.$source;
+        $source = 'upload/files/mysignature/'.$req_by_id.'/'.$req_of_id.'/signed/en_'.$source;
+        $key = "8765416198765416187654161987654161";
+        $fileEncryptionblocks = 10000000;
+        $key = substr(sha1($key, true), 0, 16);
+        $iv = openssl_random_pseudo_bytes(16);
+        
+        $error = false;
+        if ($fpOut = fopen($dest, 'w')) {
+            // Put the initialzation vector to the beginning of the file
+            fwrite($fpOut, $iv);
+            if ($fpIn = fopen($source, 'rb')) {
+                while (!feof($fpIn)) {
+                    $plaintext = fread($fpIn, 16 * $fileEncryptionblocks);
+                    $ciphertext = openssl_encrypt($plaintext, 'AES-256-CBC', $key, OPENSSL_RAW_DATA, $iv);
+                    // Use the first 16 bytes of the ciphertext as the next initialization vector
+                    $iv = substr($ciphertext, 0, 16);
+                    fwrite($fpOut, $ciphertext);
+                }
+                fclose($fpIn);
+            } else {
+                $error = true;
+            }
+            unlink($source); 
+        } else {
+            $error = true;
+        }
+    
+        return $error ? false : $dest;
+    }
+  
+  
+  
+  
+    function reqdecryptFile($source,$req_by_id='',$req_of_id='',$completed='')
+    {
+      // echo '12112';exit();
+        $key = "8765416198765416187654161987654161";
+        $key = substr(sha1($key, true), 0, 16);
+        if($completed=='sign'){
+            $dest = 'upload/files/mysignature/'.$req_by_id.'/'.$req_of_id.'/temp/'.$source;
+            $source = 'upload/files/mysignature/'.$req_by_id.'/'.$req_of_id.'/'.$source;
+        }else{
+            $dest = 'upload/files/mysignature/'.$req_by_id.'/'.$req_of_id.'/signed/temp/'.$source;
+            $source = 'upload/files/mysignature/'.$req_by_id.'/'.$req_of_id.'/signed/'.$source;
+        }
+        $fileEncryptionblocks = 10000000;
+        $error = false;
+        if ($fpOut = fopen($dest, 'w')) {
+    
+            if ($fpIn = fopen($source, 'rb')) {
+                // Get the initialzation vector from the beginning of the file
+                $iv = fread($fpIn, 16);
+                while (!feof($fpIn)) {
+                    $ciphertext = fread($fpIn, 16 * ($fileEncryptionblocks + 1)); // we have to read one block more for decrypting than for encrypting
+                    $plaintext = openssl_decrypt($ciphertext, 'AES-256-CBC', $key, OPENSSL_RAW_DATA, $iv);
+                    // Use the first 16 bytes of the ciphertext as the next initialization vector
+                    $iv = substr($ciphertext, 0, 16);
+                    fwrite($fpOut, $plaintext);
+                }
+                fclose($fpIn);
+            } else {
+                $error = true;
+            }
+            fclose($fpOut);
+        } else {
+            $error = true;
+        }
+        return $error ? false : $dest;
+    }
+  
+  
 }
  ?>

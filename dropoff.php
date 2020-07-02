@@ -14,6 +14,7 @@ $cc_active_page = 'Send File';
 if (CLIENTS_CAN_UPLOAD == 1) {
 	$allowed_levels[] = 0;
 }
+
 $page_title = __('Drop-off Request','cftp_admin');
 include('header.php');
 $auth = isset($_GET['auth']) ? htmlspecialchars($_GET['auth'],ENT_QUOTES, 'UTF-8') : '';

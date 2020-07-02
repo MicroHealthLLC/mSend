@@ -368,7 +368,7 @@ border: solid 1px #ccc;
 				</tr>
 			</thead>
 			<tbody>
-			
+	<?php// echo "<pre>";print_r($sql->fetch());echo "</pre>";?>
 			<?php
 				$sql->setFetchMode(PDO::FETCH_ASSOC);
 				while ( $log = $sql->fetch() ) {
@@ -381,18 +381,32 @@ border: solid 1px #ccc;
 											'affected_file'			=> $log['affected_file'],
 											'affected_file_name'	=> $log['affected_file_name'],
 											'affected_account'		=> $log['affected_account'],
-											'affected_account_name'	=> $log['affected_account_name']
+											'affected_account_name'	=> $log['affected_account_name'],
+											'file_type'	=> $log['file_type']
 										)
 					);
 					$date = date(TIMEFORMAT_USE,strtotime($log['timestamp']));
+					if($log['action']=='25'){
+    					if($log['file_type']!=''){
+    					    $this_action["text"].=' ('.$log['file_type'].')';
+    					}else{
+    					     $this_action["text"].=' (normal request file)';
+    					}
+					}else if($log['action']=='5'){
+					    if($log['file_type']!=''){
+					         $this_action["text"].=' ('.$log['file_type'].')';
+    					}else{
+    					     $this_action["text"].=' (normal request file)';
+    					}
+					}
 				?>
-				<tr>
+				<tr>		<?php //echo "<pre>";print_r($log['action']);echo "</pre>";?>
 					<td><input type="checkbox" name="activities[]" value="<?php echo $log["id"]; ?>" /></td>
 					<td data-value="<?php echo strtotime($log['timestamp']); ?>">
 						<?php echo $date; ?>
 					</td>
 					<td><?php echo (!empty($this_action["1"])) ? $this_action["1"] : ''; ?></td>
-					<td><?php echo $this_action["text"]; ?></td>
+					<td><?php echo $this_action["text"];  ?></td>
 					<td><?php echo (!empty($this_action["2"])) ? $this_action["2"] : ''; ?></td>
 					<td><?php echo (!empty($this_action["3"])) ? $this_action["3"] : ''; ?></td>
 					<td><?php echo (!empty($this_action["4"])) ? $this_action["4"] : ''; ?></td>
