@@ -6,6 +6,8 @@
  * @subpackage	Classes
  *
  */
+
+
 global $activities_references;
 $activities_references = array(
 							0	=> __('ProjecSend has been installed','cftp_admin'),

@@ -1,4 +1,6 @@
 <?php 
+
+
 require_once('sys.includes.php');
 // Define the Base64 value you need to save as an image
 $b64 = $_POST['img_data'];

@@ -6,6 +6,8 @@
  * @package		ProjectSend
  * @subpackage	Install
  */
+
+
 if (defined('TRY_INSTALL')) {
 	$timestamp = time();
 	$current_version = substr(CURRENT_VERSION, 1);

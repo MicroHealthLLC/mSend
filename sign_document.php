@@ -1,4 +1,6 @@
 <?php 
+
+
 require_once('sys.includes.php');
 $this_current_id = $_SESSION['loggedin_id'];
 // echo $this_current_id;Use this signature

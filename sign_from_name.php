@@ -1,4 +1,6 @@
 <?php
+
+
 // Set the content-type
 header('Content-Type: image/png');
 

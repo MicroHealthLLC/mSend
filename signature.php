@@ -6,6 +6,8 @@
   }
 </style>
 
+
+  <!-- Content -->
   <!-- Content -->
   <div class="container">
     <div class="row">
@@ -184,16 +186,20 @@
     // Convert it to a blob to upload
     // var blob = b64toBlob(realData, contentType);
     savepic(realData,$('#uid').val());
-
+        
   }, false);
 
 })();
 
 
 function savepic(argument,id) {
+    var doc_sign_page=false;
+    if($('#sigmodal').find('input[name="doc_sign_page"]').val()!=undefined){
+        doc_sign_page=true;
+    }
   $.ajax({
     url: 'save_sign.php',
-    data: { 'img_data':argument,'user_id_mic':id },
+    data: { 'img_data':argument,'user_id_mic':id ,'doc_sign_page':doc_sign_page},
     type: 'post',
     dataType: 'json',
     async: false,
@@ -202,6 +208,10 @@ function savepic(argument,id) {
         $('#sig').modal('toggle');
         $('.sig1').prop("checked", true).trigger('change');
         signaturefun(1);
+	        var sign_pad_id = $('#sign_pad_id').val();
+	        var sign_pad_width = $('#sign_pad_width').val();
+	        var img_src = '<?php echo BASE_URI;?>img/avatars/tempsignature/<?php echo $this_current_id;?>/temp/<?php echo $this_current_id;?>.png?ver='+ 1+ Math.floor(Math.random() * 6);
+	        $('#'+sign_pad_id).html('<img width="'+sign_pad_width+'" src="'+img_src+'">');
       }
     }
   });

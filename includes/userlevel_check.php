@@ -10,6 +10,8 @@
 /**
  * Create the phpass hash object
  */
+
+
 $hasher = new PasswordHash(HASH_COST_LOG2, HASH_PORTABLE);
 
 /**
