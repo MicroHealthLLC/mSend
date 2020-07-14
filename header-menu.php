@@ -40,12 +40,17 @@ if ( in_session_or_cookies( array( 9,8,7 ) ) )
 	<div class="row sendfile1">
 		<div class="sendfile col-md-11">
 		<div>
-		<a href="upload-from-computer.php" class="btn btn-success center-block">Send File(s)</a>
+		<a href="<?php echo BASE_URI;?>upload-from-computer.php" class="btn btn-success center-block">Send File(s)</a>
 	</div>
 </div>
 	<div class="sendfile col-md-11">
 		<div>
-		<a href="request-drop-off.php" class="btn btn-primary center-block" >Request File(s)</a>
+		<a href="<?php echo BASE_URI;?>request-drop-off.php" class="btn btn-primary center-block" >Normal Request File(s)</a>
+		</div>
+	</div>
+	<div class="sendfile col-md-11">
+		<div>
+		<a href="<?php echo BASE_URI;?>request-drop-off.php/sign" class="btn btn-info center-block" >Signature Request File(s)</a>
 		</div>
 	</div>
 </div>
