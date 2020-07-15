@@ -1,7 +1,5 @@
 
 <?php
-
-
 /**
  * ProjectSend (previously cFTP) is a free, clients-oriented, private file
  * sharing web application.

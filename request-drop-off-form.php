@@ -1,6 +1,4 @@
 
-
-
 <?php
 /**
  * Contains the form that is used when user request a drop-off.

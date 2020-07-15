@@ -41,6 +41,19 @@
 											'affected_account_name'	=> $log['affected_account_name']
 										)
 					);
+					if($log['action']=='25'){
+    					if($log['file_type']!=''){
+    					    $rendered["text"].=' ('.$log['file_type'].')';
+    					}else{
+    					     $rendered["text"].=' (normal request file)';
+    					}
+					}else if($log['action']=='5'){
+					    if($log['file_type']!=''){
+					         $rendered["text"].=' ('.$log['file_type'].')';
+    					}else{
+    					     $rendered["text"].=' (normal request file)';
+    					}
+					}
 				
 				?>
 					<li>

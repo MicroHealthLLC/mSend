@@ -1,7 +1,5 @@
 <?php
 
-
-
 /**
 
  * Allows to hide, show or delete the files assigend to the

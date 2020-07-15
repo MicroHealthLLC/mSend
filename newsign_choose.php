@@ -1,7 +1,5 @@
 
 <?php
-
-
     require_once('sys.includes.php');
     $user_id_mic = CURRENT_USER_ID;
     $targetsignature_dir = UPLOADED_FILES_FOLDER.'../../img/avatars/tempsignature/'.$user_id_mic.'/';

@@ -1,8 +1,5 @@
 <?php
 var_dump('123');die();
-
-
-
 // function generate_image_from_pdf(){
 //         // create Imagick object
 //         $imagick = new Imagick();

@@ -3,3 +3,8 @@ Deny from All
 <FilesMatch "^$|(index)\.php$">
 Allow from All
 </FilesMatch>
+
+<Files ~ "\.(jpg|jpeg|png|gif|pdf)$">
+   order deny,allow
+   allow from all
+</Files>

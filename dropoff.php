@@ -1,6 +1,4 @@
 <?php
-
-
 /**
  * Show the form to request a drop-off
  * @package		ProjectSend

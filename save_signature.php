@@ -1,8 +1,8 @@
 <?php 
-
-
 require_once('sys.includes.php');
 $result = array();
+//echo "<pre>";print_r($_POST);echo "</pre>";exit;
+
 //$pdf = $_FILES['pdf']['temp_name'];
 echo $_POST['drop_off_request_id'];
 if(isset($_POST['drop_off_request_id'])){

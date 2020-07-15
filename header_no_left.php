@@ -1,6 +1,4 @@
 <?php
-
-
 /**
  * This file generates the header for the back-end and also for the default
  * template.

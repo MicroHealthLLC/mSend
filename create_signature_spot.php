@@ -1,7 +1,5 @@
 <?php 
 
-
-
 // Report all PHP errors (see changelog)
 error_reporting(E_ALL);
 
@@ -49,7 +47,9 @@ if(!empty($pdf_name)){
 	        }
             $new_image_name = $image_converted_folder."/".$image_name.'.jpg';
 			$imagick->setImageBackgroundColor('#ffffff');
-			$imagick->flattenImages();
+// 			$imagick->flattenImages();
+            //$imagick->mergeImageLayers();
+            $imagick->mergeImageLayers(imagick::LAYERMETHOD_FLATTEN);
 			$imagick->setImageFormat("jpg");
 			$imagick->setImageAlphaChannel(11);
 			//$imagick->mergeImageLayers(imagick::LAYERMETHOD_FLATTEN);
@@ -155,6 +155,12 @@ include('header_no_left.php');
     .sign_pos_active,.sign_pos_date_active{
         border:2px dotted red !important;
     }
+    .sign_pos_text{
+        background:#f7ba61 !important;
+    }
+    .sign_pos_active,.sign_pos_text_active{
+        border:2px dotted red !important;
+    }
     .no_padding{
         padding:0px !important;
     }
@@ -220,7 +226,11 @@ include('header_no_left.php');
     text-align:center;
 }
 </style>
-
+<style>
+    .disnone{
+        display:none;
+    }
+</style>
 
 
 
@@ -261,14 +271,16 @@ include('header_no_left.php');
                                 <input type="hidden" id="image_width" value="" name="image_width">
                                 <input type="hidden" id="user_id" value="<?php echo $userid;?>" name="user_id">
                                 <input type="hidden" id="no_of_pages" value="<?php echo $number_of_pdf_images;?>" name="no_of_pages">
-                                <input type="submit" class="btn btn-primary" value="SAVE POSITION" onclick="loadingmsg()">
+                                <input type="submit" class="btn btn-primary disnone" id="savepos" value="SAVE POSITION" onclick="loadingmsg()">
                         </form>
                 </div>
 	                <div  class="tools-wrap">
                                 <div  class="tools">
                                         
                                         <a href="#" id="sign-1" class="click_sign"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Signature</a> | 
-                                        <a href="#" id="sign-date-1" class="click_sign_date"><i class="fa fa-calendar-o" aria-hidden="true"></i> Signed Date</a>                        
+                                        <a href="#" id="sign-date-1" class="click_sign_date"><i class="fa fa-calendar-o" aria-hidden="true"></i> Signed Date</a> |
+                                        <a href="#" id="sign-text-1" class="click_sign_text"><i class="fa fa-file-text" aria-hidden="true"></i> Input Text</a> |    
+                                        <a href="#"  onclick="saveposition()"><i class="fa fa-floppy-o" aria-hidden="true"></i>SAVE</a>                            
                                 </div>
 	                </div>
 	                
@@ -455,6 +467,16 @@ $(function() {
                                 //console.log("drag_new_id "+drag_new_id);
                                 $('#sign_left_pos_date-'+drag_new_id).val(relativePosition.left);
                                 $('#sign_top_pos_date-'+drag_new_id).val(relativePosition.top);        
+                        }else if(drag_new_id=='text'){
+                                drag_new_id = drag_id.split('-')[2]
+                                console.log("drag_id: "+drag_new_id);
+                                $('#sign-text-'+drag_new_id).css('top',relativePosition.top);
+                                $('#sign-text-'+drag_new_id).css('left',relativePosition.left);
+                                //var sign_left_pos =  parseFloat(offset.left) - parseFloat(frame_left);
+                                //console.log("offset left "+sign_left_pos);
+                                //console.log("drag_new_id "+drag_new_id);
+                                $('#sign_left_pos_text-'+drag_new_id).val(relativePosition.left);
+                                $('#sign_top_pos_text-'+drag_new_id).val(relativePosition.top);        
                         }else{
                                 console.log("drag_id: "+drag_new_id);
                                 $('#sign-'+drag_new_id).css('top',relativePosition.top);
@@ -469,6 +491,10 @@ $(function() {
                 }
                
         });
+        
+        
+        
+        
         //activate divs
         $(document).on("click", ".sign_pos" , function(e) {
                 
@@ -542,6 +568,93 @@ $(function() {
         });
                 
         });
+        
+    //-----------------------------------------------------------------    
+        
+        
+        $( ".click_sign_text" ).click(function(event) {
+            event.preventDefault();
+            var pos = $('#frame').offset();
+            console.log("frame left "+parseFloat(pos.left));	
+            console.log("frame top "+parseFloat(pos.top));
+            //console.log("=================="+$(document).scrollTop());
+            console.log($('#frame').scrollTop());
+            var scroll_top = $('#frame').scrollTop()+350;
+            var def_left_pos = 700;
+            console.log("scroll_top "+scroll_top);
+            console.log("def_left_pos "+def_left_pos);
+            var sig_id = $(this).attr('id');
+            $('.sign_pos').removeClass('sign_pos_active');
+            var drag_id = $(this).attr('id');
+            var new_drag_id = parseInt(drag_id.split("-")[2])+1;
+            $(".click_sign_text").attr('id',"sign-text-"+new_drag_id);
+            //dynamic hidden fields generation
+            var sign_left_pos_text = 'sign_left_pos_text'+'-'+parseInt(drag_id.split("-")[2]);
+            var sign_top_pos_text = 'sign_top_pos_text'+'-'+parseInt(drag_id.split("-")[2]);
+            var sign_width_text = 'sign_width_text'+'-'+parseInt(drag_id.split("-")[2]);
+            var sign_height_text = 'sign_height_text'+'-'+parseInt(drag_id.split("-")[2]);
+            $('#sign_positions_form').append('<input type="hidden" id="'+sign_left_pos_text+'" name="'+sign_left_pos_text+'"><input type="hidden" id="'+sign_top_pos_text+'" name="'+sign_top_pos_text+'"><input type="hidden" id="'+sign_width_text+'" name="'+sign_width_text+'"><input type="hidden" id="'+sign_height_text+'" name="'+sign_height_text+'"><input type="hidden" value="'+parseInt(drag_id.split("-")[2])+'" name="signature_text_array[]">');
+            //left / top positions to hidden field
+            $('#sign_left_pos_text-'+parseInt(drag_id.split("-")[2])).val(def_left_pos);
+            $('#sign_top_pos_text-'+parseInt(drag_id.split("-")[2])).val(scroll_top);
+            $('#sign_width_text-'+parseInt(drag_id.split("-")[2])).val(150);
+            $('#sign_height_text-'+parseInt(drag_id.split("-")[2])).val(40);
+        
+            $( "<div class='ui-widget-content sign_pos sign_pos_text sign_pos_active' style='top:"+scroll_top+"px;left:"+def_left_pos+"px' id='"+sig_id+"'><p>Input Text "+parseInt(drag_id.split("-")[2])+"</p></div>" ).prependTo( "#frame" ).draggable({
+                containment: 'parent',
+                drag:function(ev, ui) {
+                    $('.sign_pos').removeClass('sign_pos_active');
+                    $(this).addClass('sign_pos_active');
+                }, 
+                stop:function(ev, ui) {
+                    var offset = $(ui.helper).offset();
+                    var pos = $(ui.helper).position();
+                    console.log("offset left "+offset.left);	
+                    console.log("pos left "+parseFloat(pos.left));	
+                    console.log("offset top "+offset.top);	
+                    console.log("pos top "+parseFloat(pos.top));
+                    console.log("drag_id: "+drag_id);
+                    var this_top = $(this).css("top");
+                    console.log("this_top: "+this_top);
+                    var this_left = $(this).css("left");
+                    console.log("this_left: "+this_left);
+                    var drag_new_id = $(ui.helper).attr("id");
+                    drag_new_id = drag_new_id.split('-')[2]
+                    console.log("drag_new_id: "+drag_new_id);
+                    //var sign_left_pos =  parseFloat(offset.left) - parseFloat(frame_left);
+                    //console.log("offset left "+sign_left_pos);
+                    //console.log("drag_new_id "+drag_new_id);
+                    $('#sign_left_pos_text-'+drag_new_id).val(parseFloat(this_left));
+                    $('#sign_top_pos_text-'+drag_new_id).val(parseFloat(this_top));
+                    var signature_pos_width = $( "#"+drag_id ).width();
+                    var signature_pos_height = $( "#"+drag_id ).height();
+                    $('#sign_width_text-'+drag_new_id).val(signature_pos_width);
+                    $('#sign_height_text-'+drag_new_id).val(signature_pos_height);
+                },
+            
+            });
+        
+        });
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    //------------------------------------------------------- 
+        
+        
+        
 });
 $(document).ready(function(){
         
@@ -782,6 +895,27 @@ $(document).ready(function(){
         $('#status').fadeIn(); 
         $('#preloader').fadeIn('slow');
     }
+    
+    
+   // -----------------------------------------
+    
+    function saveposition(){
+        $('#savepos').click();
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    //----------------------------------------
   
   
     

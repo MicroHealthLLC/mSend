@@ -1,3 +1,8 @@
+<style type="text/css">
+	.disnone{
+		display: none;
+	}
+</style>
 <?php
 /**
  * Uploading files, step 2
@@ -26,6 +31,9 @@ include('header.php');
 define('CAN_INCLUDE_FILES', true);
 $target_id = isset($_POST['target_id'])?$_POST['target_id']:'';
 $auth_key = isset($_POST['auth_key'])?$_POST['auth_key']:'';
+//var_dump($_POST['target_id']);die();
+$user_id=CURRENT_USER_ID;
+
 ?>
 <style media="screen">
 	.hideNow{
@@ -332,6 +340,7 @@ $auth_key = isset($_POST['auth_key'])?$_POST['auth_key']:'';
 							}
 						}
 					}
+
 					/**
 					 * Generate the table of files that were assigned to a client
 					 * on this last POST. These files appear on this table only once,
@@ -427,6 +436,7 @@ $auth_key = isset($_POST['auth_key'])?$_POST['auth_key']:'';
 						</table>
 						<?php
 					}
+
 					/* Generate the table of files ready to be assigned to a client */
 					//  if(!empty($uploaded_files)) 
 					if(count($uploaded_files) > 0)
@@ -713,6 +723,61 @@ $auth_key = isset($_POST['auth_key'])?$_POST['auth_key']:'';
 																	</div>
 																</div>
 															</div>
+
+
+
+<?php      
+	$sql_auth = $dbh->prepare( 'SELECT * FROM tbl_drop_off_request WHERE from_id = "'.$user_id.'"');
+	$sql_auth->execute();
+	$sql_auth = $sql_auth->fetch();
+	if($sql_auth['signaturestatus']){
+
+	$signature_pic = $dbh->prepare("SELECT * FROM " . TABLE_USER_EXTRA_PROFILE . " WHERE user_id=:user_id AND name = :name");
+	$signature_pic->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+	$signature_pic->bindValue(':name', 'signature_pic');
+	$signature_pic->execute();
+	$signature_pic->setFetchMode(PDO::FETCH_ASSOC);
+	while ( $data = $signature_pic->fetch() ) {
+		$signature_pic_img = $data['value'];
+		$signature_type = $data['sig_type'];
+	}
+	// var_dump();die();
+?>
+<div class="col-sm-6 col-xl-3 categories column">
+	<div class="col-sm-12">
+		<label>
+			<input type="radio" name="sigstatus<?php echo $i; ?>" class="sigstatus1" onclick="sigstatus('1','<?php echo $i; ?>')" checked="true"> <?php _e('Current Signature','cftp_admin'); ?>
+			<input type="radio" name="sigstatus<?php echo $i; ?>" class="sigstatus2" onclick="sigstatus('2','<?php echo $i; ?>')" class='data-toggle="modal" data-target="#sig"'> <?php _e('Add new Signature','cftp_admin'); ?>
+		</label>
+	</div>
+</div>	
+
+<div class="col-sm-1 col-xl-3 categories column"></div>
+<div class="col-sm-4 col-xl-3 categories column">
+	<?php
+		if(!empty($signature_pic_img)){
+			if($signature_type==1){
+				if(file_exists("img/avatars/signature/".$user_id."/temp/".$signature_pic_img)){?>
+					<img src="<?php echo "img/avatars/signature/".$user_id."/temp/".$signature_pic_img;?>?<?php echo rand();?>" alt="demo user" style="top: -5px;width: 250px;" class="zoom">
+				<?php }else{ 
+					echo '<img src="img/avatars/no-image.png" alt="demo user" style="top: -5px;width: 150px;" >';
+				}
+			}else{
+				if(file_exists("img/avatars/tempsignature/".$user_id."/temp/".$signature_pic_img)){?>
+					<img src="<?php echo "img/avatars/tempsignature/".$user_id."/temp/".$signature_pic_img;?>?<?php echo rand();?>" alt="demo user" style="top: -5px;width: 250px;" class="zoom">
+				<?php }else{ 
+					echo '<img src="img/avatars/no-image.png" alt="demo user" style="top: -5px;width: 150px;">';
+				}
+			}
+
+		}else{
+			echo '<img src="img/avatars/no-image.png" alt="demo user" style="top: -5px;width: 150px;">';
+		}
+	?>
+</div>
+<div class="col-sm-1 col-xl-3 categories column"></div>
+<?php }?>
+
 														<?php
 														} /** Close $current_level check */
 														?>
@@ -793,6 +858,7 @@ $auth_key = isset($_POST['auth_key'])?$_POST['auth_key']:'';
 		</div>
 	</div>
 </div>
+
 <script type="text/javascript">
 
 	$(document).ready(function() {
@@ -1065,6 +1131,94 @@ function validateUsers() {
 	$('#upload-continue').click();
 	}
 }
+
+
+</script>
+<div id="sig001" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+	<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" onclick="sigclose()">&times;</button>
+				<h4 class="modal-title">Add new Signature</h4>
+			</div>
+			<div class="modal-body" style="padding-bottom: 80px;">
+				<!-- <input type="hidden" id="uid" value="<?php //echo $user_id_mic;?>"> -->
+				<div class="col-sm-4">
+					<label>
+						<input type="radio" name="add_user_signature<?php echo $i; ?>" class="sig1" / onclick="signaturefun('1')"> <?php _e('Upload Signature','cftp_admin'); ?>
+					</label>
+				</div>
+				<div class="col-sm-8">
+					<label>
+						<input type="radio" name="add_user_signature<?php echo $i; ?>" class="sig2" / onclick="signaturefun('2')" class='data-toggle="modal" data-target="#sig"' > <?php _e('Draw Signature','cftp_admin'); ?>
+					</label>
+				</div>
+				<div class="col-sm-12">
+					<div class="form-group disnone" id="signaturechen">
+						<div class="col-sm-12" style="margin-top: 15px;">
+							<input type="file" name="usersignature"  id="usersignature" class="required usersignature" value="" placeholder="upload file" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" onclick="sigclose()">Close</button>
+			</div>
+		</div>
+
+	</div>
+</div>
+<div id="sig" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+
+	<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" onclick="signaturemodalclose()">&times;</button>
+				<h4 class="modal-title">Draw New Signature </h4>
+			</div>
+			<div class="modal-body">
+				<input type="hidden" id="uid" value="<?php echo $user_id_mic;?>">
+				<?php
+					include('signature.php');
+				?>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" onclick="signaturemodalclose()">Close</button>
+			</div>
+		</div>
+
+	</div>
+</div>
+<script type="text/javascript">
+	function sigstatus(arg) {
+		if(arg=='2'){
+			$('#sig001').modal('show');
+		}else{
+			$('.sigstatus1').prop("checked", true).trigger('change');
+		}
+	}
+
+	function sigclose() {
+		$('#sig001').modal('toggle');
+		$('.sigstatus1').prop("checked", true).trigger('change');
+	}
+
+	function signaturefun(argument) {
+		if(argument==1){
+			$('#signaturechen').removeClass('disnone');
+		}else{
+			$('#signaturechen').removeClass('disnone').addClass('disnone');
+			$('#sig').modal('show');
+		}
+	}
+
+	function signaturemodalclose() {
+	 	$('#sig').modal('toggle');
+	 	$('.sig1').prop("checked", true).trigger('change');
+	 	signaturefun(1);
+	}
 
 </script>
 

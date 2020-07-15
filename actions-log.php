@@ -6,8 +6,6 @@
  * @subpackage	Log
  *
  */
-
-
 $load_scripts	= array(
                         'datepicker',
 			'footable',

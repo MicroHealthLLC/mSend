@@ -1,6 +1,4 @@
 <?php 
-
-
 require_once('sys.includes.php');
 $this_user = CURRENT_USER_USERNAME;
 $this_current_id = CURRENT_USER_ID;
@@ -18,10 +16,13 @@ $logged_in_name = isset($client_info['name'])?$client_info['name']:'';
         if(!empty($_POST['no_of_pages'])){$no_of_pages = $_POST['no_of_pages'];}
         $signature_array = $_POST['signature_array'];
         $signature_date_array = $_POST['signature_date_array'];
+        $signature_text_array = $_POST['signature_text_array'];
         $sig_status=0;
         $sigdate_status=0;
+        $sigtext_status=0;
         if(!$signature_array){$sig_status=1;}
         if(!$signature_date_array){$sigdate_status=1;}
+        if(!$signature_text_array){$sigtext_status=1;}
         
         //print_r($signature_array);
         //exit;
@@ -65,9 +66,24 @@ $logged_in_name = isset($client_info['name'])?$client_info['name']:'';
                
             }
         }
+        
+        if($signature_text_array){
+            $sigtext_status=1;
+            for ($k=0; $k<count($signature_text_array) ;$k++)
+            {
+                $key2=$k+1;
+                if(!empty( $_POST['sign_left_pos_text-'.$key2])){$sign_left_pos_text =  $_POST['sign_left_pos_text-'.$key2];}
+                if(!empty( $_POST['sign_top_pos_text-'.$key2])){$sign_top_pos_text =  $_POST['sign_top_pos_text-'.$key2];}
+                if(!empty( $_POST['sign_width_text-'.$key2])){$sign_width_text =  $_POST['sign_width_text-'.$key2];}
+                if(!empty( $_POST['sign_height_text-'.$key2])){$sign_height_text =  $_POST['sign_height_text-'.$key2];}
+                
+                $sqldata1=$dbh->prepare("INSERT INTO tbl_draw_sign_pos_details (sign_left_pos,sign_top_pos,sign_width,sign_height,tbl_draw_sign_details_id,sig_type) VALUES ($sign_left_pos_text,$sign_top_pos_text,$sign_width_text,$sign_height_text,$tbl_draw_sign_details_id,'text')");
+                $sqldata1->execute();
+            }   
+        }
 
 
-    if($sig_status==1 && $sigdate_status==1){
+    if($sig_status==1 && $sigdate_status==1 && $sigtext_status==1){
         $stmt = $dbh->prepare("SELECT * FROM tbl_drop_off_request WHERE id=:drop_off_request_id");
         $stmt->execute(['drop_off_request_id' => $drop_off_request_id]); 
         // $stmt->execute(['drop_off_request_id' => $drop_off_request_id]); 

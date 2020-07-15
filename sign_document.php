@@ -1,6 +1,4 @@
 <?php 
-
-
 require_once('sys.includes.php');
 $this_current_id = $_SESSION['loggedin_id'];
 // echo $this_current_id;Use this signature
@@ -132,7 +130,7 @@ include('header_no_left.php');
     .no_padding{
         padding:0px !important;
     }
-   .not_signature_exist,.signature_exist,.sign_pad_pos{
+   .not_signature_exist,.signature_exist,.sign_pad_pos,.signature_text{
         z-index: 3; 
         position: absolute;
         /*background:white; */
@@ -141,6 +139,9 @@ include('header_no_left.php');
         overflow: hidden;
         text-align: center;
         font-size: 20px;
+    }
+    .sign_text{
+        border: 0;
     }
     .modal{
 	   z-index: 99999 !important;
@@ -255,7 +256,8 @@ include('header_no_left.php');
         <div class="row">
 		<div class="row">
         <div class="col-md-12 tools_section" >
-                <button id="btnSaveSign" class="btn btn-primary pull-right" onClick="genPDF();loadingmsg()"><i class="fa fa-floppy-o" aria-hidden="true"></i> &nbsp;&nbsp; Save Signature</button>
+                <button id="btnSaveSign" class="btn btn-primary pull-right" onClick="genPDF()"><i class="fa fa-floppy-o" aria-hidden="true"></i> &nbsp;&nbsp; Save Signature</button>
+<!--                <button id="btnSaveSign" class="btn btn-primary pull-right" onClick="loadingmsg();"><i class="fa fa-floppy-o" aria-hidden="true"></i> &nbsp;&nbsp; Save Signature</button>-->
         </div>
         </div>
                 <!--<div class="col-md-12" id="frame">-->
@@ -279,6 +281,13 @@ include('header_no_left.php');
                                     <input type="hidden" id="sign_date_pad_width-<?php echo $sg['id'];?>" value="<?php echo $sg['sign_width'];?>" >
                                     <input type="hidden" id="sign_date_pad_height-<?php echo $sg['id'];?>" value="<?php echo $sg['sign_height'];?>" >
                                     <div  id="sign_date_pad-<?php echo $sg['id'];?>" style="left:<?php echo $sg['sign_left_pos']."px";?>;top:<?php echo $sg['sign_top_pos']."px";?>;width:<?php echo $sg['sign_width']."px";?>;height:<?php echo $sg['sign_height']."px";?>;" class="sign_pad_pos" ><?php echo date('d/m/Y');?></div>
+                                <?php }else if($sg['sig_type']=='text'){?>
+                                        <input type="hidden" id="sign_text_pad_left-<?php echo $sg['id'];?>" value="<?php echo $sg['sign_left_pos'];?>" >
+                                        <input type="hidden" id="sign_text_pad_top-<?php echo $sg['id'];?>" value="<?php echo $sg['sign_top_pos'];?>" >
+                                        <input type="hidden" id="sign_text_pad_width-<?php echo $sg['id'];?>" value="<?php echo $sg['sign_width'];?>" >
+                                        <input type="hidden" id="sign_text_pad_height-<?php echo $sg['id'];?>" value="<?php echo $sg['sign_height'];?>" >
+                                        <div  id="sign_text_pad-<?php echo $sg['id'];?>" style="left:<?php echo $sg['sign_left_pos']."px";?>;top:<?php echo $sg['sign_top_pos']."px";?>;width:<?php echo $sg['sign_width']."px";?>;height:<?php echo $sg['sign_height']."px";?>;" class="sign_pad_pos signature_text" ><input type="text" class="sign_text"></div>
+                                
                                 <?php }else{?>
                                     <input type="hidden" id="sign_pad_left-<?php echo $sg['id'];?>" value="<?php echo $sg['sign_left_pos'];?>" >
                                     <input type="hidden" id="sign_pad_top-<?php echo $sg['id'];?>" value="<?php echo $sg['sign_top_pos'];?>" >
@@ -473,6 +482,9 @@ $("#btnSaveSign").click(function(e){
                          alert('Please fill out all signature filed');
                          
                     }else{
+						$('#contentdiv').html('Please wait...');
+						$('#status').fadeIn(); 
+						$('#preloader').fadeIn('slow');
                         
                         $('.not_signature_exist').css("border","2px solid #ffffff");
                         $('.signature_exist').css("border","2px solid #ffffff");
@@ -493,7 +505,6 @@ $("#btnSaveSign").click(function(e){
                         $.when.apply($, deferreds).then(function () { // executes after adding all images
                         //doc.save('test.pdf');
     					var ajxurl='<?php echo BASE_URI; ?>';
-    						
     					var blob = doc.output('blob');
     					var formData = new FormData();
     					formData.append('pdf', blob);
@@ -505,7 +516,7 @@ $("#btnSaveSign").click(function(e){
     						processData: false,
     						contentType: false,
     						success: function(response){
-    						    console.log(response);
+    						    //console.log(response);
     						if(response = 1) {
     							alert('Success!');
                                 $('#status').fadeOut();
@@ -564,7 +575,7 @@ $("#btnSaveSign").click(function(e){
                                 }
                         });
                 }
-$(window).bind("load", function() { console.log('sdssfffffffffffffff')
+$(window).bind("load", function() {
 //----------------------------
 	var signature = new Array();
 	$(".sign_pad_pos").each(function(s) {
@@ -655,7 +666,7 @@ $(document).ready(function(){
                         $('#'+sign_pad_id).css('width',sign_pad_width);
                         $('#'+sign_pad_id).css('height',sign_pad_height);
                         sign_pad_id_n =  sign_pad_id.split('-')[0];
-                        console.log('------'+sign_pad_id_n);
+                        //console.log('------'+sign_pad_id_n);
                 }
                 
                 
@@ -937,13 +948,6 @@ function aa(){
         },
     });
 }
-
- function loadingmsg(){
-    $('#contentdiv').html('Please wait...');
-    $('#status').fadeIn(); 
-    $('#preloader').fadeIn('slow');
- }
-
 	$(document).ready(function() {
 		$('#signArea').signaturePad({drawOnly:true, drawBezierCurves:true, lineTop:90});
 		$("#preloader").fadeOut();

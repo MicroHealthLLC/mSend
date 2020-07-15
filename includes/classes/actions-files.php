@@ -7,8 +7,6 @@
  * @subpackage	Classes
  */
 
-
-
 class FilesActions
 {
 

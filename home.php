@@ -1,4 +1,4 @@
-<?php
+    <?php
 /**
  * Home page for logged in system users.
  *

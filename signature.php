@@ -6,8 +6,6 @@
   }
 </style>
 
-
-  <!-- Content -->
   <!-- Content -->
   <div class="container">
     <div class="row">
