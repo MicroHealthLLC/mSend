@@ -290,18 +290,3 @@ if ($_POST) {
 	include('footer.php');
 ?>
 
-<script type="text/javascript">
-// function signaturefun(argument) {
-// 	if(argument==1){
-// 		$('#signaturechen').removeClass('disnone');
-// 	}else{
-// 		$('#signaturechen').removeClass('disnone').addClass('disnone');
-// 		$('#sig').modal('show');
-// 	}
-// }
-//  function signaturemodalclose() {
-//  	$('#sig').modal('toggle');
-//  	$('.sig1').prop("checked", true).trigger('change');
-//  	signaturefun(1);
-//  }
-</script>

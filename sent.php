@@ -96,7 +96,6 @@ include('header.php');
     $(document).ready(function() {
         $("#do_action").click(function() {
             var checks = $("td input:checkbox").serializeArray();
-            //console.log($('#files_actions').val);
             var actType = $('#files_actions').val();
             if (actType == 'show') {
               return true;

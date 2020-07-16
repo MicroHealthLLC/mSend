@@ -182,8 +182,7 @@ define('CLIENT_UPLOADS_TEMP_FOLDER', ROOT_DIR.'/upload/temp');
  *
  */
 define('SYSTEM_URI','http://www.projectsend.org/');
-// define('SITE_URI','https://send.microhealthllc.com/');
-define('SITE_URI','http://rndsllc.website/mSend-master006/');
+define('SITE_URI','https://send.microhealthllc.com/');
 define('SYSTEM_URI_LABEL','ProjectSend on github');
 define('DONATIONS_URL','http://www.projectsend.org/donations/');
 /** Previously cFTP */

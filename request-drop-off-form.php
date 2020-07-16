@@ -111,14 +111,6 @@
 
 </form>
 <script type="text/javascript">
-// 	function sigrequired() {
-// 		if($('#signaturestatus').is(':checked')){
-// 			$('#sigfile').removeClass('disnone');
-// 			 $('#signature_tab').removeClass('disnone').addClass('disnone');
-// 		}else{
-// 			$('#sigfile').removeClass('disnone').addClass('disnone');
-// 		}
-// 	}
 	$(document).ready(function() {
         <?php if($url_argument=='sign'){ ?>	
             $('#signaturestatus').prop('checked', true);

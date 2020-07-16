@@ -449,7 +449,6 @@ include('header_no_left.php');
 				<input type="hidden" id="uid" value="<?php echo $log_user_id;?>">
 				<input type="hidden" id="sign_pad_id" value="">
 				<input type="hidden" id="sign_pad_width" value="">
-				<!--<img src="<?php //echo "http://rndsllc.website/mSend-master005/". $targetsignature_file;?>"> -->
 				<img src="<?php echo BASE_URI. $targetsignature_file;?>"> 
 				<button type="button" id="use_this_sign" class="btn btn-green" >Use this</button>
 				<button type="button" id="create_new_sign" class="btn btn-primary" >Draw New</button>
@@ -568,15 +567,12 @@ $(document).ready(function(){
 					//ajax call to save image inside folder
 					var ajxurl='<?php echo BASE_URI; ?>';
 					$.ajax({
-				// 		url: 'http://rndsllc.website/mSend-master/save_signature.php',
 						url: ajxurl+'save_signature.php',
 						data: { img_data:img_data,drop_off_request_id:'<?php echo $tbl_draw_sign_details['drop_off_request_id'];?>' },
 				// 		data: { img_data:img_data},
 						type: 'post',
 						dataType: 'json',
 						success: function (response) {
-						   //window.location.reload();
-						  // window.open("http://rndsllc.website/mSend-master/"+response.file_name, '_blank');
 						   window.open("<?php echo BASE_URI;?>"+response.file_name, '_blank');
 						}
 					});
@@ -589,9 +585,7 @@ $(document).ready(function(){
 	
 	function signaturefun(argument) {
 	if(argument==1){
-// 		$('#signature_exist').html('<img width="<?php //echo $sign_width; ?>" src="<?php// echo "http://rndsllc.website/mSend-master005/". $targetsignature_file;?>">');
 		$('.signature_exist').html('<img width="<?php echo $sign_width; ?>" src="<?php echo BASE_URI. $targetsignature_file;?>">');
-// 		$('#not_signature_exist').html('<img width="<?php //echo $sign_width; ?>" src="<?php //echo "http://rndsllc.website/mSend-master005/". $targetsignature_file;?>">');
 		$('.not_signature_exist').html('<img width="<?php echo $sign_width; ?>" src="<?php echo BASE_URI. $targetsignature_file;?>">');
 	}else{
 		$('#signaturechen').removeClass('disnone').addClass('disnone');
@@ -621,7 +615,6 @@ $(document).ready(function(){
 	});
 	$("#use_this_sign").click(function(e){
 	        $('#sign_exist').modal('toggle');
-	       // $('#signature_exist').html('<img width="<?php //echo $sign_width; ?>" src="<?php //echo "http://rndsllc.website/mSend-master005/". $targetsignature_file;?>">');
 	        var sign_pad_id = $('#sign_pad_id').val();
 	        var sign_pad_width = $('#sign_pad_width').val();
 	        $('#'+sign_pad_id).html('<img width="'+sign_pad_width+'" src="<?php echo BASE_URI. $targetsignature_file;?>">');

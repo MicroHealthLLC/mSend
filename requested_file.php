@@ -368,7 +368,7 @@ $actual_link = SITE_URI.'requested_file.php';
                                             	$grow = $sql12->fetch();
 											
 											?>
-											    <a <?php if($row['status'] != '1') { ?> href="sign_document.php?auth=<?php echo $grow['keypath']; ?>" <?php } ?> <?php if($row['status'] == '1') { echo ("disabled ='disabled'");} ?> class="btn btn-primary btn-sm"  id="<?php echo $row['id']; ?>" >
+											    <a <?php if($row['status'] != '1') { ?> href="sign_document.php?auth=<?php echo $grow['keypath']; ?>&key=sign" <?php } ?> <?php if($row['status'] == '1') { echo ("disabled ='disabled'");} ?> class="btn btn-primary btn-sm"  id="<?php echo $row['id']; ?>" >
 												<?php _e('Go','cftp_admin'); ?>
 											<?php }?>
 											</div>

@@ -1,8 +1,6 @@
 <?php 
 require_once('sys.includes.php');
 $this_current_id = $_SESSION['loggedin_id'];
-// echo $this_current_id;Use this signature
-//print_r($_POST);
 
 if(isset($_POST)){
         $sign_left_pos = $_POST['sign_left_pos'];
@@ -257,22 +255,12 @@ include('header_no_left.php');
 		<div class="row">
         <div class="col-md-12 tools_section" >
                 <button id="btnSaveSign" class="btn btn-primary pull-right" onClick="genPDF()"><i class="fa fa-floppy-o" aria-hidden="true"></i> &nbsp;&nbsp; Save Signature</button>
-<!--                <button id="btnSaveSign" class="btn btn-primary pull-right" onClick="loadingmsg();"><i class="fa fa-floppy-o" aria-hidden="true"></i> &nbsp;&nbsp; Save Signature</button>-->
         </div>
         </div>
-                <!--<div class="col-md-12" id="frame">-->
-                <!--        <div class="signArea" <?php //if($signature_exist){ echo 'id="signature_exist"'; }else{echo 'id="not_signature_exist"'; }?> >-->
-                                
-                <!--        </div>-->
-                        <!--<img src="<?php //echo "http://rndsllc.website/mSend-master005/upload/files/mysignature/".$log_user_id."/". $img_name; ?>" >-->
-                <!--        <img src="<?php //echo BASE_URI."upload/files/mysignature/".$log_user_id."/". $img_name; ?>" >-->
-                
-                <!--</div>-->
-                
+              
                 <div class="col-md-12" id="frame">
                     <?php
                     if(!empty($tbl_draw_sign_pos_details)){
-                                //echo "<pre>";print_r($tbl_draw_sign_pos_details);echo "</pre>";
                             foreach($tbl_draw_sign_pos_details as $sg){
                             //echo $sg['sign_height'];
                                if($sg['sig_type']=='date'){ ?>
@@ -380,7 +368,6 @@ include('header_no_left.php');
 			</div>
 			<div class="modal-body">
 				<input type="hidden" id="uid" value="<?php echo $this_current_id;?>">
-				<!--<img src="<?php //echo "http://rndsllc.website/mSend-master005/". $targetsignature_file;?>"> -->
 				<img class="sign_img img-responsive" src="<?php echo BASE_URI. 'img/avatars/tempsignature/'.$this_current_id.'/temp/'.$this_current_id.'.png';?>"> 
 				<input type="hidden" id="sign_pad_id" value="">
 				<input type="hidden" id="sign_pad_width" value="">
@@ -451,28 +438,6 @@ include('header_no_left.php');
 
 
 <script>
-/*
-$("#btnSaveSign").click(function(e){
-		        //html2canvas($("#frame"), {
-		        e.preventDefault();
-		        var w=595;
-		        var h=842;
-		        var no_of_pages = $('.ba-page-wrap').length;
-		        var started = true;
-		        for(var i=0; i<$('.ba-page-wrap').length; i++){
-                          html2canvas($('#ba-page-wrap_'+[i]), {
-                          //allowTaint: true,
-                            onrendered: function (canvas) {
-                              var img =canvas.toDataURL("image/jpeg,1.0"); 
-                              console.log(i);
-                                var doc = new jsPDF('l', 'px', [h,w]);  
-                                doc.addImage(img, 'JPEG',  0, 0,w,h); 
-                                doc.save('autoprint.pdf');
-                            }
-                         });
-                        }
-                     });  */
-                     
                      
                 function genPDF() {
                     var tot_signaturecount = $('.signature_exist').length;
@@ -516,7 +481,6 @@ $("#btnSaveSign").click(function(e){
     						processData: false,
     						contentType: false,
     						success: function(response){
-    						    //console.log(response);
     						if(response = 1) {
     							alert('Success!');
                                 $('#status').fadeOut();
@@ -604,38 +568,22 @@ $(window).bind("load", function() {
 
 
 $(".sign_pad_pos").each(function() {
-    e_id = $(this).attr('id');
-    console.log("e_id_ : ", e_id);     
-    console.log("e_id_val : ", $("#sign_pad_top-"+e_id.split('-')[1]).val());     
+    e_id = $(this).attr('id');    
 });
 
 $(document).ready(function(){
         var current_frame_width = $('#frame').width();
-        console.log(current_frame_width);
         var parent_frame_width = <?php echo $image_width;?>;
         $('#frame img').width(current_frame_width);
-        //$('#frame img').width(frame_width);
         $(".sign_pad_pos").each(function() {
             var sign_pad_id = $(this).attr('id');
-            console.log('sign_pad_id1 ::: '+sign_pad_id.split('-')[0]);
-            console.log('sign_pad_id2 ::: '+sign_pad_id.split('-')[1]);
-            console.log('sign_pad_id3 ::: '+sign_pad_id.split('-')[0]+'_left-'+sign_pad_id.split('-')[1]);
             var sign_pad_width = $('#'+sign_pad_id.split('-')[0]+'_width-'+sign_pad_id.split('-')[1]).val();
-            console.log('sign_pad_width ::: '+sign_pad_width);
             var sign_pad_height = $('#'+sign_pad_id.split('-')[0]+'_height-'+sign_pad_id.split('-')[1]).val();
-            console.log('sign_pad_height ::: '+sign_pad_height);
             var sign_pad_left = $('#'+sign_pad_id.split('-')[0]+'_left-'+sign_pad_id.split('-')[1]).val();
-            console.log('sign_pad_left ::: '+sign_pad_left);
             var sign_pad_top = $('#'+sign_pad_id.split('-')[0]+'_top-'+sign_pad_id.split('-')[1]).val();
-            console.log('sign_pad_top ::: '+sign_pad_top);
             adjust_document_sign_pos(parent_frame_width,current_frame_width,sign_pad_id,sign_pad_width,sign_pad_height,sign_pad_left,sign_pad_top);
         });
         var big = Math.max(parent_frame_width,current_frame_width);
-        /*var sign_left_pos = <?php echo $sign_left_pos; ?>;
-        var sign_top_pos = <?php echo $sign_top_pos; ?>;
-        var sign_width = <?php echo $sign_width; ?>;
-        var sign_height = <?php echo $sign_height; ?>;*/
-        //console.log("big: "+big);
         
         $( window ).resize(function() {
                 location.reload();
@@ -644,19 +592,13 @@ $(document).ready(function(){
                 //alert(parent_frame_width+" -----  "+current_frame_width);
                 if(parent_frame_width == current_frame_width){
                         sign_pad_id_n =  sign_pad_id.split('-')[1];
-                        console.log('------'+sign_pad_id_n);
                         
-                        /*sign_left_pos = <?php echo $sign_left_pos; ?>;
-                        sign_top_pos = <?php echo $sign_top_pos; ?>;
-                        sign_width = <?php echo $sign_width; ?>;
-                        sign_height = <?php echo $sign_height; ?>;*/
                         $('#frame img').width(current_frame_width);
                 }
                 
                 
                 if(parent_frame_width > current_frame_width){
                         var fraction = parent_frame_width/current_frame_width;
-                        console.log(('f1: '+fraction));
                         sign_pad_left = sign_pad_left/fraction;
                         sign_pad_top = sign_pad_top/fraction;
                         sign_pad_width = sign_pad_width/fraction;
@@ -666,13 +608,11 @@ $(document).ready(function(){
                         $('#'+sign_pad_id).css('width',sign_pad_width);
                         $('#'+sign_pad_id).css('height',sign_pad_height);
                         sign_pad_id_n =  sign_pad_id.split('-')[0];
-                        //console.log('------'+sign_pad_id_n);
                 }
                 
                 
                 if(parent_frame_width < current_frame_width){
                         var fraction = parent_frame_width/current_frame_width;
-                        //alert('f2: '+ fraction);
                         sign_pad_left = sign_pad_left*fraction;
                         sign_pad_top = sign_pad_top*fraction;
                         sign_pad_width = sign_pad_width*fraction;
@@ -689,185 +629,17 @@ $(document).ready(function(){
 </script>
 
 <script>
-	
-		
-
-
-
-		/*//Working
-		$("#btnSaveSign").click(function(e){
-		        //html2canvas($("#frame"), {
-		        var w=595;
-		        var h=842;
-		        
-		        html2canvas($("#frame"), {
-		                onrendered: function(canvas) { 
-		                        var img =canvas.toDataURL("image/jpeg,1.0"); 
-	                                //var pdf = new jsPDF();
-	                                var pdf = new jsPDF('l', 'px', [h,w]);
-	                                //pdf.addPage([1683.78, 1190.56], "p");
-	                                pdf.addImage(img, 'JPEG', 0, 0,w,h); 
-	                                //pdf.addPage();
-	                                //pdf.addImage(img, 'JPEG', 0, 0,w,h); 
-	                                pdf.save('autoprint.pdf'); 
-                                } 
-                        });
-		});
-		*/
-		
-		/*
-		$("#btnSaveSign").click(function(e){
-		        //html2canvas($("#frame"), {
-		        e.preventDefault();
-		        var w=595;
-		        var h=842;
-                        html2canvas($('#frame'), {
-                                allowTaint: true,
-                                onrendered: function (canvas) {
-                                        var img =canvas.toDataURL("image/jpeg,1.0"); 
-                                        var doc = new jsPDF('l', 'px', [h,w]);  
-                                        doc.addImage(img, 'JPEG',  0, 0,w,h); 
-                                        doc.save('autoprint.pdf');
-                                }
-                        });
-                     });   
-		*/
-		
-		/*
-		///Download working
-		$("#btnSaveSign").click(function(e){
-		        //html2canvas($("#frame"), {
-		        e.preventDefault();
-		        var w=595;
-		        var h=842;
-		        var no_of_pages = $('.ba-page-wrap').length;
-		        var started = true;
-		        for(var i=0; i<$('.ba-page-wrap').length; i++){
-                          html2canvas($('#ba-page-wrap_'+[i]), {
-                          //allowTaint: true,
-                            onrendered: function (canvas) {
-                              var img =canvas.toDataURL("image/jpeg,1.0"); 
-                              console.log(i);
-                                var doc = new jsPDF('l', 'px', [h,w]);  
-                                doc.addImage(img, 'JPEG',  0, 0,w,h); 
-                                doc.save('autoprint.pdf');
-                            }
-                         });
-                        }
-                     });   
-                     */
-                     
-                        /*
-		        html2canvas($("#frame"), {
-		                onrendered: function(canvas) { 
-		                        var img =canvas.toDataURL("image/jpeg,1.0"); 
-	                                //var pdf = new jsPDF();
-	                                var pdf = new jsPDF('l', 'px', [h,w]);
-	                                //pdf.addPage([1683.78, 1190.56], "p");
-	                                pdf.addImage(img, 'JPEG', 0, 0,w,h); 
-	                                //pdf.addPage();
-	                                //pdf.addImage(img, 'JPEG', 0, 0,w,h); 
-	                                pdf.save('autoprint.pdf'); 
-                                } 
-                        });*/
-		
-		        /*
-                        html2canvas($("#frame"), {
-                            onrendered: function(canvas) {
-                                var canvas_img_data =canvas.toDataURL("image/png");
-                                var img_data = canvas_img_data.replace(/^data:image\/(png|jpg);base64,/, "");
-					//ajax call to save image inside folder
-					var ajxurl='<?php echo BASE_URI; ?>';
-					$.ajax({
-						url: ajxurl+'save_signature.php',
-						data: { img_data:img_data,drop_off_request_id:'<?php echo $drop_off_request_id;?>' },
-						type: 'post',
-						dataType: 'json',
-						success: function (response) {
-						    if(response.status){
-						        $('#msg').html('File uploaded correctly');
-						    }else{
-						        $('#msg').html('File uploaded Failed');
-						    }
-						    $("#cc-mail-status").modal("toggle");
-						   //window.location.reload();
-						  window.open("<?php //echo BASE_URI;?>"+response.file_name, '_blank');
-						}
-					});
-                                
-                            }
-                        });*/
-		//});
-		
-		
-		/*
-		
-		alert('Generating signed document... Click OK to continue....');
-		        var currentPosition = document.getElementById("frame").scrollTop;
-		        var w = document.getElementById("frame").offsetWidth;
-		        var h = document.getElementById("frame").offsetHeight;
-		        console.log('currentPosition: '+currentPosition);
-		        console.log('w: '+w);
-		        console.log('h: '+h);//exit;
-		        document.getElementById("frame").style.height="auto";
-		        html2canvas(document.getElementById("frame"), {
-		                dpi: 300, // Set to 300 DPI
-                                scale: 3, // Adjusts your resolution
-                                onrendered: function(canvas) {
-                                        var img = canvas.toDataURL("image/jpeg", 1);
-                                        var doc = new jsPDF('L', 'px', [w, h]);
-                                        doc.addImage(img, 'JPEG', 0, 0, w, h);
-                                        doc.addPage();
-                                        doc.save('sample-file.pdf');
-                                }
-
-
-                        });
-                        
-                        
-		    alert('Generating signed document... Click OK to continue....');
-			html2canvas([document.getElementById('frame')], {
-				onrendered: function (canvas) {
-					var canvas_img_data = canvas.toDataURL('image/png');
-					var img_data = canvas_img_data.replace(/^data:image\/(png|jpg);base64,/, "");
-					//ajax call to save image inside folder
-					var ajxurl='<?php echo BASE_URI; ?>';
-					$.ajax({
-				// 		url: 'http://rndsllc.website/mSend-master/save_signature.php',
-						url: ajxurl+'save_signature.php',
-						data: { img_data:img_data,drop_off_request_id:'<?php echo $drop_off_request_id;?>' },
-				// 		data: { img_data:img_data},
-						type: 'post',
-						dataType: 'json',
-						success: function (response) {
-						    if(response.status){
-						        $('#msg').html('File uploaded correctly');
-						    }else{
-						        $('#msg').html('File uploaded Failed');
-						    }
-						    $("#cc-mail-status").modal("toggle");
-						   //window.location.reload();
-						  // window.open("http://rndsllc.website/mSend-master/"+response.file_name, '_blank');
-						  // window.open("<?php //echo BASE_URI;?>"+response.file_name, '_blank');
-						}
-					});
-				}
-			});
-		});*/
 	$(".not_signature_exist").click(function(e){
 	        $('#sig').modal('toggle');
 	        var eid = $(this).attr("id");
                 $('#sign_pad_id').val(eid);
                 var wdth = $(this).width();
-                console.log(wdth);
                 $('#sign_pad_width').val(wdth);
 	});
 	
 	function signaturefun(argument) {
 	if(argument==1){
-// 		$('#signature_exist').html('<img width="<?php //echo $sign_width; ?>" src="<?php// echo "http://rndsllc.website/mSend-master005/". $targetsignature_file;?>">');
 		$('.signature_exist').html('<img width="<?php echo $sign_width; ?>" src="<?php echo BASE_URI. 'img/avatars/tempsignature/'.$this_current_id.'/temp/'.$this_current_id.'.png';?>">');
-// 		$('#not_signature_exist').html('<img width="<?php //echo $sign_width; ?>" src="<?php //echo "http://rndsllc.website/mSend-master005/". $targetsignature_file;?>">');
 		$('.not_signature_exist').html('<img width="<?php echo $sign_width; ?>" src="<?php echo BASE_URI. 'img/avatars/tempsignature/'.$this_current_id.'/temp/'.$this_current_id.'.png';?>">');
 	}else{
 		$('#signaturechen').removeClass('disnone').addClass('disnone');
@@ -887,7 +659,6 @@ $(document).ready(function(){
                 var eid = $(this).attr("id");
                 $('#sign_pad_id').val(eid);
                 var wdth = $(this).width();
-                console.log(wdth);
                 $('#sign_pad_width').val(wdth);
 	        $('#sign_exist').modal('toggle');
 	});
@@ -898,12 +669,9 @@ $(document).ready(function(){
 	});
 	$("#use_this_sign").click(function(e){
 	        $('#sign_exist').modal('toggle');
-	       // $('#signature_exist').html('<img width="<?php //echo $sign_width; ?>" src="<?php //echo "http://rndsllc.website/mSend-master005/". $targetsignature_file;?>">');
 	        var sign_pad_id = $('#sign_pad_id').val();
 	        var sign_pad_width = $('#sign_pad_width').val();
-	        console.log();
 	        var img_src = '<?php echo BASE_URI;?>img/avatars/tempsignature/<?php echo $this_current_id;?>/temp/<?php echo $this_current_id;?>.png?ver='+ 1+ Math.floor(Math.random() * 6);
-	        console.log(img_src);
 	        $('#'+sign_pad_id).html('<img width="'+sign_pad_width+'" src="'+img_src+'">');
 	});
 	$("#upload_this_sign").click(function(e){
@@ -914,8 +682,6 @@ $(document).ready(function(){
 
 $(':file').on('change', function () {
   var file = this.files[0];
-
-  console.log(file);
      $("#savefile").click(); 
 });
 
@@ -938,12 +704,9 @@ function aa(){
         processData: false,
         success: function(response){
                 var obj = jQuery.parseJSON( response );
-                  console.log(response);
-                  console.log(obj.file_name);
                 var sign_pad_id = $('#sign_pad_id').val();
                 var sign_pad_width = $('#sign_pad_width').val();
                 var sign_img_path = '<?php echo BASE_URI; ?>' + obj.file_name+"?ver= "+ Math.floor(Math.random() * 6);
-                console.log(sign_img_path);
 	        $('.sign_img').attr("src",sign_img_path);
         },
     });

@@ -290,10 +290,6 @@ include('header_no_left.php');
     <div class="container ba-doc-frame">
         <div class="row">
                 <div class="col-md-12" id="frame">
-                
-                        
-                        <!--<img src="<?php //echo "http://rndsllc.website/mSend-master005/upload/files/mysignature/".$userid."/".$req_id."/".$image_name.'.jpg'; ?>" >-->
-                        <!--<img src="<?php //echo "http://rndsllc.website/mSend-master005/upload/files/mysignature/".$userid."/".$req_id."/".$image_name.'.jpg'; ?>" >-->
                         <?php
                                 if($number_of_pdf_images>1){
                                         for ($i = 0; $i < $number_of_pdf_images; $i++) {

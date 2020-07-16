@@ -1,10 +1,6 @@
 <?php 
 require_once('sys.includes.php');
 $result = array();
-//echo "<pre>";print_r($_POST);echo "</pre>";exit;
-
-//$pdf = $_FILES['pdf']['temp_name'];
-echo $_POST['drop_off_request_id'];
 if(isset($_POST['drop_off_request_id'])){
 	
 $drop_off_request_id=$_POST['drop_off_request_id'];
@@ -15,11 +11,6 @@ if($data){
 	$stmt1 = $dbh->prepare("SELECT * FROM tbl_drop_off_request WHERE id=:drop_off_request_id");
 	$stmt1->execute(['drop_off_request_id' => $drop_off_request_id]); 
 	$data1 = $stmt1->fetch();
-	//$filename = $data['img_name'];
-	//$fname = $data['img_name'];
-	//$imagedata = base64_decode($_POST['img_data']);
-	
-	
 	$fname = $data['img_name'];
     $no_of_pages = $data['no_of_pages'];
     $to_email_request = $data1['to_email'];
