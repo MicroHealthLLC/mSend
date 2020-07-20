@@ -481,7 +481,7 @@ include('header_no_left.php');
     						processData: false,
     						contentType: false,
     						success: function(response){
-    						if(response = 1) {
+    						if(response == 1) {
     							alert('Success!');
                                 $('#status').fadeOut();
                                 $('#preloader').fadeOut();
@@ -495,11 +495,17 @@ include('header_no_left.php');
     						}
     						},
     						error: function(response){
-    						if(response = 1) {
+    						if(response == 1) {
     							alert('Success!');
+                                $('#status').fadeOut();
+                                $('#preloader').fadeOut();
+                                window.location.href="<?php echo BASE_URI.'inbox.php';?>";
     						}
     						else {
     							alert('Something Went wrong.!');
+								$('#main1').fadeIn();
+                                $('#status').fadeOut();
+                                $('#preloader').fadeOut();
     						}
     						}
     					});
@@ -629,7 +635,7 @@ $(document).ready(function(){
 </script>
 
 <script>
-	$(".not_signature_exist").click(function(e){
+	$(document).on('click','.not_signature_exist',function(){
 	        $('#sig').modal('toggle');
 	        var eid = $(this).attr("id");
                 $('#sign_pad_id').val(eid);

@@ -292,6 +292,11 @@ else
 		<a href="<?php echo BASE_URI;?>request-drop-off.php" class="btn btn-primary center-block" >Request File(s)</a>
 		</div>
 	</div>
+	<div class="sendfile col-md-11">
+		<div>
+		<a href="<?php echo BASE_URI;?>request-drop-off.php/sign" class="btn btn-info center-block" >Signature Request File(s)</a>
+		</div>
+	</div>
 </div>
 
 <?php

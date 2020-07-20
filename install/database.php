@@ -481,8 +481,8 @@ if (defined('TRY_INSTALL')) {
 				'query'	=> 'CREATE TABLE IF NOT EXISTS `'.tbl_draw_sign_details.'` (
 							  `id` int(11) NOT NULL AUTO_INCREMENT,
 							  `user_id` int(11) NOT NULL,
-							  `drop_off_request_id` int(11) NOT NULL,
-							  `drop_off_request` int(11) NOT NULL,
+							  `drop_off_request_id` INT(11) NULL DEFAULT NULL,
+							  `drop_off_request` INT(11) NULL DEFAULT NULL,
 							  `img_name` varchar(500) DEFAULT NULL,
 							  `image_width` varchar(100) DEFAULT NULL,
 							  `no_of_pages` int(11) DEFAULT 0,

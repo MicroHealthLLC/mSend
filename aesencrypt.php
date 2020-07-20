@@ -10,7 +10,8 @@ class AESENCRYPT {
         $dest = 'upload/files/'.$source;
         $source = 'upload/files/en_'.$source;
         $key = "8765416198765416187654161987654161";
-        $fileEncryptionblocks = 10000000;
+		//$fileEncryptionblocks = 10000000;
+        $fileEncryptionblocks = 1000;
         $key = substr(sha1($key, true), 0, 16);
         $iv = openssl_random_pseudo_bytes(16);
 
@@ -42,13 +43,15 @@ class AESENCRYPT {
         $dest = UPLOADED_FILES_FOLDER.'../../img/avatars/signature/'.$userid.'/'.$source;
         $source = UPLOADED_FILES_FOLDER.'../../img/avatars/signature/'.$userid.'/'.'en_'.$source;
         $key = "8765416198765416187654161987654161";
-        $fileEncryptionblocks = 10000;
+        //$fileEncryptionblocks = 10000;
+		$fileEncryptionblocks = 1000;
       }else{
         rename(UPLOADED_FILES_FOLDER.'../../img/avatars/tempsignature/'.$userid.'/'.$source,UPLOADED_FILES_FOLDER.'../../img/avatars/tempsignature/'.$userid.'/'.'en_'.$source);
         $dest = UPLOADED_FILES_FOLDER.'../../img/avatars/tempsignature/'.$userid.'/'.$source;
         $source = UPLOADED_FILES_FOLDER.'../../img/avatars/tempsignature/'.$userid.'/'.'en_'.$source;
         $key = "8765416198765416187654161987654161";
-        $fileEncryptionblocks = 1000000;
+        //$fileEncryptionblocks = 1000000;
+		$fileEncryptionblocks = 10000;
       }
         $key = substr(sha1($key, true), 0, 16);
         $iv = openssl_random_pseudo_bytes(16);
@@ -84,7 +87,8 @@ class AESENCRYPT {
         $key = substr(sha1($key, true), 0, 16);
         $dest = 'upload/files/temp/'.$source;
         $source = 'upload/files/'.$source;
-        $fileEncryptionblocks = 10000000;
+        //$fileEncryptionblocks = 10000000;
+		$fileEncryptionblocks = 1000;
         $error = false;
         if ($fpOut = fopen($dest, 'w')) {
 
@@ -119,7 +123,8 @@ class AESENCRYPT {
           $source = UPLOADED_FILES_FOLDER.'../../img/avatars/tempsignature/'.$userid.'/'.$source;
         }
 
-        $fileEncryptionblocks = 1000000;
+        //$fileEncryptionblocks = 1000000;
+		$fileEncryptionblocks = 1000;
         $error = false;
         if ($fpOut = fopen($dest, 'w')) {
 
@@ -151,7 +156,9 @@ class AESENCRYPT {
       $dest = 'upload/files/temp/'.$source;
       $source = 'upload/files/temp/en_'.$source;
       $key = "8765416198765416187654161987654161";
-      $fileEncryptionblocks = 10000000;
+      //$fileEncryptionblocks = 10000000;
+	  //$fileEncryptionblocks = 10000000;
+	  $fileEncryptionblocks = 1000;
       $key = substr(sha1($key, true), 0, 16);
       $iv = openssl_random_pseudo_bytes(16);
 
@@ -184,7 +191,8 @@ class AESENCRYPT {
       $key = substr(sha1($key, true), 0, 16);
       $dest = 'upload/files/temp/zip/'.$source;
       $source = 'upload/files/temp/'.$source;
-      $fileEncryptionblocks = 10000000;
+      //$fileEncryptionblocks = 10000000;
+	  $fileEncryptionblocks = 1000;
       $error = false;
       if ($fpOut = fopen($dest, 'w')) {
           if ($fpIn = fopen($source, 'rb')) {
@@ -216,10 +224,11 @@ class AESENCRYPT {
         $dest = 'upload/files/mysignature/'.$req_by_id.'/'.$req_of_id.'/signed/'.$source;
         $source = 'upload/files/mysignature/'.$req_by_id.'/'.$req_of_id.'/signed/en_'.$source;
         $key = "8765416198765416187654161987654161";
-        $fileEncryptionblocks = 10000000;
+        //$fileEncryptionblocks = 10000000;
+		//$fileEncryptionblocks = 1000;
+		$fileEncryptionblocks = 1000;
         $key = substr(sha1($key, true), 0, 16);
         $iv = openssl_random_pseudo_bytes(16);
-        
         $error = false;
         if ($fpOut = fopen($dest, 'w')) {
             // Put the initialzation vector to the beginning of the file
@@ -259,7 +268,8 @@ class AESENCRYPT {
             $dest = 'upload/files/mysignature/'.$req_by_id.'/'.$req_of_id.'/signed/temp/'.$source;
             $source = 'upload/files/mysignature/'.$req_by_id.'/'.$req_of_id.'/signed/'.$source;
         }
-        $fileEncryptionblocks = 10000000;
+        //$fileEncryptionblocks = 10000000;
+		$fileEncryptionblocks = 1000;
         $error = false;
         if ($fpOut = fopen($dest, 'w')) {
     
