@@ -93,7 +93,10 @@ if(!empty($options_values)) {
 
 
 	define('BASE_URI',$options_values['base_uri']);
-
+	define('SYSTEM_URI',$options_values['base_uri']);
+	define('SITE_URI',$options_values['base_uri']);
+	define('SYSTEM_URI_LABEL','ProjectSend on github');
+	define('DONATIONS_URL',$options_values['base_uri'].'/donations/');
 	define('BLOCKSIZE',256);
 
 	define('ENCRYPTION_KEY','psend_key1234567'); // 16 bit , 32
