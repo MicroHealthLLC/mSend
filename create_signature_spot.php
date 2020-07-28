@@ -896,7 +896,11 @@ $(document).ready(function(){
    // -----------------------------------------
     
     function saveposition(){
-        $('#savepos').click();
+        if($('input[name="signature_array[]"]').val()==undefined){
+            alert('Please add least one signature box');
+        }else{
+            $('#savepos').click();
+        }
     }
     
     

@@ -1737,12 +1737,18 @@ cursor: pointer;
                                             else
 
                                             {
-
+                                                $stmt66 = $dbh->prepare("SELECT * FROM tbl_drop_off_request WHERE id=:drop_off_request_id");
+                                                $stmt66->execute(['drop_off_request_id' => $row["tbl_drop_off_request_id"]]); 
+                                                $data66 = $stmt66->fetch();
+                                                if($data66['status']=='0'){
                                                 ?>
 
-                                                <a href="<?php echo $download_link; ?>" class="refreshcls" target="_blank"> <?php echo html_output($row['filename']); ?> </a>
+                                                    <a href="<?php echo $download_link; ?>" class="refreshcls" target="_blank"> <?php echo html_output($row['filename']); ?> </a>
 
                                                 <?php 
+                                                }else{
+                                                    echo html_output($row['filename']); 
+                                                }
 
                                             }
 

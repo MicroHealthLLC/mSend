@@ -84,7 +84,7 @@
 	<div class="form-group disnone" id="sigfile">
 		<label  class="col-sm-4 control-label"><?php _e('Upload File','cftp_admin'); ?></label>
 		<div class="col-sm-8">
-			<input type="file" name="userfile"  id="userfile" class="required File" value="" placeholder="upload file">
+			<input type="file" name="userfile"  id="userfile" class="required File" value="" placeholder="upload file" accept=".pdf">
 			<span style="color:#F00"><?php echo isset($to_fileErr)?$to_fileErr:''; ?></span>
 		</div>
 	</div>

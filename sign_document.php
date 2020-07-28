@@ -222,6 +222,11 @@ include('header_no_left.php');
     margin: -100px 0 0 -100px;
     text-align:center;
 }
+/*.alert-success {*/
+/*    border-color: #8ac38b;*/
+/*    color: #356635;*/
+/*    background-color: #cde0c4;*/
+/*}*/
 </style>
 
 
@@ -421,6 +426,39 @@ include('header_no_left.php');
   </div>
 </div>
 
+
+
+
+<!-- Modal -->
+
+<div id="cc-mail-status1" class="modal fade" role="dialog">
+
+  <div class="modal-dialog">
+    <!-- Modal content-->
+
+    <div class="modal-content">
+
+      <div class="modal-header">
+
+        <button type="button" class="close" data-dismiss="modal" onclick="modalclose()">&times;</button>
+
+        <h4 class="modal-title">MicroHealth Send</h4>
+
+      </div>
+
+      <div class="modal-body">
+            <div class="alert alert-success cc-success"><span id="msg1">Success!</span></div>
+      </div>
+
+      <div class="modal-footer">
+        <a href="<?php echo BASE_URI.'inbox.php';?>">Go to dashboard</a>
+        <button type="button" class="btn btn-default" data-dismiss="modal"  onclick="modalclose()">Close</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
 <?php }?>
 	
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -438,6 +476,9 @@ include('header_no_left.php');
 
 
 <script>
+    function modalclose(){
+        window.location.href="<?php echo BASE_URI.'requested_file.php';?>";
+    }
                      
                 function genPDF() {
                     var tot_signaturecount = $('.signature_exist').length;
@@ -482,30 +523,38 @@ include('header_no_left.php');
     						contentType: false,
     						success: function(response){
     						if(response == 1) {
-    							alert('Success!');
+    				// 			alert('Success!');
                                 $('#status').fadeOut();
                                 $('#preloader').fadeOut();
-                                window.location.href="<?php echo BASE_URI.'inbox.php';?>";
+    							$('#msg1').html('Success!');
+    							$("#cc-mail-status1").modal("toggle");
+                                //window.location.href="<?php echo BASE_URI.'inbox.php';?>";
     						}
     						else {
-    							alert('Something Went wrong.!');
+    				// 			alert('Something Went wrong.!');
     							$('#main1').fadeIn();
                                 $('#status').fadeOut();
                                 $('#preloader').fadeOut();
+                                $('#msg1').html('Something Went wrong.!');
+    							$("#cc-mail-status1").modal("toggle");
     						}
     						},
     						error: function(response){
     						if(response == 1) {
-    							alert('Success!');
+    				// 			alert('Success!');
                                 $('#status').fadeOut();
                                 $('#preloader').fadeOut();
-                                window.location.href="<?php echo BASE_URI.'inbox.php';?>";
+                                $('#msg1').html('Success!');
+    							$("#cc-mail-status1").modal("toggle");
+                                //window.location.href="<?php echo BASE_URI.'inbox.php';?>";
     						}
     						else {
-    							alert('Something Went wrong.!');
+    				// 			alert('Something Went wrong.!');
 								$('#main1').fadeIn();
                                 $('#status').fadeOut();
                                 $('#preloader').fadeOut();
+                                $('#msg1').html('Something Went wrong.!');
+    							$("#cc-mail-status1").modal("toggle");
     						}
     						}
     					});
