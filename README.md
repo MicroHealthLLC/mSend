@@ -8,11 +8,15 @@ This is a simple managed file system transfer.  Looks like an email program and 
 ## Prerequisites:
 
 # 1.  Install Apache
+
 yum -y install httpd
+
 systemctl start httpd.service
+
 systemctl enable httpd.servic
 
 # 2.  open firewall ports
+
 firewall-cmd --permanent --zone=public --add-service=http 
 
 firewall-cmd --permanent --zone=public --add-service=https
@@ -21,17 +25,24 @@ firewall-cmd --reload
 
 
 # 3.  Install PHP
-1. yum install -y epel-release
-2. yum install -y http://rpms.remirepo.net/enterprise/remi-release-7.rpm
-3. yum install -y yum-utils
-4. yum-config-manager --enable remi-php72
-5. yum update
-6. yum install -y php72
 
-7. yum install -y php72-php-fpm php72-php-gd php72-php-json php72-php-mbstring php72-php-mysqlnd php72-php-xml php72-php-xmlrpc php72-php-opcache php php-common php-opcache php-mcrypt php-cli php-gd php-curl php-mysqlnd
+yum install -y epel-release
+
+yum install -y http://rpms.remirepo.net/enterprise/remi-release-7.rpm
+
+yum install -y yum-utils
+
+yum-config-manager --enable remi-php72
+
+yum update
+
+yum install -y php72
+
+yum install -y php72-php-fpm php72-php-gd php72-php-json php72-php-mbstring php72-php-mysqlnd php72-php-xml php72-php-xmlrpc php72-php-opcache php php-common php-opcache php-mcrypt php-cli php-gd php-curl php-mysqlnd
 
 
 ## 3.1.Install PHP DOM extension and Enable PHP DOM extension.
+
 yum -y install php-xml
 
 
@@ -75,14 +86,19 @@ mysql> GRANT ALL PRIVILEGES ON *.* TO 'username'@'hostname' IDENTIFIED BY 'passw
 exit
 
 # 5. Install the application
-1.  cd /var/www
-2.  yum install -y git
-3.  git clone https://github.com/MicroHealthLLC/mSend
-4.  don't forget to configure apache to serve up this root directory of /var/www/mSend
-5.  systemctl restart httpd
+cd /var/www
+
+yum install -y git
+
+git clone https://github.com/MicroHealthLLC/mSend
+
+don't forget to configure apache to serve up this root directory of /var/www/mSend
+
+systemctl restart httpd
 
 # 6. Grant Apache privileges to directory
-1. chown -R apache:apache /var/www/mSend
+
+chown -R apache:apache /var/www/mSend
 
 
 
