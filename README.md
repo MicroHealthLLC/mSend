@@ -102,6 +102,8 @@ exit
 # 6. Grant Apache privileges to directory
 1. chown -R apache:apache /var/www/mSend
 
+
+
 When those are steps are completed, follow this instructions:
 
 1. Rename includes/sys.config.sample.php to sys.config.php and set your database info there.
