@@ -25,6 +25,8 @@ systemctl enable firewalld
 
 systemctl status firewalld
 
+(IF ANY ERRORS RUN THE FOLLOWING: systemctl restart dbus systemctl restart firewalld)
+
 firewall-cmd --permanent --zone=public --add-service=http 
 
 firewall-cmd --permanent --zone=public --add-service=https
