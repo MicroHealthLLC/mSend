@@ -13,7 +13,7 @@ yum -y install httpd
 
 systemctl start httpd.service
 
-systemctl enable httpd.servic
+systemctl enable httpd.service
 
 # 2.  open firewall ports
 
