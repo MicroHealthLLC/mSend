@@ -8,9 +8,9 @@ This is a simple managed file system transfer.  Looks like an email program and 
 ## Prerequisites:
 
 # 1.  Install Apache
-1. yum -y install httpd
-2. systemctl start httpd.service
-3. systemctl enable httpd.servic
+yum -y install httpd
+systemctl start httpd.service
+systemctl enable httpd.servic
 
 # 2.  open firewall ports
 firewall-cmd --permanent --zone=public --add-service=http 
