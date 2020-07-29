@@ -17,6 +17,14 @@ systemctl enable httpd.service
 
 # 2.  open firewall ports
 
+yum install firewalld -y
+
+systemctl start firewalld
+
+systemctl enable firewalld
+
+systemctl status firewalld
+
 firewall-cmd --permanent --zone=public --add-service=http 
 
 firewall-cmd --permanent --zone=public --add-service=https
