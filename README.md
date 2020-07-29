@@ -8,12 +8,12 @@ This is a simple managed file system transfer.  Looks like an email program and 
 ## Prerequisites:
 
 # 1.  Install Apache
-yum -y install httpd
-systemctl start httpd.service
-systemctl enable httpd.servic
+1. yum -y install httpd
+2. systemctl start httpd.service
+3. systemctl enable httpd.servic
 
 # 2.  open firewall ports
-firewall-cmd --permanent --zone=public --add-service=http 
+1. firewall-cmd --permanent --zone=public --add-service=http 
 
 firewall-cmd --permanent --zone=public --add-service=https
 
@@ -21,14 +21,14 @@ firewall-cmd --reload
 
 
 # 3.  Install PHP
-yum install -y epel-release
-yum install -y http://rpms.remirepo.net/enterprise/remi-release-7.rpm
-yum install -y yum-utils
-yum-config-manager --enable remi-php72
-yum update
-yum install -y php72
+1. yum install -y epel-release
+2. yum install -y http://rpms.remirepo.net/enterprise/remi-release-7.rpm
+3. yum install -y yum-utils
+4. yum-config-manager --enable remi-php72
+5. yum update
+6. yum install -y php72
 
-yum install -y php72-php-fpm php72-php-gd php72-php-json php72-php-mbstring php72-php-mysqlnd php72-php-xml php72-php-xmlrpc php72-php-opcache php php-common php-opcache php-mcrypt php-cli php-gd php-curl php-mysqlnd
+7. yum install -y php72-php-fpm php72-php-gd php72-php-json php72-php-mbstring php72-php-mysqlnd php72-php-xml php72-php-xmlrpc php72-php-opcache php php-common php-opcache php-mcrypt php-cli php-gd php-curl php-mysqlnd
 
 
 ## 3.1.Install PHP DOM extension and Enable PHP DOM extension.
