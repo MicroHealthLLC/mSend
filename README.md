@@ -65,6 +65,7 @@ nano /etc/yum.repos.d/MariaDB.repo
 paste-----
 
 [mariadb]
+
 name = MariaDB
 
 baseurl = http://yum.mariadb.org/10.1/centos7-amd64
