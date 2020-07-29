@@ -348,7 +348,6 @@ include('header_no_left.php');
       </div>
 
       <div class="modal-footer">
-        <a href="<?php echo BASE_URI.'requested_file.php';?>">Go to dashboard</a>
         <button type="button" class="btn btn-default" data-dismiss="modal"  onclick="modalclose()">Close</button>
 
       </div>
