@@ -99,6 +99,9 @@ exit
 4.  don't forget to configure apache to serve up this root directory of /var/www/mSend
 5.  systemctl restart httpd
 
+# 6. Grant Apache privileges to directory
+1. chown -R apache:apache /var/www/mSend
+
 When those are steps are completed, follow this instructions:
 
 1. Rename includes/sys.config.sample.php to sys.config.php and set your database info there.
