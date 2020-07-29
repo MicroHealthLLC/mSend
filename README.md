@@ -13,7 +13,7 @@ This is a simple managed file system transfer.  Looks like an email program and 
 3. systemctl enable httpd.servic
 
 # 2.  open firewall ports
-1. firewall-cmd --permanent --zone=public --add-service=http 
+firewall-cmd --permanent --zone=public --add-service=http 
 
 firewall-cmd --permanent --zone=public --add-service=https
 
