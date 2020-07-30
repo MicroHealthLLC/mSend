@@ -10,7 +10,6 @@
 
 ?>
 
-
 <form action="<?php echo BASE_URI.$form_action; ?>" name="addclient" method="post" class="form-horizontal" enctype="multipart/form-data">
 	<div class="form-group">
 		<div class="col-sm-4"></div>		<div class="col-sm-8" style="padding-bottom: 10px;">
