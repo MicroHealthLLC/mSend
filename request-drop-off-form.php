@@ -84,8 +84,10 @@
 	<div class="form-group disnone" id="sigfile">
 		<label  class="col-sm-4 control-label"><?php _e('Upload File','cftp_admin'); ?></label>
 		<div class="col-sm-8">
-			<input type="file" name="userfile"  id="userfile" class="required File" value="" placeholder="upload file" accept=".pdf">
+		    Dropoff form regarding only PDF files allowed.
+			<input type="file" name="userfile"  id="userfile" class="required File" value="" placeholder="upload file" accept="application/pdf">
 			<span style="color:#F00"><?php echo isset($to_fileErr)?$to_fileErr:''; ?></span>
+			<span style="color:#F00"><?php if(isset($to_fileErr1)){  echo $to_fileErr1; } ?></span>
 		</div>
 	</div>
 	<?php

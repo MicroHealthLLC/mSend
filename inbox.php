@@ -1742,7 +1742,6 @@ cursor: pointer;
                                                 $data66 = $stmt66->fetch();
                                                 if($data66['status']=='0'){
                                                 ?>
-
                                                     <a href="<?php echo $download_link; ?>" class="refreshcls" target="_blank"> <?php echo html_output($row['filename']); ?> </a>
 
                                                 <?php 

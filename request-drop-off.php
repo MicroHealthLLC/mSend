@@ -95,8 +95,19 @@ if ($_POST) {
         	$to_fileErr = '';
         }
         
+        if($_FILES){
+			if($_FILES["userfile"]["error"] == 0) {
+				$fileext = pathinfo($_FILES["userfile"]["name"], PATHINFO_EXTENSION);
+				if($fileext!='pdf'){
+				    $to_fileErr1  = "<div class=\"alert alert-danger cc-failed\">Only PDF files allowed.</div>"; 
+				}else{
+				    $to_fileErr1='';
+				}
+			}
+        }
         
-        if($to_email_request!='' && $to_subject_request != '' && $to_name_request != '' && $from_organization != ''&& $to_organization != '' /*&& $signaturestatus != null */) {
+        
+        if($to_email_request!='' && $to_subject_request != '' && $to_name_request != '' && $fileext == 'pdf' && $from_organization != ''&& $to_organization != '' /*&& $signaturestatus != null */) {
         
         	if (!filter_var($to_email_request, FILTER_VALIDATE_EMAIL) === false)
         	{
