@@ -173,6 +173,9 @@ include('header_no_left.php');
 	.ba-page-no {
 		font-size: 10px;
 	}
+	.close_icon{
+	    float:right;
+	}
   </style>
   
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -280,7 +283,7 @@ include('header_no_left.php');
                                         <a href="#" id="sign-1" class="click_sign"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Signature</a> | 
                                         <a href="#" id="sign-date-1" class="click_sign_date"><i class="fa fa-calendar-o" aria-hidden="true"></i> Signed Date</a> |
                                         <a href="#" id="sign-text-1" class="click_sign_text"><i class="fa fa-file-text" aria-hidden="true"></i> Input Text</a> |    
-                                        <a href="#"  onclick="saveposition()"><i class="fa fa-floppy-o" aria-hidden="true"></i>SAVE</a>                            
+                                        <a href="#"  onclick="saveposition()"><i class="fa fa-floppy-o" aria-hidden="true"></i>SAVE</a>                         
                                 </div>
 	                </div>
 	                
@@ -391,14 +394,14 @@ $(function() {
                 var sign_width = 'sign_width'+'-'+parseInt(drag_id.split("-")[1]);
                 var sign_height = 'sign_height'+'-'+parseInt(drag_id.split("-")[1]);
                 
-                $('#sign_positions_form').append('<input type="hidden" id="'+sign_left_pos+'" name="'+sign_left_pos+'"><input type="hidden" id="'+sign_top_pos+'" name="'+sign_top_pos+'"><input type="hidden" id="'+sign_width+'" name="'+sign_width+'"><input type="hidden" id="'+sign_height+'" name="'+sign_height+'"><input type="hidden" value="'+parseInt(drag_id.split("-")[1])+'" name="signature_array[]">');
+                $('#sign_positions_form').append('<input type="hidden" id="'+sign_left_pos+'" name="'+sign_left_pos+'"><input type="hidden" id="'+sign_top_pos+'" name="'+sign_top_pos+'"><input type="hidden" id="'+sign_width+'" name="'+sign_width+'"><input type="hidden" id="'+sign_height+'" name="'+sign_height+'"><input type="hidden" class="signature_array-'+parseInt(drag_id.split("-")[1])+'" value="'+parseInt(drag_id.split("-")[1])+'" name="signature_array[]">');
                 //left / top positions to hidden field
                 $('#sign_left_pos-'+parseInt(drag_id.split("-")[1])).val(def_left_pos);
                 $('#sign_top_pos-'+parseInt(drag_id.split("-")[1])).val(scroll_top);
                 $('#sign_width-'+parseInt(drag_id.split("-")[1])).val(150);
                 $('#sign_height-'+parseInt(drag_id.split("-")[1])).val(40);
                 
-                $( "<div class='ui-widget-content sign_pos sign_pos_active' style='top:"+scroll_top+"px;left:"+def_left_pos+"px' id='"+sig_id+"'><p>Sign Here "+parseInt(drag_id.split("-")[1])+"</p></div>" ).prependTo( "#frame" ).draggable({
+                $( "<div class='ui-widget-content sign_pos sign_pos_active' style='top:"+scroll_top+"px;left:"+def_left_pos+"px' id='"+sig_id+"'><a href='#' onclick='removediv("+parseInt(drag_id.split("-")[1])+",1)'><i class='fa fa-window-close close_icon' aria-hidden='true'></i></a><p>Sign Here "+parseInt(drag_id.split("-")[1])+"</p></div>" ).prependTo( "#frame" ).draggable({
                 containment: 'parent',
                 drag:function(ev, ui) {
                         $('.sign_pos').removeClass('sign_pos_active');
@@ -520,14 +523,14 @@ $(function() {
                 var sign_top_pos_date = 'sign_top_pos_date'+'-'+parseInt(drag_id.split("-")[2]);
                 var sign_width_date = 'sign_width_date'+'-'+parseInt(drag_id.split("-")[2]);
                 var sign_height_date = 'sign_height_date'+'-'+parseInt(drag_id.split("-")[2]);
-                $('#sign_positions_form').append('<input type="hidden" id="'+sign_left_pos_date+'" name="'+sign_left_pos_date+'"><input type="hidden" id="'+sign_top_pos_date+'" name="'+sign_top_pos_date+'"><input type="hidden" id="'+sign_width_date+'" name="'+sign_width_date+'"><input type="hidden" id="'+sign_height_date+'" name="'+sign_height_date+'"><input type="hidden" value="'+parseInt(drag_id.split("-")[2])+'" name="signature_date_array[]">');
+                $('#sign_positions_form').append('<input type="hidden" id="'+sign_left_pos_date+'" name="'+sign_left_pos_date+'"><input type="hidden" id="'+sign_top_pos_date+'" name="'+sign_top_pos_date+'"><input type="hidden" id="'+sign_width_date+'" name="'+sign_width_date+'"><input type="hidden" id="'+sign_height_date+'" name="'+sign_height_date+'"><input type="hidden" class="signature_date_array-'+parseInt(drag_id.split("-")[2])+'" value="'+parseInt(drag_id.split("-")[2])+'" name="signature_date_array[]">');
                 //left / top positions to hidden field
                 $('#sign_left_pos_date-'+parseInt(drag_id.split("-")[2])).val(def_left_pos);
                 $('#sign_top_pos_date-'+parseInt(drag_id.split("-")[2])).val(scroll_top);
                 $('#sign_width_date-'+parseInt(drag_id.split("-")[2])).val(150);
                 $('#sign_height_date-'+parseInt(drag_id.split("-")[2])).val(40);
                 
-                $( "<div class='ui-widget-content sign_pos sign_pos_date sign_pos_active' style='top:"+scroll_top+"px;left:"+def_left_pos+"px' id='"+sig_id+"'><p>Signed date "+parseInt(drag_id.split("-")[2])+"</p></div>" ).prependTo( "#frame" ).draggable({
+                $( "<div class='ui-widget-content sign_pos sign_pos_date sign_pos_active' style='top:"+scroll_top+"px;left:"+def_left_pos+"px' id='"+sig_id+"'><a href='#' onclick='removediv("+parseInt(drag_id.split("-")[2])+",3)'><i class='fa fa-window-close close_icon' aria-hidden='true'></i></a><p>Signed date "+parseInt(drag_id.split("-")[2])+"</p></div>" ).prependTo( "#frame" ).draggable({
                 containment: 'parent',
                 drag:function(ev, ui) {
                         $('.sign_pos').removeClass('sign_pos_active');
@@ -588,14 +591,13 @@ $(function() {
             var sign_top_pos_text = 'sign_top_pos_text'+'-'+parseInt(drag_id.split("-")[2]);
             var sign_width_text = 'sign_width_text'+'-'+parseInt(drag_id.split("-")[2]);
             var sign_height_text = 'sign_height_text'+'-'+parseInt(drag_id.split("-")[2]);
-            $('#sign_positions_form').append('<input type="hidden" id="'+sign_left_pos_text+'" name="'+sign_left_pos_text+'"><input type="hidden" id="'+sign_top_pos_text+'" name="'+sign_top_pos_text+'"><input type="hidden" id="'+sign_width_text+'" name="'+sign_width_text+'"><input type="hidden" id="'+sign_height_text+'" name="'+sign_height_text+'"><input type="hidden" value="'+parseInt(drag_id.split("-")[2])+'" name="signature_text_array[]">');
+            $('#sign_positions_form').append('<input type="hidden" id="'+sign_left_pos_text+'" name="'+sign_left_pos_text+'"><input type="hidden" id="'+sign_top_pos_text+'" name="'+sign_top_pos_text+'"><input type="hidden" id="'+sign_width_text+'" name="'+sign_width_text+'"><input type="hidden" id="'+sign_height_text+'" name="'+sign_height_text+'"><input type="hidden" class="signature_text_array-'+parseInt(drag_id.split("-")[2])+'" value="'+parseInt(drag_id.split("-")[2])+'" name="signature_text_array[]">');
             //left / top positions to hidden field
             $('#sign_left_pos_text-'+parseInt(drag_id.split("-")[2])).val(def_left_pos);
             $('#sign_top_pos_text-'+parseInt(drag_id.split("-")[2])).val(scroll_top);
             $('#sign_width_text-'+parseInt(drag_id.split("-")[2])).val(150);
             $('#sign_height_text-'+parseInt(drag_id.split("-")[2])).val(40);
-        
-            $( "<div class='ui-widget-content sign_pos sign_pos_text sign_pos_active' style='top:"+scroll_top+"px;left:"+def_left_pos+"px' id='"+sig_id+"'><p>Input Text "+parseInt(drag_id.split("-")[2])+"</p></div>" ).prependTo( "#frame" ).draggable({
+            $( "<div class='ui-widget-content sign_pos sign_pos_text sign_pos_active' style='top:"+scroll_top+"px;left:"+def_left_pos+"px' id='"+sig_id+"'><a href='#' onclick='removediv("+parseInt(drag_id.split("-")[2])+",2)'><i class='fa fa-window-close close_icon' aria-hidden='true'></i></a><p>Input Text "+parseInt(drag_id.split("-")[2])+"</p></div>" ).prependTo( "#frame" ).draggable({
                 containment: 'parent',
                 drag:function(ev, ui) {
                     $('.sign_pos').removeClass('sign_pos_active');
@@ -903,7 +905,46 @@ $(document).ready(function(){
     }
     
     
-    
+    function removediv(argument,divtype){
+        
+        if(divtype==1){
+            if (confirm('Are you sure want to delete the Sign Here '+argument)) {
+                if($('#sign-'+argument).remove()){
+                    $('#sign_left_pos-'+argument).remove();
+                    $('#sign_top_pos-'+argument).remove();
+                    $('#sign_width-'+argument).remove();
+                    $('#sign_height-'+argument).remove();
+                    $('.signature_array-'+argument).remove();
+                }
+            }
+        }else if(divtype==2){
+            if (confirm('Are you sure want to delete the input Text '+argument)) {
+                if($('#sign-text-'+argument).remove()){
+                    $('#sign_left_pos_text-'+argument).remove();
+                    $('#sign_top_pos_text-'+argument).remove();
+                    $('#sign_width_text-'+argument).remove();
+                    $('#sign_height_text-'+argument).remove();
+                    $('.signature_text_array-'+argument).remove();
+                }
+            }
+        }else{
+            if (confirm('Are you sure want to delete the Signed Date '+argument)) {
+                if($('#sign-date-'+argument).remove()){
+                    $('#sign_left_pos_date-'+argument).remove();
+                    $('#sign_top_pos_date-'+argument).remove();
+                    $('#sign_width_date-'+argument).remove();
+                    $('#sign_height_date-'+argument).remove();
+                    $('.signature_date_array-'+argument).remove();
+                }
+            }
+        }
+        
+        
+        
+        
+       
+        
+    }
     
     
     
@@ -920,6 +961,7 @@ $(document).ready(function(){
     
     $(document).ready(function() {
       $("#preloader").fadeOut();
+      $('#dltid').addClass('disnone');
     });
 </script>
 
