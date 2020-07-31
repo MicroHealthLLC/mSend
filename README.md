@@ -55,13 +55,13 @@ yum install -y php72-php-fpm php72-php-gd php72-php-json php72-php-mbstring php7
 
 yum -y install php-xml
 
-# 3.3 install imagick extension and enable
+# 3.2 install imagick extension and enable
 
-sudo yum install ImageMagick ImageMagick-devel
+yum install ImageMagick ImageMagick-devel
 
-sudo yum install gcc make automake php-pear php-devel
+yum install gcc make automake php-pear php-devel
 
-sudo pecl install imagick
+pecl install imagick
 
 
 
