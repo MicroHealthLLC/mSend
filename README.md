@@ -51,9 +51,18 @@ yum install -y php72
 yum install -y php72-php-fpm php72-php-gd php72-php-json php72-php-mbstring php72-php-mysqlnd php72-php-xml php72-php-xmlrpc php72-php-opcache php php-common php-opcache php-mcrypt php-cli php-gd php-curl php-mysqlnd
 
 
-## 3.1.Install PHP DOM extension and Enable PHP DOM extension.
+# 3.1.Install PHP DOM extension and Enable PHP DOM extension.
 
 yum -y install php-xml
+
+# 3.3 install imagick extension and enable
+
+sudo yum install ImageMagick ImageMagick-devel
+
+sudo yum install gcc make automake php-pear php-devel
+
+sudo pecl install imagick
+
 
 
 # 4.  Create a new mariadb database on your server. Create/assign a user to it.
