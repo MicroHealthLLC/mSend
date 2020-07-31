@@ -57,9 +57,9 @@ yum -y install php-xml
 
 # 3.2 install imagick extension and enable
 
-yum install ImageMagick ImageMagick-devel
+yum install ImageMagick ImageMagick-devel -y
 
-yum install gcc make automake php-pear php-devel
+yum install gcc make automake php-pear php-devel -y
 
 pecl install imagick
 
