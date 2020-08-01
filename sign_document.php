@@ -145,8 +145,11 @@ include('header_no_left.php');
 	   z-index: 99999 !important;
 	}
 	.sign_pad_pos img {
-		width: auto;
-		max-width: 33px;
+		/*width: auto;*/
+		/*max-width: 33px;*/
+		
+	    max-width: 150px !important;
+        height: 40px;
 	}
 	.ba-doc-frame {
 		-webkit-box-shadow: 0px 0px 16px -12px rgba(0,0,0,1);
@@ -226,6 +229,11 @@ include('header_no_left.php');
 /*    border-color: #8ac38b;*/
 /*    color: #356635;*/
 /*    background-color: #cde0c4;*/
+/*}*/
+
+/*.size_fix{*/
+/*    max-width: 150px !important;*/
+/*    height: 40px;*/
 /*}*/
 </style>
 
@@ -373,7 +381,7 @@ include('header_no_left.php');
 			</div>
 			<div class="modal-body">
 				<input type="hidden" id="uid" value="<?php echo $this_current_id;?>">
-				<img class="sign_img img-responsive" src="<?php echo BASE_URI. 'img/avatars/tempsignature/'.$this_current_id.'/temp/'.$this_current_id.'.png';?>"> 
+				<img class="sign_img img-responsive " src="<?php echo BASE_URI. 'img/avatars/tempsignature/'.$this_current_id.'/temp/'.$this_current_id.'.png';?>"> 
 				<input type="hidden" id="sign_pad_id" value="">
 				<input type="hidden" id="sign_pad_width" value="">
 				
@@ -726,7 +734,7 @@ $(document).ready(function(){
 	        var sign_pad_id = $('#sign_pad_id').val();
 	        var sign_pad_width = $('#sign_pad_width').val();
 	        var img_src = '<?php echo BASE_URI;?>img/avatars/tempsignature/<?php echo $this_current_id;?>/temp/<?php echo $this_current_id;?>.png?ver='+ 1+ Math.floor(Math.random() * 6);
-	        $('#'+sign_pad_id).html('<img width="'+sign_pad_width+'" src="'+img_src+'">');
+	        $('#'+sign_pad_id).html('<img class="size_fix" width="'+sign_pad_width+'" src="'+img_src+'">');
 	});
 	$("#upload_this_sign").click(function(e){
     //   alert();

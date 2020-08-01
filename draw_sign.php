@@ -6,7 +6,7 @@ $client_info = get_client_by_username($this_user);
 $logged_in_email = isset($client_info['email'])?$client_info['email']:'';
 $logged_in_name = isset($client_info['name'])?$client_info['name']:'';
 
-//echo "<pre>";print_r($_POST);echo "</pre>";exit;
+// echo "<pre>";print_r($_POST);echo "</pre>".'1111';exit();
 
         if(!empty($_POST['pname'])){$pname = $_POST['pname'];}
         if(!empty($_POST['drop_off_request_id'])){$drop_off_request_id = $_POST['drop_off_request_id'];}
@@ -26,7 +26,6 @@ $logged_in_name = isset($client_info['name'])?$client_info['name']:'';
         
         //print_r($signature_array);
         //exit;
-        
         $randkey=rtrim(base64_encode(md5(microtime().$log_user_id)),"=");
         $keydata="'".$randkey."'";
         $img_name="'".$image_name."'";
@@ -40,26 +39,37 @@ $logged_in_name = isset($client_info['name'])?$client_info['name']:'';
             for ($i=0; $i<count($signature_array) ;$i++)
             {
                 $key=$i+1;
-                if(!empty( $_POST['sign_left_pos-'.$key])){$sign_left_pos =  $_POST['sign_left_pos-'.$key];}
-                if(!empty( $_POST['sign_top_pos-'.$key])){$sign_top_pos =  $_POST['sign_top_pos-'.$key];}
-                if(!empty( $_POST['sign_width-'.$key])){$sign_width =  $_POST['sign_width-'.$key];}
-                if(!empty( $_POST['sign_height-'.$key])){$sign_height =  $_POST['sign_height-'.$key];}
+                // if(!empty( $_POST['sign_left_pos-'.$key])){$sign_left_pos =  $_POST['sign_left_pos-'.$key];}
+                // if(!empty( $_POST['sign_top_pos-'.$key])){$sign_top_pos =  $_POST['sign_top_pos-'.$key];}
+                // if(!empty( $_POST['sign_width-'.$key])){$sign_width =  $_POST['sign_width-'.$key];}
+                // if(!empty( $_POST['sign_height-'.$key])){$sign_height =  $_POST['sign_height-'.$key];}
                 
+                if(!empty( $_POST['sign_left_pos-'.$signature_array[$i]])){$sign_left_pos =  $_POST['sign_left_pos-'.$signature_array[$i]];}
+                if(!empty( $_POST['sign_top_pos-'.$signature_array[$i]])){$sign_top_pos =  $_POST['sign_top_pos-'.$signature_array[$i]];}
+                if(!empty( $_POST['sign_width-'.$signature_array[$i]])){$sign_width =  $_POST['sign_width-'.$signature_array[$i]];}
+                if(!empty( $_POST['sign_height-'.$signature_array[$i]])){$sign_height =  $_POST['sign_height-'.$signature_array[$i]];}
                 $sqldata=$dbh->prepare("INSERT INTO tbl_draw_sign_pos_details (sign_left_pos,sign_top_pos,sign_width,sign_height,tbl_draw_sign_details_id,sig_type) VALUES ($sign_left_pos,$sign_top_pos,$sign_width,$sign_height,$tbl_draw_sign_details_id,'signature')");
                 $sqldata->execute();
           
             }
         }
         
+        // echo "<pre>";print_r($_POST);echo "</pre>".'aaaaaaaaaaaa';exit();
+        
         if($signature_date_array){
            $sigdate_status=1;
             for ($j=0; $j<count($signature_date_array) ;$j++)
             {
                 $key1=$j+1;
-                if(!empty( $_POST['sign_left_pos_date-'.$key1])){$sign_left_pos_date =  $_POST['sign_left_pos_date-'.$key1];}
-                if(!empty( $_POST['sign_top_pos_date-'.$key1])){$sign_top_pos_date =  $_POST['sign_top_pos_date-'.$key1];}
-                if(!empty( $_POST['sign_width_date-'.$key1])){$sign_width_date =  $_POST['sign_width_date-'.$key1];}
-                if(!empty( $_POST['sign_height_date-'.$key1])){$sign_height_date =  $_POST['sign_height_date-'.$key1];}
+                // if(!empty( $_POST['sign_left_pos_date-'.$key1])){$sign_left_pos_date =  $_POST['sign_left_pos_date-'.$key1];}
+                // if(!empty( $_POST['sign_top_pos_date-'.$key1])){$sign_top_pos_date =  $_POST['sign_top_pos_date-'.$key1];}
+                // if(!empty( $_POST['sign_width_date-'.$key1])){$sign_width_date =  $_POST['sign_width_date-'.$key1];}
+                // if(!empty( $_POST['sign_height_date-'.$key1])){$sign_height_date =  $_POST['sign_height_date-'.$key1];}
+                
+                if(!empty( $_POST['sign_left_pos_date-'.$signature_date_array[$j]])){$sign_left_pos_date =  $_POST['sign_left_pos_date-'.$signature_date_array[$j]];}
+                if(!empty( $_POST['sign_top_pos_date-'.$signature_date_array[$j]])){$sign_top_pos_date =  $_POST['sign_top_pos_date-'.$signature_date_array[$j]];}
+                if(!empty( $_POST['sign_width_date-'.$signature_date_array[$j]])){$sign_width_date =  $_POST['sign_width_date-'.$signature_date_array[$j]];}
+                if(!empty( $_POST['sign_height_date-'.$signature_date_array[$j]])){$sign_height_date =  $_POST['sign_height_date-'.$signature_date_array[$j]];}
                 
                 $sqldata1=$dbh->prepare("INSERT INTO tbl_draw_sign_pos_details (sign_left_pos,sign_top_pos,sign_width,sign_height,tbl_draw_sign_details_id,sig_type) VALUES ($sign_left_pos_date,$sign_top_pos_date,$sign_width_date,$sign_height_date,$tbl_draw_sign_details_id,'date')");
                 $sqldata1->execute();
@@ -72,10 +82,15 @@ $logged_in_name = isset($client_info['name'])?$client_info['name']:'';
             for ($k=0; $k<count($signature_text_array) ;$k++)
             {
                 $key2=$k+1;
-                if(!empty( $_POST['sign_left_pos_text-'.$key2])){$sign_left_pos_text =  $_POST['sign_left_pos_text-'.$key2];}
-                if(!empty( $_POST['sign_top_pos_text-'.$key2])){$sign_top_pos_text =  $_POST['sign_top_pos_text-'.$key2];}
-                if(!empty( $_POST['sign_width_text-'.$key2])){$sign_width_text =  $_POST['sign_width_text-'.$key2];}
-                if(!empty( $_POST['sign_height_text-'.$key2])){$sign_height_text =  $_POST['sign_height_text-'.$key2];}
+                // if(!empty( $_POST['sign_left_pos_text-'.$key2])){$sign_left_pos_text =  $_POST['sign_left_pos_text-'.$key2];}
+                // if(!empty( $_POST['sign_top_pos_text-'.$key2])){$sign_top_pos_text =  $_POST['sign_top_pos_text-'.$key2];}
+                // if(!empty( $_POST['sign_width_text-'.$key2])){$sign_width_text =  $_POST['sign_width_text-'.$key2];}
+                // if(!empty( $_POST['sign_height_text-'.$key2])){$sign_height_text =  $_POST['sign_height_text-'.$key2];}
+                
+                if(!empty( $_POST['sign_left_pos_text-'.$signature_text_array[$k]])){$sign_left_pos_text =  $_POST['sign_left_pos_text-'.$signature_text_array[$k]];}
+                if(!empty( $_POST['sign_top_pos_text-'.$signature_text_array[$k]])){$sign_top_pos_text =  $_POST['sign_top_pos_text-'.$signature_text_array[$k]];}
+                if(!empty( $_POST['sign_width_text-'.$signature_text_array[$k]])){$sign_width_text =  $_POST['sign_width_text-'.$signature_text_array[$k]];}
+                if(!empty( $_POST['sign_height_text-'.$signature_text_array[$k]])){$sign_height_text =  $_POST['sign_height_text-'.$signature_text_array[$k]];}
                 
                 $sqldata1=$dbh->prepare("INSERT INTO tbl_draw_sign_pos_details (sign_left_pos,sign_top_pos,sign_width,sign_height,tbl_draw_sign_details_id,sig_type) VALUES ($sign_left_pos_text,$sign_top_pos_text,$sign_width_text,$sign_height_text,$tbl_draw_sign_details_id,'text')");
                 $sqldata1->execute();
