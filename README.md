@@ -55,11 +55,32 @@ yum install -y php72-php-fpm php72-php-gd php72-php-json php72-php-mbstring php7
 
 yum -y install php-xml
 
-# 3.2 install imagick extension and enable
+# 3.2 Install and enable ZIP extension
+sudo yum install php-pecl-zip
+sudo su echo "extension=zip.so" >> /etc/php.d/zip.ini
+
+
+# 3.3 install imagick extension and enable
 
 yum install php-pear php-devel gcc 
 
 yum install ImageMagick ImageMagick-devel ImageMagick-perl
+
+
+# 3.3.1 Change permission
+
+chown apache:apache /usr/lib64/php/modules/imagick.so
+ 
+Add extension=imagick.so before ";End" in php.ini
+
+To check php.ini location use 
+php -i | grep "Loaded Configuration File" 
+
+chmod 644 /etc/php.ini
+
+upload_max_filesize = 1024M
+post_max_size = 1024M
+ 
 
 
 # 4.  Create a new mariadb database on your server. Create/assign a user to it.
