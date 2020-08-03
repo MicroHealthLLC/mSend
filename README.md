@@ -78,12 +78,12 @@ pecl install imagick
 
 # 3.3.1 Change permission
 
-chown apache:apache /usr/lib64/php/modules/imagick.so
- 
 Add extension=imagick.so before ";End" in php.ini
 
 To check php.ini location use 
 php -i | grep "Loaded Configuration File" 
+
+chown apache:apache /usr/lib64/php/modules/imagick.so
 
 chmod 644 /etc/php.ini
 
