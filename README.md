@@ -57,12 +57,9 @@ yum -y install php-xml
 
 # 3.2 install imagick extension and enable
 
-yum install ImageMagick ImageMagick-devel -y
+yum install php-pear php-devel gcc 
 
-yum install gcc make automake php-pear php-devel -y
-
-pecl install imagick
-
+yum install ImageMagick ImageMagick-devel ImageMagick-perl
 
 
 # 4.  Create a new mariadb database on your server. Create/assign a user to it.
