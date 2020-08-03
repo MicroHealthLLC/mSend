@@ -56,8 +56,8 @@ yum install -y php72-php-fpm php72-php-gd php72-php-json php72-php-mbstring php7
 yum -y install php-xml
 
 # 3.2 Install and enable ZIP extension
-sudo yum install php-pecl-zip
-sudo su echo "extension=zip.so" >> /etc/php.d/zip.ini
+yum install php-pecl-zip
+echo "extension=zip.so" >> /etc/php.d/zip.ini
 
 
 # 3.3 install imagick extension and enable
