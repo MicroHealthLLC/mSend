@@ -157,6 +157,10 @@ sudo systemctl restart httpd.service
 
 # 6.1 Permissions for PHP file upload
 
+setenforce permissive
+
+# (IF NEEDED TO ENABLE SELINUX, USE COMMANDS BELOW)
+
 chcon -R -t httpd_sys_rw_content_t /var/www/mSend/upload
 
 chcon -R -t httpd_sys_rw_content_t /var/www/mSend/img
