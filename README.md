@@ -140,9 +140,45 @@ don't forget to configure apache to serve up this root directory of /var/www/mSe
 
 systemctl restart httpd
 
-# 6. Grant Apache privileges to directory
+# 6. Change permissions for directory
 
 chown -R apache:apache /var/www/mSend
+
+sudo systemctl restart httpd.service
+
+# 6.1 Permissions for PHP file upload
+
+chcon -R -t httpd_sys_rw_content_t /var/www/mSend/upload
+
+chcon -R -t httpd_sys_rw_content_t /var/www/mSend/img
+ 
+(Continue the installation by using the URL)
+ 
+# 7. Setup Email
+
+Install sendmail extension
+
+yum install sendmail sendmail-cf m4
+ 
+check the service whether it's started or not by executing the following command
+service sendmail status
+ 
+start the service if it is not running by the following command
+
+service sendmail start
+
+yum install mailx
+
+Check httpd_can_sendmail
+
+getsebool httpd_can_sendmail
+
+You can enable it by calling the command below.
+
+sudo setsebool -P httpd_can_sendmail 1
+ 
+----- Configure SMTP via admin panel
+
 
 
 
@@ -153,6 +189,10 @@ When those are steps are completed, follow this instructions:
 3. Complete the information there and wait for the correct installation message.
 4. go to the settings page to setup all the keys for social authentication and email.
 5. Don't forget to configure PHP.ini https://mediatemple.net/community/products/dv/204404784/how-do-i-increase-the-php-upload-limits
+
+
+
+
 
 
 Congratulations! MicroHealth Send is now installed and ready for action!
