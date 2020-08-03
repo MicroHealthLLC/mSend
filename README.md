@@ -78,10 +78,15 @@ php -i | grep "Loaded Configuration File"
 
 chmod 644 /etc/php.ini
 
+Change these two fields
+
 upload_max_filesize = 1024M
+
 post_max_size = 1024M
  
+Restart Apache
 
+service httpd restart
 
 # 4.  Create a new mariadb database on your server. Create/assign a user to it.
 
