@@ -183,7 +183,13 @@
 
     // Convert it to a blob to upload
     // var blob = b64toBlob(realData, contentType);
-    savepic(realData,$('#uid').val());
+    
+    var aa=isCanvasBlank(document.getElementById("sig-canvas"));
+    if(aa){
+        alert('The canwas area is empty please draw new signature');
+    }else{
+        savepic(realData,$('#uid').val());
+    }
         
   }, false);
 
@@ -195,23 +201,33 @@ function savepic(argument,id) {
     if($('#sigmodal').find('input[name="doc_sign_page"]').val()!=undefined){
         doc_sign_page=true;
     }
-  $.ajax({
-    url: 'save_sign.php',
-    data: { 'img_data':argument,'user_id_mic':id ,'doc_sign_page':doc_sign_page},
-    type: 'post',
-    dataType: 'json',
-    async: false,
-    success:function(arg){
-      if(arg.status==true){
-        $('#sig').modal('toggle');
-        $('.sig1').prop("checked", true).trigger('change');
-        signaturefun(1);
-	        var sign_pad_id = $('#sign_pad_id').val();
-	        var sign_pad_width = $('#sign_pad_width').val();
-	        var img_src = '<?php echo BASE_URI;?>img/avatars/tempsignature/<?php echo $this_current_id;?>/temp/<?php echo $this_current_id;?>.png?ver='+ 1+ Math.floor(Math.random() * 6);
-	        $('#'+sign_pad_id).html('<img width="'+sign_pad_width+'" src="'+img_src+'">');
-      }
-    }
-  });
+    $.ajax({
+        url: 'save_sign.php',
+        data: { 'img_data':argument,'user_id_mic':id ,'doc_sign_page':doc_sign_page},
+        type: 'post',
+        dataType: 'json',
+        async: false,
+        success:function(arg){
+          if(arg.status==true){
+            $('#sig').modal('toggle');
+            $('.sig1').prop("checked", true).trigger('change');
+            signaturefun(1);
+                var sign_pad_id = $('#sign_pad_id').val();
+                var sign_pad_width = $('#sign_pad_width').val();
+                var img_src = '<?php echo BASE_URI;?>img/avatars/tempsignature/<?php echo $this_current_id;?>/temp/<?php echo $this_current_id;?>.png?ver='+ 1+ Math.floor(Math.random() * 6);
+                $('#'+sign_pad_id).html('<img width="'+sign_pad_width+'" src="'+img_src+'">');
+          }
+        }
+    });
+}
+
+function isCanvasBlank(canvas) {
+  const context = canvas.getContext('2d');
+
+  const pixelBuffer = new Uint32Array(
+    context.getImageData(0, 0, canvas.width, canvas.height).data.buffer
+  );
+
+  return !pixelBuffer.some(color => color !== 0);
 }
 </script>

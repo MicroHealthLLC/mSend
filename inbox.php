@@ -1757,56 +1757,128 @@ cursor: pointer;
                                         }
 
                                         else {
-
                                             if (($row['expires'] == '0') || (time() < strtotime($row['expiry_date']))) {
-
+                                                
+                                                if($row['req_type']==1){
+                                                    if($row['req_status']=='1'){
+                                                        $stmt77 = $dbh->prepare("SELECT * FROM tbl_drop_off_request WHERE id=:drop_off_request_id");
+                                                        $stmt77->execute(['drop_off_request_id' => $row["tbl_drop_off_request_id"]]); 
+                                                        $data77 = $stmt77->fetch();
+                                                        if($data77['status']=='0'){
+                                                        ?>
+                                                            <a href="<?php echo $download_link; ?>" class="refreshcls" target="_blank">
+                                                                <?php
+                                                                    $targetDir = UPLOADED_FILES_FOLDER;
+                                                            
+                                                            		$zip = zip_open($targetDir.$row['filename']);
+                                                            
+                                                            		if($row['request_type'] == '2'){
+                                                            
+                                                            			/* LIST THE ZIP FILE NAMES START*/
+                                                            
+                                                            				// if ($zip) {
+                                                            
+                                                            				// 	while ($zip_entry = zip_read($zip)) {
+                                                            
+                                                            				// 		echo zip_entry_name($zip_entry) .",";
+                                                            
+                                                            				// 	}
+                                                            
+                                                            				// 	zip_close($zip);
+                                                            
+                                                            				// }
+                                                            
+                                                            			/* LIST THE ZIP FILE NAMES END*/
+                                                            
+                                                            			$updatedfilename=str_replace("_.zip",".zip",$row['filename']);
+                                                            
+                                                            			echo html_output($updatedfilename);
+                                                            
+                                                            		}else{
+                                                                		echo html_output($row['filename']);
+                                                            		}
+                                                                ?>
+                                                            </a>   
+                                                        <?php
+                                                            }else{
+                                                        ?>        
+                                                            <?php
+                                                                $targetDir = UPLOADED_FILES_FOLDER;
+                                                        
+                                                        		$zip = zip_open($targetDir.$row['filename']);
+                                                        
+                                                        		if($row['request_type'] == '2'){
+                                                        
+                                                        			/* LIST THE ZIP FILE NAMES START*/
+                                                        
+                                                        				// if ($zip) {
+                                                        
+                                                        				// 	while ($zip_entry = zip_read($zip)) {
+                                                        
+                                                        				// 		echo zip_entry_name($zip_entry) .",";
+                                                        
+                                                        				// 	}
+                                                        
+                                                        				// 	zip_close($zip);
+                                                        
+                                                        				// }
+                                                        
+                                                        			/* LIST THE ZIP FILE NAMES END*/
+                                                        
+                                                        			$updatedfilename=str_replace("_.zip",".zip",$row['filename']);
+                                                        
+                                                        			echo html_output($updatedfilename);
+                                                        
+                                                        		}else{
+                                                            		echo html_output($row['filename']);
+                                                        		}
+                                                            ?>  
+                                                        <?php    
+                                                            }
+                                                    }else{
+                                                    ?>
+                                                        <a href="<?php echo $download_link; ?>" class="refreshcls" target="_blank">
+                                                            <?php
+                                                                $targetDir = UPLOADED_FILES_FOLDER;
+                                                        
+                                                        		$zip = zip_open($targetDir.$row['filename']);
+                                                        
+                                                        		if($row['request_type'] == '2'){
+                                                        
+                                                        			/* LIST THE ZIP FILE NAMES START*/
+                                                        
+                                                        				// if ($zip) {
+                                                        
+                                                        				// 	while ($zip_entry = zip_read($zip)) {
+                                                        
+                                                        				// 		echo zip_entry_name($zip_entry) .",";
+                                                        
+                                                        				// 	}
+                                                        
+                                                        				// 	zip_close($zip);
+                                                        
+                                                        				// }
+                                                        
+                                                        			/* LIST THE ZIP FILE NAMES END*/
+                                                        
+                                                        			$updatedfilename=str_replace("_.zip",".zip",$row['filename']);
+                                                        
+                                                        			echo html_output($updatedfilename);
+                                                        
+                                                        		}else{
+                                                            		echo html_output($row['filename']);
+                                                        		}
+                                                            ?>
+                                                        </a> 
+                                                    <?php    
+                                                    }
+                                                }
+                                                
+                                                
+                                                
+                                                
                                         ?>
-
-                                            <a href="<?php echo $download_link; ?>" class="refreshcls" target="_blank">
-
-                                            <?php
-
-	                                            $targetDir = UPLOADED_FILES_FOLDER;
-
-												$zip = zip_open($targetDir.$row['filename']);
-
-												if($row['request_type'] == '2'){
-
-													/* LIST THE ZIP FILE NAMES START*/
-
-														// if ($zip) {
-
-														// 	while ($zip_entry = zip_read($zip)) {
-
-														// 		echo zip_entry_name($zip_entry) .",";
-
-														// 	}
-
-														// 	zip_close($zip);
-
-														// }
-
-													/* LIST THE ZIP FILE NAMES END*/
-
-													$updatedfilename=str_replace("_.zip",".zip",$row['filename']);
-
-													echo html_output($updatedfilename);
-
-												}else{
-
-                                            		echo html_output($row['filename']);
-
-
-
-												}
-
-                                            ?>
-
-
-
-                                            </a>
-
-
+                                                
 
                                         <?php 
 

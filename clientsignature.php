@@ -183,8 +183,12 @@
 
     // Convert it to a blob to upload
     // var blob = b64toBlob(realData, contentType);
-    savepic(realData,$('#uid').val());
-
+    var aa=isCanvasBlank(document.getElementById("sig-canvas"));
+    if(aa){
+        alert('The canwas area is empty please draw new signature');
+    }else{
+        savepic(realData,$('#uid').val());
+    }
   }, false);
 
 })();
@@ -206,4 +210,18 @@ function savepic(argument,id) {
     }
   });
 }
+
+
+
+
+function isCanvasBlank(canvas) {
+  const context = canvas.getContext('2d');
+
+  const pixelBuffer = new Uint32Array(
+    context.getImageData(0, 0, canvas.width, canvas.height).data.buffer
+  );
+
+  return !pixelBuffer.some(color => color !== 0);
+}
+
 </script>
