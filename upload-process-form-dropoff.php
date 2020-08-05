@@ -743,38 +743,38 @@ $user_id=CURRENT_USER_ID;
 	}
 	// var_dump();die();
 ?>
-<div class="col-sm-6 col-xl-3 categories column">
-	<div class="col-sm-12">
-		<label>
-			<input type="radio" name="sigstatus<?php echo $i; ?>" class="sigstatus1" onclick="sigstatus('1','<?php echo $i; ?>')" checked="true"> <?php _e('Current Signature','cftp_admin'); ?>
-			<input type="radio" name="sigstatus<?php echo $i; ?>" class="sigstatus2" onclick="sigstatus('2','<?php echo $i; ?>')" class='data-toggle="modal" data-target="#sig"'> <?php _e('Add new Signature','cftp_admin'); ?>
-		</label>
-	</div>
-</div>	
+<!--<div class="col-sm-6 col-xl-3 categories column">-->
+<!--	<div class="col-sm-12">-->
+<!--		<label>-->
+<!--			<input type="radio" name="sigstatus<?php //echo $i; ?>" class="sigstatus1" onclick="sigstatus('1','<?php //echo $i; ?>')" checked="true"> <?php //_e('Current Signature','cftp_admin'); ?>-->
+<!--			<input type="radio" name="sigstatus<?php //echo $i; ?>" class="sigstatus2" onclick="sigstatus('2','<?php //echo $i; ?>')" class='data-toggle="modal" data-target="#sig"'> <?php //_e('Add new Signature','cftp_admin'); ?>-->
+<!--		</label>-->
+<!--	</div>-->
+<!--</div>	-->
 
 <div class="col-sm-1 col-xl-3 categories column"></div>
-<div class="col-sm-4 col-xl-3 categories column">
+<!--<div class="col-sm-4 col-xl-3 categories column">-->
 	<?php
-		if(!empty($signature_pic_img)){
-			if($signature_type==1){
-				if(file_exists("img/avatars/signature/".$user_id."/temp/".$signature_pic_img)){?>
-					<img src="<?php echo "img/avatars/signature/".$user_id."/temp/".$signature_pic_img;?>?<?php echo rand();?>" alt="demo user" style="top: -5px;width: 250px;" class="zoom">
-				<?php }else{ 
-					echo '<img src="img/avatars/no-image.png" alt="demo user" style="top: -5px;width: 150px;" >';
-				}
-			}else{
-				if(file_exists("img/avatars/tempsignature/".$user_id."/temp/".$signature_pic_img)){?>
-					<img src="<?php echo "img/avatars/tempsignature/".$user_id."/temp/".$signature_pic_img;?>?<?php echo rand();?>" alt="demo user" style="top: -5px;width: 250px;" class="zoom">
-				<?php }else{ 
-					echo '<img src="img/avatars/no-image.png" alt="demo user" style="top: -5px;width: 150px;">';
-				}
-			}
+		//if(!empty($signature_pic_img)){
+			//if($signature_type==1){
+				//if(file_exists("img/avatars/signature/".$user_id."/temp/".$signature_pic_img)){?>
+					<!--<img src="<?php //echo "img/avatars/signature/".$user_id."/temp/".$signature_pic_img;?>?<?php //echo rand();?>" alt="demo user" style="top: -5px;width: 250px;" class="zoom">-->
+				<?php //}else{ 
+					//echo '<img src="img/avatars/no-image.png" alt="demo user" style="top: -5px;width: 150px;" >';
+				//}
+			//}else{
+				//if(file_exists("img/avatars/tempsignature/".$user_id."/temp/".$signature_pic_img)){?>
+					<!--<img src="<?php //echo "img/avatars/tempsignature/".$user_id."/temp/".$signature_pic_img;?>?<?php //echo rand();?>" alt="demo user" style="top: -5px;width: 250px;" class="zoom">-->
+				<?php //}else{ 
+					//echo '<img src="img/avatars/no-image.png" alt="demo user" style="top: -5px;width: 150px;">';
+// 				}
+// 			}
 
-		}else{
-			echo '<img src="img/avatars/no-image.png" alt="demo user" style="top: -5px;width: 150px;">';
-		}
+// 		}else{
+// 			echo '<img src="img/avatars/no-image.png" alt="demo user" style="top: -5px;width: 150px;">';
+// 		}
 	?>
-</div>
+<!--</div>-->
 <div class="col-sm-1 col-xl-3 categories column"></div>
 <?php }?>
 
