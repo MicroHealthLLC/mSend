@@ -85,10 +85,19 @@ if(!empty($tbl_draw_sign_details))
 
 $allowed_levels = array(9,8,7,0);
 
+$sig_pic_details = $dbh->prepare("SELECT * FROM tbl_user_extra_profile WHERE user_id=:user_id and name='signature_pic'");
+$sig_pic_details->execute(['user_id' => $this_current_id]);  
+$details = $sig_pic_details->fetch();
+
+$targetsignature_dir = UPLOADED_FILES_FOLDER.'../../img/avatars/tempsignature/'.$this_current_id.'/';
+$sig_target_file = $targetsignature_dir . "/".$details['value'];
+
+$imageFileType = pathinfo($sig_target_file,PATHINFO_EXTENSION);
 
 //$log_user_id=1;
-$targetsignature_file = '/img/avatars/tempsignature/'.$this_current_id.'/temp/'.$this_current_id.".png";
-// echo $targetsignature_file;
+// $targetsignature_file = '/img/avatars/tempsignature/'.$this_current_id.'/temp/'.$this_current_id.".png";
+$targetsignature_file = '/img/avatars/tempsignature/'.$this_current_id.'/temp/'.$this_current_id.'.'.$imageFileType;
+// echo $targetsignature_file;die();
 if (file_exists(__DIR__ . $targetsignature_file)) {
         $signature_exist = true;
 }else{
@@ -148,8 +157,8 @@ include('header_no_left.php');
 		/*width: auto;*/
 		/*max-width: 33px;*/
 		
-	    max-width: 150px !important;
-        height: 40px;
+	    /*max-width: 150px !important;*/
+     /*   height: 40px;*/
 	}
 	.ba-doc-frame {
 		-webkit-box-shadow: 0px 0px 16px -12px rgba(0,0,0,1);
@@ -231,13 +240,26 @@ include('header_no_left.php');
 /*    background-color: #cde0c4;*/
 /*}*/
 
-/*.size_fix{*/
-/*    max-width: 150px !important;*/
-/*    height: 40px;*/
-/*}*/
+.size_fix{
+    max-width: 150px !important;
+    height: 40px;
+}
 </style>
 
+<style>
+.resizable {
+    /*display: inline-block;*/
+    /*background: red;*/
+    /*resize: both;*/
+    /*overflow: hidden;*/
+    /*line-height: 0;*/
+  }
 
+/*.resizable img {*/
+/*  width: 100%;*/
+/*  height: 100%;*/
+/*}*/
+</style>
 
 
 <!-- Preloader start-->
@@ -294,7 +316,7 @@ include('header_no_left.php');
                                     <input type="hidden" id="sign_pad_top-<?php echo $sg['id'];?>" value="<?php echo $sg['sign_top_pos'];?>" >
                                     <input type="hidden" id="sign_pad_width-<?php echo $sg['id'];?>" value="<?php echo $sg['sign_width'];?>" >
                                     <input type="hidden" id="sign_pad_height-<?php echo $sg['id'];?>" value="<?php echo $sg['sign_height'];?>" >
-                                    <div id="sign_pad-<?php echo $sg['id'];?>" style="left:<?php echo $sg['sign_left_pos']."px";?>;top:<?php echo $sg['sign_top_pos']."px";?>;width:<?php echo $sg['sign_width']."px";?>;height:<?php echo $sg['sign_height']."px";?>;" <?php if($signature_exist){ echo 'class ="signature_exist sign_pad_pos"'; }else{echo 'class="not_signature_exist sign_pad_pos"'; }?> ></div>
+                                    <div id="sign_pad-<?php echo $sg['id'];?>" style="left:<?php echo $sg['sign_left_pos']."px";?>;top:<?php echo $sg['sign_top_pos']."px";?>;width:<?php echo $sg['sign_width']."px";?>;height:<?php echo $sg['sign_height']."px";?>;" <?php if($signature_exist){ echo 'class ="signature_exist sign_pad_pos "'; }else{echo 'class="not_signature_exist sign_pad_pos "'; }?> ></div>
                                <?php }
                             }
                         
@@ -370,6 +392,8 @@ include('header_no_left.php');
 	</div>
 </div>
 <?php if($signature_exist){?>
+
+
 <div id="sign_exist" class="modal fade" role="dialog">
 	<div class="modal-dialog">
 
@@ -381,14 +405,16 @@ include('header_no_left.php');
 			</div>
 			<div class="modal-body">
 				<input type="hidden" id="uid" value="<?php echo $this_current_id;?>">
-				<img class="sign_img img-responsive " src="<?php echo BASE_URI. 'img/avatars/tempsignature/'.$this_current_id.'/temp/'.$this_current_id.'.png';?>"> 
+				<!--<img class="sign_img img-responsive " src="<?php //echo BASE_URI. 'img/avatars/tempsignature/'.$this_current_id.'/temp/'.$this_current_id.'.png';?>"> -->
+				<img class="sign_img img-responsive " src="<?php echo BASE_URI. 'img/avatars/tempsignature/'.$this_current_id.'/temp/'.$this_current_id.'.'.$imageFileType;?>"> 
 				<input type="hidden" id="sign_pad_id" value="">
 				<input type="hidden" id="sign_pad_width" value="">
 				
 				<form method="post" action="" enctype="multipart/form-data" id="myform">
     				<button type="button" id="OpenImgUpload" class="btn btn-primary col-md-4">Image Upload</button>
 					<button type="button" id="use_this_sign" class="btn btn-primary col-md-2" >Use this</button>
-    				<input type="file" name="upload_this_sign"  id="upload_this_sign" accept="image/x-png" style="display:none"/> 
+    				<!--<input type="file" name="upload_this_sign"  id="upload_this_sign" accept="image/x-png" style="display:none"/> -->
+    				<input type="file" name="upload_this_sign"  id="upload_this_sign" accept="*" style="display:none"/> 
     				<input type="button"  id="but_upload" value="Upload"  style="display:none" onclick="aa()"/>
     			</form>
     			<div id="result"></div>
@@ -604,27 +630,27 @@ include('header_no_left.php');
 $(window).bind("load", function() {
 //----------------------------
 	var signature = new Array();
-	$(".sign_pad_pos").each(function(s) {
-	//signature.push({id: $(this).attr("id"), top : $(this).css("top"), left: $(this).css("left"), content : $(this).clone()});
-	var signTop = parseInt($(this).css('top'), 10);
-	var signContent = $(this).clone();
-	
-	var pageHeight = 0;
-		$(".ba-page-wrap").each(function() {
-			pageHeight += $(this).innerHeight();
-			console.log('inner height : ' + $(this).attr("id") + ' : ' + pageHeight);
-			if(pageHeight >= signTop) {
-				var newBottom = pageHeight - (signTop + 36); // where 36 heigh to of the box
-				signContent.css('top','');
-				signContent.css('bottom',newBottom);
-				//console.log('left pos' + signContent.css('left').replace(/[^-\d\.]/g, '') - 15);
-				signContent.css('left', (parseInt(signContent.css('left').replace(/[^-\d\.]/g, '')) - 15)); //where 15parent pading
-				$(this).append(signContent);
-				return false;
-			}
-		});
-	$(this).remove();
-	});
+    $(".sign_pad_pos").each(function(s) {
+        //signature.push({id: $(this).attr("id"), top : $(this).css("top"), left: $(this).css("left"), content : $(this).clone()});
+        var signTop = parseInt($(this).css('top'), 10);
+        var signContent = $(this).clone();
+        
+        var pageHeight = 0;
+        	$(".ba-page-wrap").each(function() {
+        		pageHeight += $(this).innerHeight();
+        		console.log('inner height : ' + $(this).attr("id") + ' : ' + pageHeight);
+        		if(pageHeight >= signTop) {
+        			var newBottom = pageHeight - (signTop + 36); // where 36 heigh to of the box
+        			signContent.css('top','');
+        			signContent.css('bottom',newBottom);
+        			//console.log('left pos' + signContent.css('left').replace(/[^-\d\.]/g, '') - 15);
+        			signContent.css('left', (parseInt(signContent.css('left').replace(/[^-\d\.]/g, '')) - 15)); //where 15parent pading
+        			$(this).append(signContent);
+        			return false;
+        		}
+        	});
+        $(this).remove();
+    });
 	
 });                
 
@@ -648,7 +674,8 @@ $(document).ready(function(){
         var big = Math.max(parent_frame_width,current_frame_width);
         
         $( window ).resize(function() {
-                location.reload();
+                // location.reload();
+                //$(function() { $(".resizable").resizable(); });
         });
         function adjust_document_sign_pos(parent_frame_width=null,current_frame_width=null,sign_pad_id,sign_pad_width,sign_pad_height,sign_pad_left,sign_pad_top){
                 //alert(parent_frame_width+" -----  "+current_frame_width);
@@ -701,8 +728,10 @@ $(document).ready(function(){
 	
 	function signaturefun(argument) {
 	if(argument==1){
-		$('.signature_exist').html('<img width="<?php echo $sign_width; ?>" src="<?php echo BASE_URI. 'img/avatars/tempsignature/'.$this_current_id.'/temp/'.$this_current_id.'.png';?>">');
-		$('.not_signature_exist').html('<img width="<?php echo $sign_width; ?>" src="<?php echo BASE_URI. 'img/avatars/tempsignature/'.$this_current_id.'/temp/'.$this_current_id.'.png';?>">');
+// 		$('.signature_exist').html('<img width="<?php //echo $sign_width; ?>" src="<?php //echo BASE_URI. 'img/avatars/tempsignature/'.$this_current_id.'/temp/'.$this_current_id.'.png';?>">');
+		$('.signature_exist').html('<img width="<?php echo $sign_width; ?>" src="<?php echo BASE_URI. 'img/avatars/tempsignature/'.$this_current_id.'/temp/'.$this_current_id.'.'.$imageFileType;?>">');
+// 		$('.not_signature_exist').html('<img width="<?php //echo $sign_width; ?>" src="<?php //echo BASE_URI. 'img/avatars/tempsignature/'.$this_current_id.'/temp/'.$this_current_id.'.png';?>">');
+		$('.not_signature_exist').html('<img width="<?php echo $sign_width; ?>" src="<?php echo BASE_URI. 'img/avatars/tempsignature/'.$this_current_id.'/temp/'.$this_current_id.'.'.$imageFileType;?>">');
 	}else{
 		$('#signaturechen').removeClass('disnone').addClass('disnone');
 		$('#sig').modal('show');
@@ -723,6 +752,7 @@ $(document).ready(function(){
                 var wdth = $(this).width();
                 $('#sign_pad_width').val(wdth);
 	        $('#sign_exist').modal('toggle');
+	       // $('#sign_exist1').modal('toggle');
 	});
 	$("#create_new_sign").click(function(e){
 	        $('#sig').modal('toggle');
@@ -730,11 +760,13 @@ $(document).ready(function(){
 	        
 	});
 	$("#use_this_sign").click(function(e){
-	        $('#sign_exist').modal('toggle');
-	        var sign_pad_id = $('#sign_pad_id').val();
-	        var sign_pad_width = $('#sign_pad_width').val();
-	        var img_src = '<?php echo BASE_URI;?>img/avatars/tempsignature/<?php echo $this_current_id;?>/temp/<?php echo $this_current_id;?>.png?ver='+ 1+ Math.floor(Math.random() * 6);
-	        $('#'+sign_pad_id).html('<img class="size_fix" width="'+sign_pad_width+'" src="'+img_src+'">');
+        $('#sign_exist').modal('toggle');
+        var sign_pad_id = $('#sign_pad_id').val();
+        var sign_pad_width = $('#sign_pad_width').val();
+        // var img_src = '<?php //echo BASE_URI;?>img/avatars/tempsignature/<?php //echo $this_current_id;?>/temp/<?php //echo $this_current_id;?>.png?ver='+ 1+ Math.floor(Math.random() * 6);
+        // renderimage(sign_pad_id,sign_pad_width);
+        var img_src = '<?php echo BASE_URI;?>img/avatars/tempsignature/<?php echo $this_current_id;?>/temp/<?php echo $this_current_id.'.'.$imageFileType;?>?ver='+ 1+ Math.floor(Math.random() * 6);
+        $('#'+sign_pad_id).html('<img class="size_fix" width="'+sign_pad_width+'" src="'+img_src+'">');
 	});
 	$("#upload_this_sign").click(function(e){
     //   alert();
@@ -773,6 +805,21 @@ function aa(){
         },
     });
 }
+ 
+    function renderimage(sign_pad_id,sign_pad_width){
+        <?php
+            $sig_pic_details1 = $dbh->prepare("SELECT * FROM tbl_user_extra_profile WHERE user_id=:user_id and name='signature_pic'");
+            $sig_pic_details1->execute(['user_id' => $this_current_id]);  
+            $details1 = $sig_pic_details1->fetch();
+            
+            $targetsignature_dir1 = UPLOADED_FILES_FOLDER.'../../img/avatars/tempsignature/'.$this_current_id.'/';
+            $sig_target_file1 = $targetsignature_dir1 . "/".$details1['value'];
+            
+            $imageFileType1 = pathinfo($sig_target_file1,PATHINFO_EXTENSION);  
+        ?>
+        var img_src = '<?php echo BASE_URI;?>img/avatars/tempsignature/<?php echo $this_current_id;?>/temp/<?php echo $this_current_id.'.'.$imageFileType1;?>?ver='+ 1+ Math.floor(Math.random() * 6);
+        $('#'+sign_pad_id).html('<img class="size_fix" width="'+sign_pad_width+'" src="'+img_src+'">');
+    }
 	$(document).ready(function() {
 		$('#signArea').signaturePad({drawOnly:true, drawBezierCurves:true, lineTop:90});
 		$("#preloader").fadeOut();

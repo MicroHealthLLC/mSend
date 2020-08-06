@@ -39,12 +39,19 @@ class AESENCRYPT {
         return $error ? false : $dest;
     }else{
       if($section=='upload'){
-        rename(UPLOADED_FILES_FOLDER.'../../img/avatars/signature/'.$userid.'/'.$source,UPLOADED_FILES_FOLDER.'../../img/avatars/signature/'.$userid.'/'.'en_'.$source);
-        $dest = UPLOADED_FILES_FOLDER.'../../img/avatars/signature/'.$userid.'/'.$source;
-        $source = UPLOADED_FILES_FOLDER.'../../img/avatars/signature/'.$userid.'/'.'en_'.$source;
+//         rename(UPLOADED_FILES_FOLDER.'../../img/avatars/signature/'.$userid.'/'.$source,UPLOADED_FILES_FOLDER.'../../img/avatars/signature/'.$userid.'/'.'en_'.$source);
+//         $dest = UPLOADED_FILES_FOLDER.'../../img/avatars/signature/'.$userid.'/'.$source;
+//         $source = UPLOADED_FILES_FOLDER.'../../img/avatars/signature/'.$userid.'/'.'en_'.$source;
+//         $key = "8765416198765416187654161987654161";
+//         //$fileEncryptionblocks = 10000;
+// 		$fileEncryptionblocks = 1000;
+
+        rename(UPLOADED_FILES_FOLDER.'../../img/avatars/tempsignature/'.$userid.'/'.$source,UPLOADED_FILES_FOLDER.'../../img/avatars/tempsignature/'.$userid.'/'.'en_'.$source);
+        $dest = UPLOADED_FILES_FOLDER.'../../img/avatars/tempsignature/'.$userid.'/'.$source;
+        $source = UPLOADED_FILES_FOLDER.'../../img/avatars/tempsignature/'.$userid.'/'.'en_'.$source;
         $key = "8765416198765416187654161987654161";
         //$fileEncryptionblocks = 10000;
-		$fileEncryptionblocks = 1000;
+        $fileEncryptionblocks = 1000;
       }else{
         rename(UPLOADED_FILES_FOLDER.'../../img/avatars/tempsignature/'.$userid.'/'.$source,UPLOADED_FILES_FOLDER.'../../img/avatars/tempsignature/'.$userid.'/'.'en_'.$source);
         $dest = UPLOADED_FILES_FOLDER.'../../img/avatars/tempsignature/'.$userid.'/'.$source;
@@ -116,8 +123,10 @@ class AESENCRYPT {
         $key = "8765416198765416187654161987654161";
         $key = substr(sha1($key, true), 0, 16);
         if($section=='upload'){
-          $dest = UPLOADED_FILES_FOLDER.'../../img/avatars/signature/'.$userid.'/temp/'.$source;
-          $source = UPLOADED_FILES_FOLDER.'../../img/avatars/signature/'.$userid.'/'.$source;
+        //   $dest = UPLOADED_FILES_FOLDER.'../../img/avatars/signature/'.$userid.'/temp/'.$source;
+        //   $source = UPLOADED_FILES_FOLDER.'../../img/avatars/signature/'.$userid.'/'.$source;
+          $dest = UPLOADED_FILES_FOLDER.'../../img/avatars/tempsignature/'.$userid.'/temp/'.$source;
+          $source = UPLOADED_FILES_FOLDER.'../../img/avatars/tempsignature/'.$userid.'/'.$source;
         }else{
           $dest = UPLOADED_FILES_FOLDER.'../../img/avatars/tempsignature/'.$userid.'/temp/'.$source;
           $source = UPLOADED_FILES_FOLDER.'../../img/avatars/tempsignature/'.$userid.'/'.$source;

@@ -32,9 +32,9 @@
 			$uploadOk = 0;
 		}
 		// Allow certain file formats
-// 		if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-// 		&& $imageFileType != "gif" ) {
-		if($imageFileType != "png") {
+		if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+		&& $imageFileType != "gif" ) {
+// 		if($imageFileType != "png") {
 			//	echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
 				$uploadOk = 0;
 		}
@@ -55,7 +55,7 @@
 				$result  = $aes->encryptFile($fl_name,'upload',$user_id_mic);
 // WORKING DECRYPTION CODE START
 				// if($result){
-					$result1  = $aes->decryptFile($fl_name,'upload',$user_id_mic);
+				// 	$result1  = $aes->decryptFile($fl_name,'upload',$user_id_mic);
 				// echo "<pre>"; print_r($result1); echo "</pre>"; exit;
 				// }
 // WORKING DECRYPTION CODE END
