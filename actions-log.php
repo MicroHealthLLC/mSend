@@ -368,7 +368,6 @@ border: solid 1px #ccc;
 				</tr>
 			</thead>
 			<tbody>
-	<?php// echo "<pre>";print_r($sql->fetch());echo "</pre>";?>
 			<?php
 				$sql->setFetchMode(PDO::FETCH_ASSOC);
 				while ( $log = $sql->fetch() ) {
