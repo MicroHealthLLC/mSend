@@ -401,7 +401,7 @@ $(function() {
                 $('#sign_width-'+parseInt(drag_id.split("-")[1])).val(150);
                 $('#sign_height-'+parseInt(drag_id.split("-")[1])).val(40);
                 
-                $( "<div class='ui-widget-content sign_pos sign_pos_active' style='top:"+scroll_top+"px;left:"+def_left_pos+"px' id='"+sig_id+"'><a href='#' onclick='removediv("+parseInt(drag_id.split("-")[1])+",1)'><i class='fa fa-window-close close_icon' aria-hidden='true'></i></a><p>Sign Here "+parseInt(drag_id.split("-")[1])+"</p></div>" ).prependTo( "#frame" ).draggable({
+                $( "<div class='ui-widget-content sign_pos sign_pos_active resizable' style='top:"+scroll_top+"px;left:"+def_left_pos+"px' id='"+sig_id+"'><a href='#' onclick='removediv("+parseInt(drag_id.split("-")[1])+",1)'><i class='fa fa-window-close close_icon' aria-hidden='true'></i></a><p>Sign Here "+parseInt(drag_id.split("-")[1])+"</p></div>" ).prependTo( "#frame" ).draggable({
                 containment: 'parent',
                 drag:function(ev, ui) {
                         $('.sign_pos').removeClass('sign_pos_active');
@@ -436,6 +436,7 @@ $(function() {
                 
 			
         });
+        $(".resizable").resizable();
                 
         });
         
@@ -474,7 +475,9 @@ $(function() {
                                 //console.log("offset left "+sign_left_pos);
                                 //console.log("drag_new_id "+drag_new_id);
                                 $('#sign_left_pos_text-'+drag_new_id).val(relativePosition.left);
-                                $('#sign_top_pos_text-'+drag_new_id).val(relativePosition.top);        
+                                $('#sign_top_pos_text-'+drag_new_id).val(relativePosition.top);    
+                                $('#sign_width_text-'+drag_new_id).val($('.sign_pos_active').width());
+                                $('#sign_height_text-'+drag_new_id).val($('.sign_pos_active').height());
                         }else{
                                 console.log("drag_id: "+drag_new_id);
                                 $('#sign-'+drag_new_id).css('top',relativePosition.top);
@@ -484,6 +487,8 @@ $(function() {
                                 //console.log("drag_new_id "+drag_new_id);
                                 $('#sign_left_pos-'+drag_new_id).val(relativePosition.left);
                                 $('#sign_top_pos-'+drag_new_id).val(relativePosition.top);
+								$('#sign_width-'+drag_new_id).val($('.sign_pos_active').width());
+                                $('#sign_height-'+drag_new_id).val($('.sign_pos_active').height());
                                 console.log(relativePosition.left +', '+ relativePosition.top);
                         }
                 }
@@ -491,6 +496,24 @@ $(function() {
         });
         
         
+        $("#frame").mouseup(function(){
+			if ( $( ".sign_pos_active" ).length ){
+				
+			drag_id = $('.sign_pos_active').attr('id');
+            drag_new_id = drag_id.split('-')[1];
+			if(drag_new_id=='date'){
+			}
+			else if(drag_new_id=='text'){
+			    drag_new_id = drag_id.split('-')[2];
+			    $('#sign_width_text-'+drag_new_id).val($('.sign_pos_active').width());
+				$('#sign_height_text-'+drag_new_id).val($('.sign_pos_active').height());
+			}
+			else {
+				$('#sign_width-'+drag_new_id).val($('.sign_pos_active').width());
+				$('#sign_height-'+drag_new_id).val($('.sign_pos_active').height());
+			}
+			}
+		});
         
         
         //activate divs
@@ -597,7 +620,7 @@ $(function() {
             $('#sign_top_pos_text-'+parseInt(drag_id.split("-")[2])).val(scroll_top);
             $('#sign_width_text-'+parseInt(drag_id.split("-")[2])).val(150);
             $('#sign_height_text-'+parseInt(drag_id.split("-")[2])).val(40);
-            $( "<div class='ui-widget-content sign_pos sign_pos_text sign_pos_active' style='top:"+scroll_top+"px;left:"+def_left_pos+"px' id='"+sig_id+"'><a href='#' onclick='removediv("+parseInt(drag_id.split("-")[2])+",2)'><i class='fa fa-window-close close_icon' aria-hidden='true'></i></a><p>Input Text "+parseInt(drag_id.split("-")[2])+"</p></div>" ).prependTo( "#frame" ).draggable({
+            $( "<div class='ui-widget-content sign_pos sign_pos_text sign_pos_active resizable' style='top:"+scroll_top+"px;left:"+def_left_pos+"px' id='"+sig_id+"'><a href='#' onclick='removediv("+parseInt(drag_id.split("-")[2])+",2)'><i class='fa fa-window-close close_icon' aria-hidden='true'></i></a><p>Input Text "+parseInt(drag_id.split("-")[2])+"</p></div>" ).prependTo( "#frame" ).draggable({
                 containment: 'parent',
                 drag:function(ev, ui) {
                     $('.sign_pos').removeClass('sign_pos_active');
@@ -630,7 +653,7 @@ $(function() {
                 },
             
             });
-        
+            $(".resizable").resizable();
         });
         
         
@@ -768,7 +791,7 @@ $(document).ready(function(){
                 }
         });
         $( window ).resize(function() {
-                location.reload();
+                //location.reload();
         });
         $(".click_date_of_sign").draggable({
                 helper: function(){

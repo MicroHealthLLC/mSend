@@ -241,8 +241,12 @@ include('header_no_left.php');
 /*}*/
 
 .size_fix{
-    max-width: 150px !important;
-    height: 40px;
+    /*max-width: 150px !important;*/
+    /*height: 40px;*/
+    
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
 }
 </style>
 
@@ -763,6 +767,8 @@ $(document).ready(function(){
         $('#sign_exist').modal('toggle');
         var sign_pad_id = $('#sign_pad_id').val();
         var sign_pad_width = $('#sign_pad_width').val();
+        
+        
         // var img_src = '<?php //echo BASE_URI;?>img/avatars/tempsignature/<?php //echo $this_current_id;?>/temp/<?php //echo $this_current_id;?>.png?ver='+ 1+ Math.floor(Math.random() * 6);
         // renderimage(sign_pad_id,sign_pad_width);
         var img_src = '<?php echo BASE_URI;?>img/avatars/tempsignature/<?php echo $this_current_id;?>/temp/<?php echo $this_current_id.'.'.$imageFileType;?>?ver='+ 1+ Math.floor(Math.random() * 6);

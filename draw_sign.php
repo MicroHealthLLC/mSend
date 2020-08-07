@@ -20,6 +20,12 @@ $logged_in_name = isset($client_info['name'])?$client_info['name']:'';
         $sig_status=0;
         $sigdate_status=0;
         $sigtext_status=0;
+        
+        // echo "<pre>";print_r($signature_array);echo "</pre>".'2222';
+        // echo "<pre>";print_r($signature_text_array);echo "</pre>".'3333';
+        // echo "<pre>";print_r($signature_text_array);echo "</pre>".'4444';
+        // echo '999999999999999';exit();
+        
         if(!$signature_array){$sig_status=1;}
         if(!$signature_date_array){$sigdate_status=1;}
         if(!$signature_text_array){$sigtext_status=1;}
@@ -50,11 +56,11 @@ $logged_in_name = isset($client_info['name'])?$client_info['name']:'';
                 if(!empty( $_POST['sign_height-'.$signature_array[$i]])){$sign_height =  $_POST['sign_height-'.$signature_array[$i]];}
                 $sqldata=$dbh->prepare("INSERT INTO tbl_draw_sign_pos_details (sign_left_pos,sign_top_pos,sign_width,sign_height,tbl_draw_sign_details_id,sig_type) VALUES ($sign_left_pos,$sign_top_pos,$sign_width,$sign_height,$tbl_draw_sign_details_id,'signature')");
                 $sqldata->execute();
-          
+         
             }
         }
         
-        // echo "<pre>";print_r($_POST);echo "</pre>".'aaaaaaaaaaaa';exit();
+      
         
         if($signature_date_array){
            $sigdate_status=1;
@@ -73,10 +79,10 @@ $logged_in_name = isset($client_info['name'])?$client_info['name']:'';
                 
                 $sqldata1=$dbh->prepare("INSERT INTO tbl_draw_sign_pos_details (sign_left_pos,sign_top_pos,sign_width,sign_height,tbl_draw_sign_details_id,sig_type) VALUES ($sign_left_pos_date,$sign_top_pos_date,$sign_width_date,$sign_height_date,$tbl_draw_sign_details_id,'date')");
                 $sqldata1->execute();
-               
+                
             }
         }
-        
+         
         if($signature_text_array){
             $sigtext_status=1;
             for ($k=0; $k<count($signature_text_array) ;$k++)
@@ -94,9 +100,9 @@ $logged_in_name = isset($client_info['name'])?$client_info['name']:'';
                 
                 $sqldata1=$dbh->prepare("INSERT INTO tbl_draw_sign_pos_details (sign_left_pos,sign_top_pos,sign_width,sign_height,tbl_draw_sign_details_id,sig_type) VALUES ($sign_left_pos_text,$sign_top_pos_text,$sign_width_text,$sign_height_text,$tbl_draw_sign_details_id,'text')");
                 $sqldata1->execute();
+                
             }   
         }
-
 
     if($sig_status==1 && $sigdate_status==1 && $sigtext_status==1){
         $stmt = $dbh->prepare("SELECT * FROM tbl_drop_off_request WHERE id=:drop_off_request_id");
