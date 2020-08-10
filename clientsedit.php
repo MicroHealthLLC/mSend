@@ -36,7 +36,8 @@ else {
 	 */
 	$page_status = 0;
 }
-$targetsignature_dir = UPLOADED_FILES_FOLDER.'../../img/avatars/signature/'.$client_id.'/';
+// $targetsignature_dir = UPLOADED_FILES_FOLDER.'../../img/avatars/signature/'.$client_id.'/';
+$targetsignature_dir = UPLOADED_FILES_FOLDER.'../../img/avatars/tempsignature/'.$client_id.'/';
 
 /**
  * Get the clients information from the database to use on the form.
@@ -209,11 +210,17 @@ include('header.php');
 
 						if(!empty($signature_pic_img)){
 							if($signature_type==1){
-								if(file_exists("img/avatars/signature/".$pic_id."/temp/".$signature_pic_img)){?>
-									<img src="<?php echo "img/avatars/signature/".$pic_id."/temp/".$signature_pic_img;?>?<?php echo rand();?>" alt="demo user" style="top: -5px;" class="zoom">
+								if(file_exists("img/avatars/tempsignature/".$pic_id."/temp/".$signature_pic_img)){?>
+									<img src="<?php echo "img/avatars/tempsignature/".$pic_id."/temp/".$signature_pic_img;?>?<?php echo rand();?>" alt="demo user" style="top: -5px;" class="zoom">
 								<?php }else{ 
 									echo '<img src="img/avatars/no-image.png" alt="demo user" style="top: -5px;" >';
 								}
+								
+								//if(file_exists("img/avatars/signature/".$pic_id."/temp/".$signature_pic_img)){?>
+									<!--<img src="<?php //echo "img/avatars/signature/".$pic_id."/temp/".$signature_pic_img;?>?<?php echo rand();?>" alt="demo user" style="top: -5px;" class="zoom">-->
+								<?php //}else{ 
+									//echo '<img src="img/avatars/no-image.png" alt="demo user" style="top: -5px;" >';
+								//}
 							}else{
 								if(file_exists("img/avatars/tempsignature/".$pic_id."/temp/".$signature_pic_img)){?>
 									<img src="<?php echo "img/avatars/tempsignature/".$pic_id."/temp/".$signature_pic_img;?>?<?php echo rand();?>" alt="demo user" style="top: -5px;" class="zoom">

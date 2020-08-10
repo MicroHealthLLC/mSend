@@ -146,8 +146,8 @@ include('header_no_left.php');
         background:yellow !important;
         min-width:150px;
         min-height:40px;
-        max-width:200px;
-        max-height:60px;
+        /*max-width:200px;*/
+        /*max-height:60px;*/
     }
     .sign_pos_date{
         background:#a0ccce !important;

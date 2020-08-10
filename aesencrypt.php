@@ -2,7 +2,6 @@
 
 class AESENCRYPT {
 
-
   function encryptFile($source,$section='',$userid='')
   {
     if($section==''){

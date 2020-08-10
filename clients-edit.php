@@ -25,7 +25,9 @@ else {
 	 */
 	$page_status = 0;
 }
-$targetsignature_dir = UPLOADED_FILES_FOLDER.'../../img/avatars/signature/'.$client_id.'/';
+// $targetsignature_dir = UPLOADED_FILES_FOLDER.'../../img/avatars/signature/'.$client_id.'/';
+$targetsignature_dir = UPLOADED_FILES_FOLDER.'../../img/avatars/tempsignature/'.$client_id.'/';
+
 
 /**
  * Get the clients information from the database to use on the form.
@@ -53,6 +55,8 @@ if ($page_status === 1) {
 	}
 }
 
+
+
 /**
  * Compare the client editing this account to the on the db.
  */
@@ -61,6 +65,7 @@ if ($global_level == 0) {
 		$page_status = 3;
 	}
 }
+
 
 if ($_POST) {
 	/**
@@ -186,6 +191,8 @@ include('header.php');
 															'get_user_real_name' => true
 														);
 									$new_record_action = $new_log_action->log_action_save($log_action_args);
+									
+									//echo "<pre>"; print_r($_FILES); echo "</pre>"; exit;
 
 								/*For avatar upload start */
 						if($_FILES){
