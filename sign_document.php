@@ -244,9 +244,9 @@ include('header_no_left.php');
     /*max-width: 150px !important;*/
     /*height: 40px;*/
     
-    object-fit: contain;
-    width: 100%;
-    height: 100%;
+    /*object-fit: contain;*/
+    /*width: 100%;*/
+    /*height: 100%;*/
 }
 </style>
 
@@ -509,9 +509,10 @@ include('header_no_left.php');
 
 <script type='text/javascript' src="./js/signature/html2canvas.js"></script>
 <script src="./js/signature/json2.min.js"></script>
-<script src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script>
+<!--<script src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>-->
 
-
+<script src="https://unpkg.com/jspdf@1.5.3/dist/jspdf.min.js"></script>
 
 <script>
     function modalclose(){

@@ -265,6 +265,7 @@ $logged_in_name = isset($client_info['name'])?$client_info['name']:'';
                 require_once(ROOT_DIR.'/includes/phpmailer/PHPMailerAutoload.php');
             }
             $send_mail = new PHPMailer();
+            // var_dump($send_mail);
             switch (MAIL_SYSTEM) {
                 case 'smtp':
                         $send_mail->IsSMTP();
@@ -302,6 +303,7 @@ $logged_in_name = isset($client_info['name'])?$client_info['name']:'';
             /**
              * Finally, send the e-mail.
              */
+            //  var_dump($send_mail->Send());
             if($send_mail->Send()) {
                  echo '<script>window.location.href="create_signature_spot.php?pdf_name='.$pname.'&id='.$log_user_id.'&req_id='.$drop_off_request_id.'&mail_status=true"</script>';
                 
