@@ -158,6 +158,9 @@ include('header_no_left.php');
     .sign_pos_text{
         background:#f7ba61 !important;
     }
+    .sign_pos_textarea{
+        background:#b8f19b !important;
+    }
     .sign_pos_active,.sign_pos_text_active{
         border:2px dotted red !important;
     }
@@ -283,6 +286,7 @@ include('header_no_left.php');
                                         <a href="#" id="sign-1" class="click_sign"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Signature</a> | 
                                         <a href="#" id="sign-date-1" class="click_sign_date"><i class="fa fa-calendar-o" aria-hidden="true"></i> Signed Date</a> |
                                         <a href="#" id="sign-text-1" class="click_sign_text"><i class="fa fa-file-text" aria-hidden="true"></i> Input Text</a> |    
+                                        <!--<a href="#" id="sign-textarea-1" class="click_sign_textarea"><i class="fa fa-file-text-o" aria-hidden="true"></i> Textarea Input</a> | -->
                                         <a href="#"  onclick="saveposition()"><i class="fa fa-floppy-o" aria-hidden="true"></i>SAVE</a>                         
                                 </div>
 	                </div>
@@ -478,6 +482,18 @@ $(function() {
                                 $('#sign_top_pos_text-'+drag_new_id).val(relativePosition.top);    
                                 $('#sign_width_text-'+drag_new_id).val($('.sign_pos_active').width());
                                 $('#sign_height_text-'+drag_new_id).val($('.sign_pos_active').height());
+                        }else if(drag_new_id=='textarea'){
+                                drag_new_id = drag_id.split('-')[2]
+                                console.log("drag_id: "+drag_new_id);
+                                $('#sign-textarea-'+drag_new_id).css('top',relativePosition.top);
+                                $('#sign-textarea-'+drag_new_id).css('left',relativePosition.left);
+                                //var sign_left_pos =  parseFloat(offset.left) - parseFloat(frame_left);
+                                //console.log("offset left "+sign_left_pos);
+                                //console.log("drag_new_id "+drag_new_id);
+                                $('#sign_left_pos_textarea-'+drag_new_id).val(relativePosition.left);
+                                $('#sign_top_pos_textarea-'+drag_new_id).val(relativePosition.top);    
+                                $('#sign_width_textarea-'+drag_new_id).val($('.sign_pos_active').width());
+                                $('#sign_height_textarea-'+drag_new_id).val($('.sign_pos_active').height());
                         }else{
                                 console.log("drag_id: "+drag_new_id);
                                 $('#sign-'+drag_new_id).css('top',relativePosition.top);
@@ -507,6 +523,11 @@ $(function() {
 			    drag_new_id = drag_id.split('-')[2];
 			    $('#sign_width_text-'+drag_new_id).val($('.sign_pos_active').width());
 				$('#sign_height_text-'+drag_new_id).val($('.sign_pos_active').height());
+			}
+			else if(drag_new_id=='textarea'){
+			    drag_new_id = drag_id.split('-')[2];
+			    $('#sign_width_textarea-'+drag_new_id).val($('.sign_pos_active').width());
+				$('#sign_height_textarea-'+drag_new_id).val($('.sign_pos_active').height());
 			}
 			else {
 				$('#sign_width-'+drag_new_id).val($('.sign_pos_active').width());
@@ -553,7 +574,7 @@ $(function() {
                 $('#sign_width_date-'+parseInt(drag_id.split("-")[2])).val(150);
                 $('#sign_height_date-'+parseInt(drag_id.split("-")[2])).val(40);
                 
-                $( "<div class='ui-widget-content sign_pos sign_pos_date sign_pos_active' style='top:"+scroll_top+"px;left:"+def_left_pos+"px' id='"+sig_id+"'><a href='#' onclick='removediv("+parseInt(drag_id.split("-")[2])+",3)'><i class='fa fa-window-close close_icon' aria-hidden='true'></i></a><p>Signed date "+parseInt(drag_id.split("-")[2])+"</p></div>" ).prependTo( "#frame" ).draggable({
+                $( "<div class='ui-widget-content sign_pos sign_pos_date sign_pos_active' style='top:"+scroll_top+"px;left:"+def_left_pos+"px' id='"+sig_id+"'><a href='#' onclick='removediv("+parseInt(drag_id.split("-")[2])+",4)'><i class='fa fa-window-close close_icon' aria-hidden='true'></i></a><p>Signed date "+parseInt(drag_id.split("-")[2])+"</p></div>" ).prependTo( "#frame" ).draggable({
                 containment: 'parent',
                 drag:function(ev, ui) {
                         $('.sign_pos').removeClass('sign_pos_active');
@@ -620,7 +641,7 @@ $(function() {
             $('#sign_top_pos_text-'+parseInt(drag_id.split("-")[2])).val(scroll_top);
             $('#sign_width_text-'+parseInt(drag_id.split("-")[2])).val(150);
             $('#sign_height_text-'+parseInt(drag_id.split("-")[2])).val(40);
-            $( "<div class='ui-widget-content sign_pos sign_pos_text sign_pos_active resizable' style='top:"+scroll_top+"px;left:"+def_left_pos+"px' id='"+sig_id+"'><a href='#' onclick='removediv("+parseInt(drag_id.split("-")[2])+",2)'><i class='fa fa-window-close close_icon' aria-hidden='true'></i></a><p>Input Text "+parseInt(drag_id.split("-")[2])+"</p></div>" ).prependTo( "#frame" ).draggable({
+            $( "<div class='ui-widget-content sign_pos sign_pos_text sign_pos_active resizable_text' style='top:"+scroll_top+"px;left:"+def_left_pos+"px' id='"+sig_id+"'><a href='#' onclick='removediv("+parseInt(drag_id.split("-")[2])+",2)'><i class='fa fa-window-close close_icon' aria-hidden='true'></i></a><p>Input Text "+parseInt(drag_id.split("-")[2])+"</p></div>" ).prependTo( "#frame" ).draggable({
                 containment: 'parent',
                 drag:function(ev, ui) {
                     $('.sign_pos').removeClass('sign_pos_active');
@@ -653,22 +674,78 @@ $(function() {
                 },
             
             });
-            $(".resizable").resizable();
+            $(".resizable_text").resizable({ handles: 'e, w'});
         });
         
         
+    //------------------------------------------------------- 
+        
+            
+    //-----------------------------------------------------------------    
         
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+        $( ".click_sign_textarea" ).click(function(event) {
+            event.preventDefault();
+            var pos = $('#frame').offset();
+            console.log("frame left "+parseFloat(pos.left));	
+            console.log("frame top "+parseFloat(pos.top));
+            //console.log("=================="+$(document).scrollTop());
+            console.log($('#frame').scrollTop());
+            var scroll_top = $('#frame').scrollTop()+400;
+            var def_left_pos = 700;
+            console.log("scroll_top "+scroll_top);
+            console.log("def_left_pos "+def_left_pos);
+            var sig_id = $(this).attr('id');
+            $('.sign_pos').removeClass('sign_pos_active');
+            var drag_id = $(this).attr('id');
+            var new_drag_id = parseInt(drag_id.split("-")[2])+1;
+            $(".click_sign_textarea").attr('id',"sign-textarea-"+new_drag_id);
+            //dynamic hidden fields generation
+            var sign_left_pos_textarea = 'sign_left_pos_textarea'+'-'+parseInt(drag_id.split("-")[2]);
+            var sign_top_pos_textarea = 'sign_top_pos_textarea'+'-'+parseInt(drag_id.split("-")[2]);
+            var sign_width_textarea = 'sign_width_textarea'+'-'+parseInt(drag_id.split("-")[2]);
+            var sign_height_textarea = 'sign_height_textarea'+'-'+parseInt(drag_id.split("-")[2]);
+            $('#sign_positions_form').append('<input type="hidden" id="'+sign_left_pos_textarea+'" name="'+sign_left_pos_textarea+'"><input type="hidden" id="'+sign_top_pos_textarea+'" name="'+sign_top_pos_textarea+'"><input type="hidden" id="'+sign_width_textarea+'" name="'+sign_width_textarea+'"><input type="hidden" id="'+sign_height_textarea+'" name="'+sign_height_textarea+'"><input type="hidden" class="signature_textarea_array-'+parseInt(drag_id.split("-")[2])+'" value="'+parseInt(drag_id.split("-")[2])+'" name="signature_textarea_array[]">');
+            //left / top positions to hidden field
+            $('#sign_left_pos_textarea-'+parseInt(drag_id.split("-")[2])).val(def_left_pos);
+            $('#sign_top_pos_textarea-'+parseInt(drag_id.split("-")[2])).val(scroll_top);
+            $('#sign_width_textarea-'+parseInt(drag_id.split("-")[2])).val(150);
+            $('#sign_height_textarea-'+parseInt(drag_id.split("-")[2])).val(40);
+            $( "<div class='ui-widget-content sign_pos sign_pos_textarea sign_pos_active resizable_textarea' style='top:"+scroll_top+"px;left:"+def_left_pos+"px' id='"+sig_id+"'><a href='#' onclick='removediv("+parseInt(drag_id.split("-")[2])+",3)'><i class='fa fa-window-close close_icon' aria-hidden='true'></i></a><p>Textarea Input "+parseInt(drag_id.split("-")[2])+"</p></div>" ).prependTo( "#frame" ).draggable({
+                containment: 'parent',
+                drag:function(ev, ui) {
+                    $('.sign_pos').removeClass('sign_pos_active');
+                    $(this).addClass('sign_pos_active');
+                }, 
+                stop:function(ev, ui) {
+                    var offset = $(ui.helper).offset();
+                    var pos = $(ui.helper).position();
+                    console.log("offset left "+offset.left);	
+                    console.log("pos left "+parseFloat(pos.left));	
+                    console.log("offset top "+offset.top);	
+                    console.log("pos top "+parseFloat(pos.top));
+                    console.log("drag_id: "+drag_id);
+                    var this_top = $(this).css("top");
+                    console.log("this_top: "+this_top);
+                    var this_left = $(this).css("left");
+                    console.log("this_left: "+this_left);
+                    var drag_new_id = $(ui.helper).attr("id");
+                    drag_new_id = drag_new_id.split('-')[2]
+                    console.log("drag_new_id: "+drag_new_id);
+                    //var sign_left_pos =  parseFloat(offset.left) - parseFloat(frame_left);
+                    //console.log("offset left "+sign_left_pos);
+                    //console.log("drag_new_id "+drag_new_id);
+                    $('#sign_left_pos_textarea-'+drag_new_id).val(parseFloat(this_left));
+                    $('#sign_top_pos_textarea-'+drag_new_id).val(parseFloat(this_top));
+                    var signature_pos_width = $( "#"+drag_id ).width();
+                    var signature_pos_height = $( "#"+drag_id ).height();
+                    $('#sign_width_textarea-'+drag_new_id).val(signature_pos_width);
+                    $('#sign_height_textarea-'+drag_new_id).val(signature_pos_height);
+                },
+            
+            });
+            $(".resizable_textarea").resizable();
+        });
         
         
     //------------------------------------------------------- 
@@ -948,6 +1025,16 @@ $(document).ready(function(){
                     $('#sign_width_text-'+argument).remove();
                     $('#sign_height_text-'+argument).remove();
                     $('.signature_text_array-'+argument).remove();
+                }
+            }
+        }else if(divtype==3){
+            if (confirm('Are you sure want to delete the Textarea Input '+argument)) {
+                if($('#sign-textarea-'+argument).remove()){
+                    $('#sign_left_pos_textarea-'+argument).remove();
+                    $('#sign_top_pos_textarea-'+argument).remove();
+                    $('#sign_width_textarea-'+argument).remove();
+                    $('#sign_height_textarea-'+argument).remove();
+                    $('.signature_textarea_array-'+argument).remove();
                 }
             }
         }else{

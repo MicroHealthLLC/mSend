@@ -244,13 +244,16 @@ include('header_no_left.php');
     /*max-width: 150px !important;*/
     /*height: 40px;*/
     
-    /*object-fit: contain;*/
-    /*width: 100%;*/
-    /*height: 100%;*/
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
 }
 </style>
 
 <style>
+.resizable_text{
+    /*resize:horizontal !important;*/
+}
 .resizable {
     /*display: inline-block;*/
     /*background: red;*/
@@ -314,7 +317,14 @@ include('header_no_left.php');
                                         <input type="hidden" id="sign_text_pad_width-<?php echo $sg['id'];?>" value="<?php echo $sg['sign_width'];?>" >
                                         <input type="hidden" id="sign_text_pad_height-<?php echo $sg['id'];?>" value="<?php echo $sg['sign_height'];?>" >
                                         <!--<div  id="sign_text_pad-<?php //echo $sg['id'];?>" style="left:<?php //echo $sg['sign_left_pos']."px";?>;top:<?php //echo $sg['sign_top_pos']."px";?>;width:<?php //echo $sg['sign_width']."px";?>;height:<?php //echo $sg['sign_height']."px";?>;" class="sign_pad_pos signature_text" ><input type="text" class="sign_text"></div>-->
-                                        <div  id="sign_text_pad-<?php echo $sg['id'];?>" style="left:<?php echo $sg['sign_left_pos']."px";?>;top:<?php echo $sg['sign_top_pos']."px";?>;width:<?php echo $sg['sign_width']."px";?>;height:<?php echo $sg['sign_height']."px";?>;" class="sign_pad_pos signature_text" ><input type="text" class="sign_text" style="left:<?php echo $sg['sign_left_pos']."px";?>;top:<?php echo $sg['sign_top_pos']."px";?>;width:<?php echo $sg['sign_width']."px";?>;height:<?php echo $sg['sign_height']."px";?>;"></div>
+                                        <div  id="sign_text_pad-<?php echo $sg['id'];?>" style="left:<?php echo $sg['sign_left_pos']."px";?>;top:<?php echo $sg['sign_top_pos']."px";?>;width:<?php echo $sg['sign_width']."px";?>;height:<?php echo $sg['sign_height']."px";?>;" class="sign_pad_pos signature_text resizable_text" ><input type="text" class="sign_text resizable_text" style="left:<?php echo $sg['sign_left_pos']."px";?>;top:<?php echo $sg['sign_top_pos']."px";?>;width:<?php echo $sg['sign_width']."px";?>;height:<?php echo $sg['sign_height']."px";?>;"></div>
+                                
+                                <?php }else if($sg['sig_type']=='textarea'){?>
+                                        <input type="hidden" id="sign_textarea_pad_left-<?php echo $sg['id'];?>" value="<?php echo $sg['sign_left_pos'];?>" >
+                                        <input type="hidden" id="sign_textarea_pad_top-<?php echo $sg['id'];?>" value="<?php echo $sg['sign_top_pos'];?>" >
+                                        <input type="hidden" id="sign_textarea_pad_width-<?php echo $sg['id'];?>" value="<?php echo $sg['sign_width'];?>" >
+                                        <input type="hidden" id="sign_textarea_pad_height-<?php echo $sg['id'];?>" value="<?php echo $sg['sign_height'];?>" >
+                                        <div  id="sign_textarea_pad-<?php echo $sg['id'];?>" style="left:<?php echo $sg['sign_left_pos']."px";?>;top:<?php echo $sg['sign_top_pos']."px";?>;width:<?php echo $sg['sign_width']."px";?>;height:<?php echo $sg['sign_height']."px";?>;" class="sign_pad_pos signature_text resizable_textarea" ><textarea class="sign_text resizable_textarea" style="left:<?php echo $sg['sign_left_pos']."px";?>;top:<?php echo $sg['sign_top_pos']."px";?>;width:<?php echo $sg['sign_width']."px";?>;height:<?php echo $sg['sign_height']."px";?>;"></textarea></div>
                                 
                                 <?php }else{?>
                                     <input type="hidden" id="sign_pad_left-<?php echo $sg['id'];?>" value="<?php echo $sg['sign_left_pos'];?>" >
@@ -541,6 +551,7 @@ include('header_no_left.php');
                         var deferreds = [];
                         //var doc = new jsPDF('l', 'px', [h,w]);
     					var doc = new jsPDF("l", "px", "a4",true);
+    					console.log(doc);
                         for (let i = 0; i < $('.ba-page-wrap').length; i++) {
                                 var deferred = $.Deferred();
                                 deferreds.push(deferred.promise());
@@ -610,7 +621,7 @@ include('header_no_left.php');
 
                 function generateCanvas(i, doc, deferred){
                         var w=595;
-		        var h=842;
+		                var h=842;
 
                         html2canvas(document.getElementById("ba-page-wrap_" + i), {
                         

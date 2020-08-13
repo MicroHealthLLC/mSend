@@ -6,7 +6,10 @@ $client_info = get_client_by_username($this_user);
 $logged_in_email = isset($client_info['email'])?$client_info['email']:'';
 $logged_in_name = isset($client_info['name'])?$client_info['name']:'';
 
-// echo "<pre>";print_r($_POST);echo "</pre>".'1111';exit();
+// echo "<pre>";print_r($_POST);echo "</pre>".'1111';
+// echo "<pre>";print_r($_POST['signature_textarea_array']);echo "</pre>".'222';
+// echo "<pre>";print_r($_POST['signature_textarea_array']);echo "</pre>".'333';
+// echo "<pre>";print_r('-----------------------');echo "</pre>".'4444';
 
         if(!empty($_POST['pname'])){$pname = $_POST['pname'];}
         if(!empty($_POST['drop_off_request_id'])){$drop_off_request_id = $_POST['drop_off_request_id'];}
@@ -17,9 +20,11 @@ $logged_in_name = isset($client_info['name'])?$client_info['name']:'';
         $signature_array = $_POST['signature_array'];
         $signature_date_array = $_POST['signature_date_array'];
         $signature_text_array = $_POST['signature_text_array'];
+        $signature_textarea_array = $_POST['signature_textarea_array'];
         $sig_status=0;
         $sigdate_status=0;
         $sigtext_status=0;
+        $sigtextarea_status=0;
         
         // echo "<pre>";print_r($signature_array);echo "</pre>".'2222';
         // echo "<pre>";print_r($signature_text_array);echo "</pre>".'3333';
@@ -29,6 +34,7 @@ $logged_in_name = isset($client_info['name'])?$client_info['name']:'';
         if(!$signature_array){$sig_status=1;}
         if(!$signature_date_array){$sigdate_status=1;}
         if(!$signature_text_array){$sigtext_status=1;}
+        if(!$signature_textarea_array){$sigtextarea_status=1;}
         
         //print_r($signature_array);
         //exit;
@@ -103,8 +109,26 @@ $logged_in_name = isset($client_info['name'])?$client_info['name']:'';
                 
             }   
         }
+        
+        // echo "<pre>";print_r($_POST['sign_left_pos_textarea-2']);echo "</pre>".'555';
+        //  echo "<pre>";print_r('99999999999999');echo "</pre>".'6666666';die();
+        if($signature_textarea_array){
+            $sigtextarea_status=1;
+            for ($l=0; $l<count($signature_textarea_array) ;$l++)
+            {
+                $key2=$l+1;
+                if(!empty( $_POST['sign_left_pos_textarea-'.$signature_textarea_array[$l]])){$sign_left_pos_textarea =  $_POST['sign_left_pos_textarea-'.$signature_textarea_array[$l]];}
+                if(!empty( $_POST['sign_top_pos_textarea-'.$signature_textarea_array[$l]])){$sign_top_pos_textarea =  $_POST['sign_top_pos_textarea-'.$signature_textarea_array[$l]];}
+                if(!empty( $_POST['sign_width_textarea-'.$signature_textarea_array[$l]])){$sign_width_textarea =  $_POST['sign_width_textarea-'.$signature_textarea_array[$l]];}
+                if(!empty( $_POST['sign_height_textarea-'.$signature_textarea_array[$l]])){$sign_height_textarea =  $_POST['sign_height_textarea-'.$signature_textarea_array[$l]];}
+                
+                $sqldata1=$dbh->prepare("INSERT INTO tbl_draw_sign_pos_details (sign_left_pos,sign_top_pos,sign_width,sign_height,tbl_draw_sign_details_id,sig_type) VALUES ($sign_left_pos_textarea,$sign_top_pos_textarea,$sign_width_textarea,$sign_height_textarea,$tbl_draw_sign_details_id,'textarea')");
+                $sqldata1->execute();
+                
+            }   
+        }
 
-    if($sig_status==1 && $sigdate_status==1 && $sigtext_status==1){
+    if($sig_status==1 && $sigdate_status==1 && $sigtext_status==1 && $sigtextarea_status==1){
         $stmt = $dbh->prepare("SELECT * FROM tbl_drop_off_request WHERE id=:drop_off_request_id");
         $stmt->execute(['drop_off_request_id' => $drop_off_request_id]); 
         // $stmt->execute(['drop_off_request_id' => $drop_off_request_id]); 
