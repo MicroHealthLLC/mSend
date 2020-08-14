@@ -43,11 +43,11 @@ function generate_random_string($length = 30) {
 if ($_POST) {
 	/* Insert into DB and check with request during drop */
 	$randomString = generateRandomString(30);
-	$from_organization = $_POST['from_organization'];
-	$to_organization = $_POST['to_organization'];
-	$to_name_request = $_POST['to_name_request'];
-	$to_email_request = $_POST['to_email_request'];
-	$to_subject_request = $_POST['to_subject_request'];
+	$from_organization = trim($_POST['from_organization']);
+	$to_organization = trim($_POST['to_organization']);
+	$to_name_request = trim($_POST['to_name_request']);
+	$to_email_request = trim($_POST['to_email_request']);
+	$to_subject_request = trim($_POST['to_subject_request']);
 	$to_note_request = $_POST['to_note_request'];
 	$signaturestatus = $_POST['signaturestatus'];
 	if($signaturestatus){   
