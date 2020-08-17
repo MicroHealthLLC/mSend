@@ -1230,7 +1230,6 @@ while( $row = $statement->fetch() ) {
 
 
 					<div class="list_mass_members"> <a href="#" class="btn btn-xs btn-primary add-all" data-type="assigns">
-						<?php _e('Add all','cftp_admin'); ?>
 						</a> <a href="#" class="btn btn-xs btn-primary remove-all" data-type="assigns">
 						<?php _e('Remove all','cftp_admin'); ?>
 						</a> <a href="#" class="btn btn-xs btn-danger copy-all" data-type="assigns">
@@ -1288,7 +1287,6 @@ while( $row = $statement->fetch() ) {
 
 
 			<div class="list_mass_members"> <a href="#" class="btn btn-xs btn-primary add-all" data-type="categories">
-				<?php _e('Add all','cftp_admin'); ?>
 				</a> <a href="#" class="btn btn-xs btn-primary remove-all" data-type="categories">
 				<?php _e('Remove all','cftp_admin'); ?>
 				</a> <a href="#" class="btn btn-xs btn-danger copy-all" data-type="categories">
