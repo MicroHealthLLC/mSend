@@ -701,7 +701,7 @@ $user_id=CURRENT_USER_ID;
 																	?>
 																	</select>
 																	<div class="list_mass_members"> <a href="#" class="btn btn-xs btn-primary add-all" data-type="categories">
-																		<?php _e('Add all','cftp_admin'); ?>
+																	<!-- 	<?php //_e('Add all','cftp_admin'); ?>  -->
 																		</a> <a href="#" class="btn btn-xs btn-primary remove-all" data-type="categories">
 																		<?php _e('Remove all','cftp_admin'); ?>
 																		</a> <a href="#" class="btn btn-xs btn-danger copy-all" data-type="categories">
