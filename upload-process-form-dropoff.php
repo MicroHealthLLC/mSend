@@ -700,9 +700,9 @@ $user_id=CURRENT_USER_ID;
 																	echo generate_categories_options( $get_categories['arranged'], 0 );
 																	?>
 																	</select>
-																	<div class="list_mass_members"> <a href="#" class="btn btn-xs btn-primary add-all" data-type="categories">
-																	<!-- 	<?php //_e('Add all','cftp_admin'); ?>  -->
-																		</a> <a href="#" class="btn btn-xs btn-primary remove-all" data-type="categories">
+																	<div class="list_mass_members"> <!-- <a href="#" class="btn btn-xs btn-primary add-all" data-type="categories">
+																	 	<?php //_e('Add all','cftp_admin'); ?> </a>  -->
+																		<a href="#" class="btn btn-xs btn-primary remove-all" data-type="categories">
 																		<?php _e('Remove all','cftp_admin'); ?>
 																		</a> <a href="#" class="btn btn-xs btn-danger copy-all" data-type="categories">
 																		<?php _e('Copy selections to other files','cftp_admin'); ?>
