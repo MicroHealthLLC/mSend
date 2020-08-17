@@ -52,7 +52,7 @@ $current_level = get_current_user_level();
 	?>
         <p>
           <?php
-				$msg = __('Click on "Add Files" to select all the files that you want to upload, then click an upload button. On the next step, you will be able to set a name and description for each uploaded file. Remember that the file may not be empty (0 kb) and the maximum allowed file size and total upload size is ','cftp_admin') . ' <strong>'.MAX_FILESIZE.' mb</strong> (2 gb). Do not upload nested compressed files.';
+				$msg = __('Click on "Add Files" to select all the files that you want to upload, then click the upload button. On the next step, you will be able to set a name and description for each uploaded file. Remember that the file may not be empty (0 kb) and the maximum allowed file size and total upload size is ','cftp_admin') . ' <strong>'.MAX_FILESIZE.' mb</strong> (2 gb). Do not upload nested compressed files.';
                                 echo system_message('info', $msg);
 			?>
         </p>
@@ -234,11 +234,12 @@ $current_level = get_current_user_level();
           </div>
           <div class="cc-text-right after_form_buttons">
 						<!-- <input id="filecount" type="hidden" name="filecount" > -->
-            <input type="submit" class="btn btn-wide btn-primary" value="Upload Files" id="btn-submit">
-            <input type="submit" class="btn btn-wide btn-success" value="Batch Upload*" id="zip-submit">
+            <!--<input type="submit" class="btn btn-wide btn-primary" value="Upload Files" id="btn-submit">-->
+            <!--<input type="submit" class="btn btn-wide btn-success" value="Batch Upload*" id="zip-submit">-->
+            <input type="submit" class="btn btn-wide btn-success" value="Upload Files" id="zip-submit">
           </div>
 	    <div id="uploadbtnsnotes">
-               <p style="font-size: 12px; text-align: right;">*Note: Zip files not allowed for Batch Upload.</p>
+               <p style="font-size: 12px; text-align: right;">*Note: Zip files not allowed.</p>
             </div>
           <div class="message message_info message_uploading">
             <p>
