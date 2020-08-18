@@ -235,8 +235,8 @@ $current_level = get_current_user_level();
           <div class="cc-text-right after_form_buttons">
 						<!-- <input id="filecount" type="hidden" name="filecount" > -->
             <!--<input type="submit" class="btn btn-wide btn-primary" value="Upload Files" id="btn-submit">-->
-            <!--<input type="submit" class="btn btn-wide btn-success" value="Batch Upload*" id="zip-submit">-->
-            <input type="submit" class="btn btn-wide btn-success" value="Upload Files" id="zip-submit">
+            <input type="submit" class="btn btn-wide btn-success" value="Batch Upload*" id="zip-submit" style="display:none;">
+            <input type="submit" class="btn btn-wide btn-success" value="Upload Files" onclick="savefile()">
           </div>
 	    <div id="uploadbtnsnotes">
                <p style="font-size: 12px; text-align: right;">*Note: Zip files not allowed.</p>
@@ -252,6 +252,12 @@ $current_level = get_current_user_level();
   </div>
 </div>
 </div>
+
+<script>
+    function savefile(){
+        $('#zip-submit').click();
+    }
+</script>
 <?php
 	include('footer.php');
 ?>

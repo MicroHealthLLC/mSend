@@ -45,7 +45,7 @@ $target_info = get_client_by_id($target_id);
 								<h2><?php echo $page_title; ?></h2>
 								<p>
 								<?php
-								$msg = __('Click on "Add Files" to select all the files that you want to upload, then click an upload button. On the next step, you will be able to set a name and description for each uploaded file. Remember that the file may not be empty (0 kb) and the maximum allowed file size and total upload size is ','cftp_admin') . ' <strong>'.MAX_FILESIZE.' mb</strong> (2 gb). Do not upload nested compressed files.';
+								$msg = __('Click on "Add Files" to select all the files that you want to upload, then click the upload button. On the next step, you will be able to set a name and description for each uploaded file. Remember that the file may not be empty (0 kb) and the maximum allowed file size and total upload size is ','cftp_admin') . ' <strong>'.MAX_FILESIZE.' mb</strong> (2 gb). Do not upload nested compressed files.';
 								echo system_message('info', $msg);
 								?>
 								</p>
@@ -217,11 +217,12 @@ $target_info = get_client_by_id($target_id);
 									<input type="hidden" value="<?php echo isset($target_info['name'])?$target_info['name']:''; ?>" name="target_name" />
 									<input type="hidden" value="<?php echo isset($target_info['username'])?$target_info['username']:''; ?>" name="target_name" />
 									<div class="after_form_buttons cc-text-right">
-									    <input type="submit" class="btn btn-wide btn-primary" value="Upload Files" id="btn-submit">
-									    <input type="submit" class="btn btn-wide btn-success" value="Batch Upload*" id="zip-submit">
+									    <!--<input type="submit" class="btn btn-wide btn-primary" value="Upload Files" id="btn-submit">-->
+									    <input type="submit" class="btn btn-wide btn-success" value="Batch Upload*" id="zip-submit" style="display:none;">
+									    <input type="submit" class="btn btn-wide btn-success" value="Upload Files*" onclick="savefile()">
 									</div>
 									<div id="uploadbtnsnotes">
-									    <p style="font-size: 12px; text-align: right;">*Note: Zip files not allowed for Batch Upload.</p>
+									    <p style="font-size: 12px; text-align: right;">*Note: Zip files not allowed.</p>
 									</div>
 									<div class="message message_info message_uploading">
 										<p>
@@ -245,6 +246,11 @@ $target_info = get_client_by_id($target_id);
 				</div>
 			</div>
 		</div>
+		<script>
+            function savefile(){
+                $('#zip-submit').click();
+            }
+        </script>
 		<?php
 		include('footer.php');
 		?>
