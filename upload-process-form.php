@@ -1229,9 +1229,9 @@ while( $row = $statement->fetch() ) {
   </select>
 
 
-					<div class="list_mass_members"> <a href="#" class="btn btn-xs btn-primary add-all" data-type="assigns">
-						<?php _e('Add all','cftp_admin'); ?>
-						</a> <a href="#" class="btn btn-xs btn-primary remove-all" data-type="assigns">
+					<div class="list_mass_members"> <!--  <a href="#" class="btn btn-xs btn-primary add-all" data-type="assigns">
+						<?php // _e('Add all','cftp_admin'); ?> </a>  -->
+						<a href="#" class="btn btn-xs btn-primary remove-all" data-type="assigns">
 						<?php _e('Remove all','cftp_admin'); ?>
 						</a> <a href="#" class="btn btn-xs btn-danger copy-all" data-type="assigns">
 						<?php _e('Copy selections to other files','cftp_admin'); ?>
@@ -1287,9 +1287,9 @@ while( $row = $statement->fetch() ) {
 
 
 
-			<div class="list_mass_members"> <a href="#" class="btn btn-xs btn-primary add-all" data-type="categories">
-				<?php _e('Add all','cftp_admin'); ?>
-				</a> <a href="#" class="btn btn-xs btn-primary remove-all" data-type="categories">
+			<div class="list_mass_members"> <!--  <a href="#" class="btn btn-xs btn-primary add-all" data-type="categories">
+				<?php // _e('Add all','cftp_admin'); ?> </a>  -->
+				<a href="#" class="btn btn-xs btn-primary remove-all" data-type="categories">
 				<?php _e('Remove all','cftp_admin'); ?>
 				</a> <a href="#" class="btn btn-xs btn-danger copy-all" data-type="categories">
 				<?php _e('Copy selections to other files','cftp_admin'); ?>
