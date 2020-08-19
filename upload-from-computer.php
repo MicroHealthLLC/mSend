@@ -70,7 +70,7 @@ $current_level = get_current_user_level();
 				      <div id="collapseOne" class="panel-collapse collapse">
 				        <div class="panel-body">
 				        <?php
-							echo $allowed_file_types; 
+							echo str_replace(",zip","",$allowed_file_types); 
 						?></div>
 				      </div>
 				  </div>
@@ -135,7 +135,7 @@ $current_level = get_current_user_level();
                                                         if ( false === CAN_UPLOAD_ANY_FILE_TYPE ) {
                                                     ?>
                                                         ,mime_types: [
-                                                            {title : "Allowed files", extensions : "<?php echo $allowed_file_types; ?>"}
+                                                            {title : "Allowed files", extensions : "<?php echo str_replace(",zip","",$allowed_file_types); ?>"}
                                                         ]
                                                     <?php
                                                         }
@@ -169,6 +169,7 @@ $current_level = get_current_user_level();
 						$("#zip-submit").hide();
 					        $("#uploadbtnsnotes").hide();
 					        $(".message_uploading").fadeIn();
+					        $(".upldfiles").fadeOut();
 
 						uploader.bind('FileUploaded', function (up, file, info) {
 							var obj = JSON.parse(info.response);
@@ -236,7 +237,7 @@ $current_level = get_current_user_level();
 						<!-- <input id="filecount" type="hidden" name="filecount" > -->
             <!--<input type="submit" class="btn btn-wide btn-primary" value="Upload Files" id="btn-submit">-->
             <input type="submit" class="btn btn-wide btn-success" value="Batch Upload*" id="zip-submit" style="display:none;">
-            <input type="submit" class="btn btn-wide btn-success" value="Upload Files" onclick="savefile()">
+            <input type="submit" class="btn btn-wide btn-success upldfiles" value="Upload Files" onclick="savefile()">
           </div>
 	    <div id="uploadbtnsnotes">
                <p style="font-size: 12px; text-align: right;">*Note: Zip files not allowed.</p>

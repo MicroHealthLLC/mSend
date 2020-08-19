@@ -63,7 +63,7 @@ $target_info = get_client_by_id($target_id);
 										<div id="collapseOne" class="panel-collapse collapse">
 											<div class="panel-body">
 											 <?php
-							                                    echo $allowed_file_types; 
+							                                    echo str_replace(",zip","",$allowed_file_types); 
 						                                         ?></div>
 										</div>
 								</div>
@@ -128,7 +128,7 @@ $target_info = get_client_by_id($target_id);
 																	if ( false === CAN_UPLOAD_ANY_FILE_TYPE ) {
 																    ?>
 																	,mime_types: [
-																	    {title : "Allowed files", extensions : "<?php echo $allowed_file_types; ?>"}
+																	    {title : "Allowed files", extensions : "<?php  echo str_replace(",zip","",$allowed_file_types);  ?>"}
 																	]
 																    <?php
 																	}
@@ -159,6 +159,7 @@ $target_info = get_client_by_id($target_id);
                                                                                                         $("#zip-submit").hide();
 													$("#uploadbtnsnotes").hide();
 													$(".message_uploading").fadeIn();
+													$(".upldfiles").fadeOut();
 													uploader.bind('FileUploaded', function (up, file, info) {
 														var obj = JSON.parse(info.response);
 														var fname= obj.NewFileName;
@@ -219,7 +220,7 @@ $target_info = get_client_by_id($target_id);
 									<div class="after_form_buttons cc-text-right">
 									    <!--<input type="submit" class="btn btn-wide btn-primary" value="Upload Files" id="btn-submit">-->
 									    <input type="submit" class="btn btn-wide btn-success" value="Batch Upload*" id="zip-submit" style="display:none;">
-									    <input type="submit" class="btn btn-wide btn-success" value="Upload Files*" onclick="savefile()">
+									    <input type="submit" class="btn btn-wide btn-success upldfiles" value="Upload Files" onclick="savefile()"> 
 									</div>
 									<div id="uploadbtnsnotes">
 									    <p style="font-size: 12px; text-align: right;">*Note: Zip files not allowed.</p>
