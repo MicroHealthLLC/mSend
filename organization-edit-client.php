@@ -76,8 +76,8 @@ if ($_POST) {
 	 * validation failed, the new unsaved values are shown to avoid
 	 * having to type them again.
 	 */
-	$add_group_data_name = $_POST['add_group_form_name'];
-	$add_group_data_description = $_POST['add_group_form_description'];
+	$add_group_data_name = trim($_POST['add_group_form_name']);
+	$add_group_data_description = trim($_POST['add_group_form_description']);
 	$add_group_data_members = (!empty($_POST['add_group_form_members']) ? $_POST['add_group_form_members'] : '');
 
 	/** Arguments used on validation and group creation. */

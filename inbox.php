@@ -1751,7 +1751,13 @@ cursor: pointer;
                                                             <a href="<?php echo $download_link; ?>" class="refreshcls" target="_blank"> <?php echo html_output($row['filename']); ?> </a>
                                                 <?php
                                                         }else{
-                                                           echo html_output($row['filename']);  
+                                                            if($row['req_status']==0){?>
+                                                            <a href="<?php echo $download_link; ?>" class="refreshcls" target="_blank"> <?php echo html_output($row['filename']); ?> </a>    
+                                                                
+                                                           <?php }else{ 
+                                                                echo html_output($row['filename']); 
+                                                            }
+                                                             
                                                         }
                                                     }else if($row['request_type'] == '2'){
                                                 ?>

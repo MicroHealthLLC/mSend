@@ -198,8 +198,12 @@
 
 function savepic(argument,id) {
     var doc_sign_page=false;
+    var sigfile=false;
     if($('#sigmodal').find('input[name="doc_sign_page"]').val()!=undefined){
         doc_sign_page=true;
+    }
+    if($('#sigmodal').find('input[name="sigfile"]').val()!=undefined){
+        sigfile=true;
     }
     $.ajax({
         url: 'save_sign.php',
@@ -210,12 +214,18 @@ function savepic(argument,id) {
         success:function(arg){
           if(arg.status==true){
             $('#sig').modal('toggle');
-            $('.sig1').prop("checked", true).trigger('change');
-            signaturefun(1);
+            if(sigfile==false){
+                $('.sig1').prop("checked", true).trigger('change');
+                signaturefun(1);
                 var sign_pad_id = $('#sign_pad_id').val();
                 var sign_pad_width = $('#sign_pad_width').val();
+                $('#sigtype').val(2);
                 var img_src = '<?php echo BASE_URI;?>img/avatars/tempsignature/<?php echo $this_current_id;?>/temp/<?php echo $this_current_id;?>.png?ver='+ 1+ Math.floor(Math.random() * 6);
                 $('#'+sign_pad_id).html('<img width="'+sign_pad_width+'" src="'+img_src+'">');
+            }else{
+                chksignaturestatus(3);
+                // renderimg();
+            }
           }
         }
     });

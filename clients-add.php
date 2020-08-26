@@ -33,7 +33,7 @@ if ($_POST) {
 	 */
 	$add_client_data_name = encode_html($_POST['add_client_form_name']);
 	$add_client_data_user = encode_html($_POST['add_client_form_user']);
-	$add_client_data_email = encode_html($_POST['add_client_form_email']);
+	$add_client_data_email = encode_html(trim($_POST['add_client_form_email']));
 	/** Optional fields: Address, Phone, Internal Contact, Notify */
 	$add_client_data_addr = (isset($_POST["add_client_form_address"])) ? encode_html($_POST["add_client_form_address"]) : '';
 	$add_client_data_addr2 = (isset($_POST["add_client_form_address_line2"])) ? encode_html($_POST["add_client_form_address_line2"]) : '';
@@ -49,19 +49,19 @@ if ($_POST) {
 	/** Arguments used on validation and client creation. */
 	$new_arguments = array(
 							'id' => '',
-							'username' => $add_client_data_user,
+							'username' => trim($add_client_data_user),
 							'password' => $_POST['add_client_form_pass'],
 							//'password_repeat' => $_POST['add_client_form_pass2'],
-							'name' => $add_client_data_name,
-							'email' => $add_client_data_email,
-							'address' => $add_client_data_addr,
-							'address2' => $add_client_data_addr2,
-							'city'		=> $add_client_data_city,
-							'state'		=> $add_client_data_state,
-							'zipcode'	=> $add_client_data_zip,
-							'phone' => $add_client_data_phone,
+							'name' => trim($add_client_data_name),
+							'email' => trim($add_client_data_email),
+							'address' => trim($add_client_data_addr),
+							'address2' => trim($add_client_data_addr2),
+							'city'		=> trim($add_client_data_city),
+							'state'		=> trim($add_client_data_state),
+							'zipcode'	=> trim($add_client_data_zip),
+							'phone' => trim($add_client_data_phone),
 							'level'		=> $add_client_data_level,
-							'contact' => $add_client_data_intcont,
+							'contact' => trim($add_client_data_intcont),
 							'notify' => $add_client_data_notity,
 							'active' => $add_client_data_active,
 							'type' => 'new_client'

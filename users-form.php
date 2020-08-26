@@ -18,12 +18,11 @@
 	$(document).ready(function() {
 		$("form").submit(function() {
 		    
-			
 			clean_form(this);
 
 			is_complete(this.add_user_form_name,'<?php echo $validation_no_name; ?>');
 			is_complete(this.add_user_form_user,'<?php echo $validation_no_user; ?>');
-			is_complete(this.add_user_form_email,'<?php echo $validation_no_email; ?>');
+ 			is_complete(this.add_user_form_email,'<?php echo $validation_no_email; ?>');
 			is_complete(this.add_user_form_level,'<?php echo $validation_no_level; ?>');
 			is_length(this.add_user_form_user,<?php echo MIN_USER_CHARS; ?>,<?php echo MAX_USER_CHARS; ?>,'<?php echo $validation_length_user; ?>');
 			is_email(this.add_user_form_email,'<?php echo $validation_invalid_mail; ?>');
@@ -178,13 +177,13 @@ switch ($user_form_type) {
 		<label>
 			<input type="radio" name="add_user_signature" class="sig1" / onclick="signaturefun('1')" checked="true"> <?php _e('Upload Signature','cftp_admin'); ?>
 			<input type="radio" name="add_user_signature" class="sig2" / onclick="signaturefun('2')" class='data-toggle="modal" data-target="#sig"'> <?php _e('Draw Signature','cftp_admin'); ?>
-		</label>
+			<input type="hidden" name="sigtype" class="sigtype" id="sigtype" / >
 	</div>
 </div>
 <div class="form-group disnone" id="signaturechen">
 	<label  class="col-sm-4 control-label"><?php _e('Upload Signature pic','cftp_admin'); ?></label>
 	<div class="col-sm-8">
-		<input type="file" name="usersignature"  id="usersignature" class="required usersignature" value="" placeholder="upload file" />
+		<input type="file" name="usersignature"  id="usersignature" class="required usersignature" value="" placeholder="upload file" / onchange="normalsignature()">
 	</div>
 </div>	
 <?php }?>		
@@ -235,7 +234,9 @@ switch ($user_form_type) {
 
 <script type="text/javascript">
 
-
+function normalsignature(){
+    $('#sigtype').val('');
+}
 	$(document).ready(function() {
 		signaturefun(1);
 	});

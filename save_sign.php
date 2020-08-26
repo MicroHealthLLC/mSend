@@ -8,6 +8,8 @@ $doc_sign_page = $_POST['doc_sign_page'];
 $user_id_mic =$_POST['user_id_mic'];
 
 if($doc_sign_page=="true"){
+    $statement = $dbh->prepare("DELETE FROM " . TABLE_USER_EXTRA_PROFILE . " WHERE user_id =".$user_id_mic." AND name='signature_pic' AND sig_type = 2");
+	$statement->execute();
    	$sign_save = $dbh->prepare( "INSERT INTO " . TABLE_USER_EXTRA_PROFILE . " (user_id, name, sig_type, value) VALUES (".$user_id_mic.",'signature_pic','2','".$user_id_mic.".png' ) ");
 	$prochange=$sign_save->execute();
 }

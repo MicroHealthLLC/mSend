@@ -39,9 +39,9 @@ if ($_POST)
 	 * Applies for both ADDING a new category as well
 	 * as editing one but with the form already sent.
 	 */
-	$category_name			= $_POST['category_name'];
+	$category_name			= trim($_POST['category_name']);
 	$category_parent		= $_POST['category_parent'];
-	$category_description	= $_POST['category_description'];
+	$category_description	= trim($_POST['category_description']);
 	
 	$category_object = new CategoriesActions();
 	$arguments = array(

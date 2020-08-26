@@ -35,10 +35,10 @@ if ($_POST) {
 	 * Clean the posted form values to be used on the user actions,
 	 * and again on the form if validation failed.
 	 */
-	$add_user_data_name = encode_html($_POST['add_user_form_name']);
-	$add_user_data_email = encode_html($_POST['add_user_form_email']);
+	$add_user_data_name = encode_html(trim($_POST['add_user_form_name']));
+	$add_user_data_email = encode_html(trim($_POST['add_user_form_email']));
 	$add_user_data_level = encode_html($_POST['add_user_form_level']);
-	$add_user_data_user = encode_html($_POST['add_user_form_user']);
+	$add_user_data_user = encode_html(trim($_POST['add_user_form_user']));
 	$add_user_data_active = (isset($_POST["add_user_form_active"])) ? 1 : 0;
         $add_user_data_notity = (isset($_POST["add_user_form_notify"])) ? 1 : 0;
 
@@ -49,7 +49,7 @@ if ($_POST) {
 							'password' => $_POST['add_user_form_pass'],
 							//'password_repeat' => $_POST['add_user_form_pass2'],
 							'name' => $add_user_data_name,
-							'email' => $add_user_data_email,
+							'email' => trim($add_user_data_email),
 							'role' => $add_user_data_level,
 							'active' => $add_user_data_active,						
 							'notify' => $add_user_data_notity,

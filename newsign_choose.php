@@ -14,6 +14,7 @@
 		if (!file_exists($targetsignature_dir.'temp/')) {
 			mkdir($targetsignature_dir.'temp/', 0777, true);
 		}
+		
 		$target_file = $targetsignature_dir;
 		$uploadOk = 1;
 		$target_file = $targetsignature_dir . "/".basename($_FILES["upload_this_sign"]["name"]);
@@ -61,7 +62,7 @@
 // WORKING DECRYPTION CODE END
 				
 				if(!empty($fl_name)){
-					$statement = $dbh->prepare("DELETE FROM " . TABLE_USER_EXTRA_PROFILE . " WHERE user_id =".$user_id_mic." AND name='signature_pic'");
+					$statement = $dbh->prepare("DELETE FROM " . TABLE_USER_EXTRA_PROFILE . " WHERE user_id =".$user_id_mic." AND name='signature_pic' AND sig_type = 2");
 			    	$statement->execute();
 					// echo("DONE");
 

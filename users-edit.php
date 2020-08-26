@@ -69,7 +69,7 @@ if ($page_status === 1) {
 			$alternate_email_array[] = $data['value'];
 	}
 }
-$profile_pic = $dbh->prepare("SELECT * FROM " . TABLE_USER_EXTRA_PROFILE . " WHERE user_id=:user_id AND name = :name");
+$profile_pic = $dbh->prepare("SELECT * FROM " . TABLE_USER_EXTRA_PROFILE . " WHERE user_id=:user_id AND name = :name AND sig_type = 1");
 $profile_pic->bindParam(':user_id', $user_id, PDO::PARAM_INT);
 $profile_pic->bindValue(':name', 'profile_pic');
 $profile_pic->execute();
@@ -105,8 +105,9 @@ if ($_POST) {
 	 * validation failed, the new unsaved values are shown to avoid
 	 * having to type them again.
 	 */
-	$add_user_data_name = $_POST['add_user_form_name'];
-	$add_user_data_email = $_POST['add_user_form_email'];
+	$add_user_data_name = trim($_POST['add_user_form_name']);
+	$add_user_data_email = trim($_POST['add_user_form_email']);
+	$sigtype = trim($_POST['sigtype']);
 
 	/**
 	 * Edit level only when user is not Uploader (level 7) or when
@@ -138,6 +139,7 @@ if ($_POST) {
 							'active'	=> $add_user_data_active,
 							'type'		=> 'edit_user',
 							'notify'	=> $add_user_data_notity,
+							'sigtype'	=> $sigtype,
 						);
 
 	/**
@@ -197,7 +199,7 @@ include('header.php');
 				} else {
 					$pic_id = $_GET['id'] ; 
 				}
-				$profile_pic = $dbh->prepare("SELECT * FROM " . TABLE_USER_EXTRA_PROFILE . " WHERE user_id=:user_id AND name = :name");
+				$profile_pic = $dbh->prepare("SELECT * FROM " . TABLE_USER_EXTRA_PROFILE . " WHERE user_id=:user_id AND name = :name AND sig_type = 1");
 				$profile_pic->bindParam(':user_id', $pic_id, PDO::PARAM_INT);
 				$profile_pic->bindValue(':name', 'profile_pic');
 				$profile_pic->execute();
@@ -216,18 +218,18 @@ include('header.php');
 
 				<?php }?>
 				<?php
-					$signature_pic = $dbh->prepare("SELECT * FROM " . TABLE_USER_EXTRA_PROFILE . " WHERE user_id=:user_id AND name = :name");
+					$signature_pic = $dbh->prepare("SELECT * FROM " . TABLE_USER_EXTRA_PROFILE . " WHERE user_id=:user_id AND name = :name  AND sig_type = 2");
 					$signature_pic->bindParam(':user_id', $pic_id, PDO::PARAM_INT);
 					$signature_pic->bindValue(':name', 'signature_pic');
 					$signature_pic->execute();
 					$signature_pic->setFetchMode(PDO::FETCH_ASSOC);
-					while ( $data = $signature_pic->fetch() ) {
-							$signature_pic_img = $data['value'];
-							$signature_type = $data['sig_type'];
+					while ( $data1 = $signature_pic->fetch() ) {
+							$signature_pic_img = $data1['value'];
+							$signature_type = $data1['sig_type'];
 					}
 
 						if(!empty($signature_pic_img)){
-							if($signature_type==1){
+				// 			if($signature_type==2){
 								//if(file_exists("img/avatars/signature/".$pic_id."/temp/".$signature_pic_img)){?>
 									<!--<img src="<?php //echo "img/avatars/signature/".$pic_id."/temp/".$signature_pic_img;?>?<?php //echo rand();?>" alt="demo user" style="top: -5px;" class="zoom">-->
 								<?php //}else{ 
@@ -240,13 +242,13 @@ include('header.php');
 									echo '<img src="img/avatars/no-image.png" alt="demo user" style="top: -5px;" >';
 								}
 								
-							}else{
-								if(file_exists("img/avatars/tempsignature/".$pic_id."/temp/".$signature_pic_img)){?>
-									<img src="<?php echo "img/avatars/tempsignature/".$pic_id."/temp/".$signature_pic_img;?>?<?php echo rand();?>" alt="demo user" style="top: -5px;" class="zoom">
-								<?php }else{ 
-									echo '<img src="img/avatars/no-image.png" alt="demo user" style="top: -5px;">';
-								}
-							}
+				// 			}else{
+								//if(file_exists("img/avatars/tempsignature/".$pic_id."/temp/".$signature_pic_img)){?>
+									<!--<img src="<?php //echo "img/avatars/tempsignature/".$pic_id."/temp/".$signature_pic_img;?>?<?php //echo rand();?>" alt="demo user" style="top: -5px;" class="zoom">-->
+								<?php //}else{ 
+									//echo '<img src="img/avatars/no-image.png" alt="demo user" style="top: -5px;">';
+								//}
+				// 			}
 
 						}else{
 							echo '<img src="img/avatars/no-image.png" alt="demo user" style="top: -5px;">';
@@ -353,7 +355,7 @@ include('header.php');
 												// echo("<br>Moved Uploaded file");
 												// echo("<br> Fl name : ".$fl_name);
 												if(!empty($fl_name)){
-													$statement = $dbh->prepare("DELETE FROM " . TABLE_USER_EXTRA_PROFILE . " WHERE user_id =".$user_id_mic." AND name='profile_pic'");
+													$statement = $dbh->prepare("DELETE FROM " . TABLE_USER_EXTRA_PROFILE . " WHERE user_id =".$user_id_mic." AND name='profile_pic' AND sig_type='1'");
 											    $statement->execute();
 													// echo("DONE");
 
@@ -372,7 +374,7 @@ include('header.php');
 									}
 									// var_dump($_FILES);die();
 									if($_FILES["usersignature"]["error"] == 0) {
-									// echo 'updated';die();
+								// 	echo 'updated';die();
 										
 										if (!file_exists($targetsignature_dir)) {
 												mkdir($targetsignature_dir, 0777, true);
@@ -384,8 +386,8 @@ include('header.php');
 										$uploadOk = 1;
 										$target_file = $targetsignature_dir . "/".basename($_FILES["usersignature"]["name"]);
 										$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
-										$fl_name = $user_id_mic.".".$imageFileType;
-										$target_file = $targetsignature_dir.$fl_name;
+										$fl_name1 = $user_id_mic.".".$imageFileType;
+										$target_file = $targetsignature_dir.$fl_name1;
 										$uploadOk = 1;
 										// Check if image file is a actual image or fake image
 										$check = getimagesize($_FILES["usersignature"]["tmp_name"]);
@@ -415,20 +417,20 @@ include('header.php');
 											}
 											if (move_uploaded_file($_FILES["usersignature"]["tmp_name"], $target_file)) {
 												$aes = new AESENCRYPT ();					
-												$result  = $aes->encryptFile($fl_name,'upload',$user_id_mic);
+												$result  = $aes->encryptFile($fl_name1,'upload',$user_id_mic);
 								// WORKING DECRYPTION CODE START
 												// if($result){
-													$result1  = $aes->decryptFile($fl_name,'upload',$user_id_mic);
+													$result1  = $aes->decryptFile($fl_name1,'upload',$user_id_mic);
 												// echo "<pre>"; print_r($result1); echo "</pre>"; exit;
 												// }
 								// WORKING DECRYPTION CODE END
 												
-												if(!empty($fl_name)){
-													$statement = $dbh->prepare("DELETE FROM " . TABLE_USER_EXTRA_PROFILE . " WHERE user_id =".$user_id_mic." AND name='signature_pic'");
+												if(!empty($fl_name1)){
+													$statement = $dbh->prepare("DELETE FROM " . TABLE_USER_EXTRA_PROFILE . " WHERE user_id =".$user_id_mic." AND name='signature_pic' AND sig_type='2'");
 											    	$statement->execute();
 													// echo("DONE");
 
-													$alternate_email_save = $dbh->prepare( "INSERT INTO " . TABLE_USER_EXTRA_PROFILE . " (user_id, name, value,sig_type) VALUES (".$user_id_mic.",'signature_pic','".$fl_name."',1 ) ");
+													$alternate_email_save = $dbh->prepare( "INSERT INTO " . TABLE_USER_EXTRA_PROFILE . " (user_id, name, value,sig_type) VALUES (".$user_id_mic.",'signature_pic','".$fl_name1."',2 ) ");
 													$prochange=$alternate_email_save->execute();
 													if($prochange==true){
 														header("Location:".SITE_URI."users-edit.php?id=".$edit_arguments['id']."&fid=1");
