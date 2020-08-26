@@ -1,7 +1,7 @@
 
 # mSend
 ##Forked from ProjectSend
-This is a simple managed file system transfer.  Looks like an email program and works like one to.  You can send a file, request a file, set limits on the number of downloads or time and categorize files.  Up to 2 gigs you set in php.ini.  Features drag and drop.  Once the time or download limit is reached, the file is deleted.  Files are encrypted for added security. Enhanced social login including SAML. Its also responsive to work on mobile.  Completely brand it yourself...configurations are in the menu for administrators.
+This is a simple managed file system transfer.  Looks like an email program and works like one to.  You can send a file, request a file, set limits on the number of downloads or time and categorize files.  Up to 2 gigs you set in php.ini.  Features drag and drop.  Once the time or download limit is reached, the file is deleted.  Files are encrypted for added security. Enhanced social login including SAML. Its also responsive to work on mobile. New features now include electronic signatures on PDF documents.  Completely brand it yourself...configurations are in the menu for administrators.
 
 ![Inbox](inbox.png)
 
