@@ -181,6 +181,9 @@ include('header_no_left.php');
 	.ba-page-wrap {
 		position: relative;
 	}
+	.ba-page-no {
+		font-size: 10px;
+	}
   </style>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 </style>
@@ -304,6 +307,8 @@ include('header_no_left.php');
                     <?php
                     if(!empty($tbl_draw_sign_pos_details)){
                             foreach($tbl_draw_sign_pos_details as $sg){
+							$sg['sign_width'] = $sg['sign_width'] + 4; // for calculation adj
+							$sg['sign_height'] = $sg['sign_height'] + 4; // for calculation adj
                             //echo $sg['sign_height'];
                                if($sg['sig_type']=='date'){ ?>
                                     <input type="hidden" id="sign_date_pad_left-<?php echo $sg['id'];?>" value="<?php echo $sg['sign_left_pos'];?>" >
@@ -550,20 +555,26 @@ include('header_no_left.php');
                                 }
                         });
                 }
-$(window).bind("load", function() {
+
+	/*$(window).bind("load", function() {
 //----------------------------
 	var signature = new Array();
     $(".sign_pad_pos").each(function(s) {
         //signature.push({id: $(this).attr("id"), top : $(this).css("top"), left: $(this).css("left"), content : $(this).clone()});
+		var sign_pad_h = $(this).height() + 4;
         var signTop = parseInt($(this).css('top'), 10);
         var signContent = $(this).clone();
         
-        var pageHeight = 0;
+        	var pageHeight = 0;
+		
         	$(".ba-page-wrap").each(function() {
-        		pageHeight += $(this).innerHeight();
-        		console.log('inner height : ' + $(this).attr("id") + ' : ' + pageHeight);
+				pageHeight += $(this).outerHeight(); //  - 3
+				console.log('sign_pad_h binuu:' + sign_pad_h);
+				console.log('signTop binuu:' + signTop);
+				console.log('pageHeight binuu:' + pageHeight);
+        		//console.log('inner height : ' + $(this).attr("id") + ' : ' + pageHeight);
         		if(pageHeight >= signTop) {
-        			var newBottom = pageHeight - (signTop + 36); // where 36 heigh to of the box
+        			var newBottom = parseInt(pageHeight) - (parseInt(signTop) + parseInt(sign_pad_h));
         			signContent.css('top','');
         			signContent.css('bottom',newBottom);
         			//console.log('left pos' + signContent.css('left').replace(/[^-\d\.]/g, '') - 15);
@@ -575,8 +586,8 @@ $(window).bind("load", function() {
         $(this).remove();
     });
 	
-});                
-
+});   
+*/
 
 $(".sign_pad_pos").each(function() {
     e_id = $(this).attr('id');    
@@ -887,6 +898,7 @@ $(':file').on('change', function () {
                             $('#sign_exist_new .modelstylediv').removeClass('modelstyle').addClass('modelstyle');
                             $('#sign_exist_new .modelstylediv').removeClass('modelstyle1');
                             $("#sign_exist_new .sig1_new").prop("disabled", false);
+                            $("#sign_exist_new #use_this_sign").prop("disabled", false);
                             $('#sign_exist_new .sig1_new').attr('checked',true);
                             $('#sign_exist_new #imgrender').html('<img class="sign_img_new img-responsive" src="'+imgurl1+'">').trigger('change');
                             // $("#sign_exist_new .sig3_new").prop("disabled", true);
@@ -897,6 +909,7 @@ $(':file').on('change', function () {
                             $('#sign_exist_new .modelstylediv').removeClass('modelstyle1').addClass('modelstyle1');
                             $('#sign_exist_new .modelstylediv').removeClass('modelstyle');
                             $("#sign_exist_new .sig1_new").prop("disabled", true);
+                            $("#sign_exist_new #use_this_sign").prop("disabled", true);
                             $('#sign_exist_new #imgrender').html('<img class="sign_img_new img-responsive" src="'+imgurl1+randNum1+'" style="margin: auto;">');
                             $('#sign_exist_new').modal('toggle');
                         }
@@ -921,6 +934,7 @@ $(':file').on('change', function () {
                                 $("#sign_exist_new .sig1_new").prop("disabled", false);
                                 $('#sign_exist_new .sig1_new').attr('checked',true);
                                 $('#sign_exist_new .sig1_new').click();
+                                $("#sign_exist_new #use_this_sign").prop("disabled", false);
                                 imgurl2 = '<?php echo BASE_URI; ?>' + objct2.file_name+randNum2;
                                 $('.sign_img_new').attr("src",imgurl2).trigger('change');
                                 $('#sign_exist_new').modal('toggle');
@@ -944,6 +958,7 @@ $(':file').on('change', function () {
                                 $('#sign_exist_new').modal('toggle');
                                 $('#sign_exist_new .sig1_new').click();
                                 $('#signew .sig1').click();
+                                $("#sign_exist_new #use_this_sign").prop("disabled", false);
                             }
                         });
                     }else if(arg==4){
@@ -962,6 +977,7 @@ $(':file').on('change', function () {
                                 randNum4='?ver4='+Math.floor(Math.random() * 9);
                                 imgurl4='<?php echo BASE_URI. 'img/avatars/tempsignature/'.$this_current_id.'/temp/';?>'+objct4.name+randNum4+'';
                                 $('#'+sign_pad_id4).html('<img class="size_fix" width="'+sign_pad_width4+'" src="'+imgurl4+'">').trigger('change');
+                                $("#sign_exist_new #use_this_sign").prop("disabled", false);
                             }
                         });
                     }
