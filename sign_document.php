@@ -556,7 +556,7 @@ include('header_no_left.php');
                         });
                 }
 
-	/*$(window).bind("load", function() {
+$(window).bind("load", function() {
 //----------------------------
 	var signature = new Array();
     $(".sign_pad_pos").each(function(s) {
@@ -587,7 +587,7 @@ include('header_no_left.php');
     });
 	
 });   
-*/
+
 
 $(".sign_pad_pos").each(function() {
     e_id = $(this).attr('id');    
@@ -815,7 +815,7 @@ $(':file').on('change', function () {
     }
 </style>
 <script>
-    $(".ba-page-wrap").on( 'click', '.signature_exist', function () {
+    $("#frame").on( 'click', '.signature_exist', function () {
         var eid ='';
         var wdth ='';
         var arg='';
@@ -864,7 +864,6 @@ $(':file').on('change', function () {
                     objectdata11 = jQuery.parseJSON(response11);
                     // rendersignature(objectdata11,arg);
                     // console.log(objectdata11);
-                    
                     
                     var randNum1 = '';
                     var imgurl1= '';
@@ -998,6 +997,7 @@ $(':file').on('change', function () {
     function signewclose() {
         $('#signew').modal('toggle');
         $('#sign_exist_new .sig1_new').click();
+        $('.sig2_new').prop('checked', false);
     }
     
     
