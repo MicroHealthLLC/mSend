@@ -448,7 +448,7 @@ include('header_no_left.php');
                     var sig_count=$(".signature_exist > img").length;
                     
                     if(tot_signaturecount!=sig_count){
-                         alert('Please fill out all signature filed');
+                         alert('Please fill out all signature fields');
                          
                     }else{
 						$('#contentdiv').html('Please wait...');
