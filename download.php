@@ -62,7 +62,9 @@ include('header-unlogged.php');
 			$real_file_url	= $got_url['url'];
 
 			if (!isset($_GET['download'])) {
-				$download_link = BASE_URI . 'download.php?id=' . $got_file_id . '&token=' . $got_token . '&download';
+				// $download_link = BASE_URI . 'download.php?id=' . $got_file_id . '&token=' . $got_token . '&download';
+				
+				$download_link = BASE_URI .'process.php?do=download&amp;client='.$global_user.'&amp;id='.$got_file_id.'&amp;n=1';
 			}
 			else {
 				/** Add the download row */

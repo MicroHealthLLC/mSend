@@ -172,8 +172,8 @@ include('header_no_left.php');
 		margin: 10px 15px;
 	}
 	#myform {
-	display: inline-block;
-    width: 100%;
+    	display: inline-block;
+        width: 100%;
 	}
 	#myform button {
 	margin: 10px 10px 0 0;
@@ -448,7 +448,7 @@ include('header_no_left.php');
                     var sig_count=$(".signature_exist > img").length;
                     
                     if(tot_signaturecount!=sig_count){
-                         alert('Please fill out all signature fields');
+                         alert('Please fill out all signature filed');
                          
                     }else{
 						$('#contentdiv').html('Please wait...');
@@ -729,7 +729,7 @@ $(':file').on('change', function () {
                     <div class="col-sm-3"></div>
                     <div class="col-sm-9">
                 		<label>
-                			<!--<input type="checkbox" class="sig3_new" / > <?php //_e('Save as your account signature','cftp_admin'); ?>-->
+                			<input type="checkbox" class="sig3_new" / > <?php _e('Save as your account signature','cftp_admin'); ?>
                 	</div>
 				</div>
                 	

@@ -686,8 +686,15 @@ if(isset($_REQUEST['edit']) == 1){echo '<div class="alert alert-success"><a href
 							$this_file_size = '0';
 							$formatted_size = '-';
 						}
-						if(($row['expires'] == '0') || (time() < strtotime($row['expiry_date'])))
-						{
+				// 		if(($row['expires'] == '0') || (time() < strtotime($row['expiry_date'])))
+				// 		{
+				//         if(($row['expires'] == '0') || (time() == strtotime($row['future_send_date'])))
+				// 		{
+						    
+                        $hidRow= $dbh->prepare( "SELECT hide_sent FROM ".TABLE_FILES_RELATIONS." WHERE file_id = ".$row['id']." AND from_id =".CURRENT_USER_ID);
+                        $hidRow->execute();
+                        $result = $hidRow->fetchAll(\PDO::FETCH_ASSOC);
+                        if( ( isset($result) && $result[0]['hide_sent'] != '1') && (($row['expires'] == '0') || (time() > strtotime($row['future_send_date'])))) {
 						?>
 							<tr>
 								<?php
