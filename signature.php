@@ -188,7 +188,11 @@
     if(aa){
         alert('The canwas area is empty please draw new signature');
     }else{
-        savepic(realData,$('#uid').val());
+        if($('#sig #pageid').val()=='sign_document'){
+            drawnewsignature(dataUrl);
+        }else{
+            savepic(realData,$('#uid').val());
+        }
     }
         
   }, false);

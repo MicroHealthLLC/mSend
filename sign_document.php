@@ -21,6 +21,7 @@ if(isset($_POST)){
         $image_width = 1146.260;
 }
 
+
 $signature_request_key = $_GET['auth'];
 
 $stmt1 = $dbh->prepare("SELECT * FROM tbl_draw_sign_details WHERE keypath=:keypath");
@@ -54,7 +55,7 @@ if($tbl_draw_sign_detail_info){
             header('Location: '. BASE_URI.'process.php?do=logout');
         }
     // }else{
-    //     // echo "<h2>";echo "You are not authorized to access this page!";	echo "</h2>";
+    //     // echo "<h2>";echo "You are not authorized to access this page!";   echo "</h2>";
     // }
 }else{
    header('Location: '. BASE_URI.'process.php?do=logout');
@@ -64,7 +65,7 @@ $stmt->execute(['keypath' => $signature_request_key]);
 // $stmt->execute(['drop_off_request_id' => $drop_off_request_id]); 
 $tbl_draw_sign_details = $stmt->fetchAll();
 while ($row = $stmt->fetch()) {
-	//echo $row['sign_left_pos']."<br>";
+    //echo $row['sign_left_pos']."<br>";
 }
 
 // echo "<pre>";print_r($tbl_draw_sign_details);echo "</pre>";//exit;
@@ -109,14 +110,14 @@ include('header_no_left.php');
 
 <style>
     /*custom*/
-	#main1, html {
-		background:#edebeb;
-	}
-	/*body{overflow-y:hidden;}*/
+    #main1, html {
+        background:#edebeb;
+    }
+    /*body{overflow-y:hidden;}*/
     #frame{
         position: relative;
-	/*overflow-y: scroll;
-	max-height: 450px;*/
+    /*overflow-y: scroll;
+    max-height: 450px;*/
     }
     #frame img{
     z-index: 1; 
@@ -151,39 +152,39 @@ include('header_no_left.php');
         border: 0;
     }
     .modal{
-	   z-index: 99999 !important;
-	}
-	.sign_pad_pos img {
-		/*width: auto;*/
-		/*max-width: 33px;*/
-		
-	    /*max-width: 150px !important;*/
+       z-index: 99999 !important;
+    }
+    .sign_pad_pos img {
+        /*width: auto;*/
+        /*max-width: 33px;*/
+        
+        /*max-width: 150px !important;*/
      /*   height: 40px;*/
-	}
-	.ba-doc-frame {
-		-webkit-box-shadow: 0px 0px 16px -12px rgba(0,0,0,1);
-		-moz-box-shadow: 0px 0px 16px -12px rgba(0,0,0,1);
-		box-shadow: 0px 0px 16px -12px rgba(0,0,0,1);
-	}
-	#cc-mail-status {
-		z-index: 9999;
-	}
-	#btnSaveSign {
-		margin: 10px 15px;
-	}
-	#myform {
-    	display: inline-block;
+    }
+    .ba-doc-frame {
+        -webkit-box-shadow: 0px 0px 16px -12px rgba(0,0,0,1);
+        -moz-box-shadow: 0px 0px 16px -12px rgba(0,0,0,1);
+        box-shadow: 0px 0px 16px -12px rgba(0,0,0,1);
+    }
+    #cc-mail-status {
+        z-index: 9999;
+    }
+    #btnSaveSign {
+        margin: 10px 15px;
+    }
+    #myform {
+        display: inline-block;
         width: 100%;
-	}
-	#myform button {
-	margin: 10px 10px 0 0;
-	}
-	.ba-page-wrap {
-		position: relative;
-	}
-	.ba-page-no {
-		font-size: 10px;
-	}
+    }
+    #myform button {
+    margin: 10px 10px 0 0;
+    }
+    .ba-page-wrap {
+        position: relative;
+    }
+    .ba-page-no {
+        font-size: 10px;
+    }
   </style>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 </style>
@@ -297,7 +298,7 @@ include('header_no_left.php');
     <!-- Added by B) -------------------->
     <div class="container ba-doc-frame">
         <div class="row">
-		<div class="row">
+        <div class="row">
         <div class="col-md-12 tools_section" >
                 <button id="btnSaveSign" class="btn btn-primary pull-right" onClick="genPDF()"><i class="fa fa-floppy-o" aria-hidden="true"></i> &nbsp;&nbsp; Save Signature</button>
         </div>
@@ -307,8 +308,8 @@ include('header_no_left.php');
                     <?php
                     if(!empty($tbl_draw_sign_pos_details)){
                             foreach($tbl_draw_sign_pos_details as $sg){
-							$sg['sign_width'] = $sg['sign_width'] + 4; // for calculation adj
-							$sg['sign_height'] = $sg['sign_height'] + 4; // for calculation adj
+                            $sg['sign_width'] = $sg['sign_width'] + 4; // for calculation adj
+                            $sg['sign_height'] = $sg['sign_height'] + 4; // for calculation adj
                             //echo $sg['sign_height'];
                                if($sg['sig_type']=='date'){ ?>
                                     <input type="hidden" id="sign_date_pad_left-<?php echo $sg['id'];?>" value="<?php echo $sg['sign_left_pos'];?>" >
@@ -350,10 +351,10 @@ include('header_no_left.php');
                                 $image_name2 = explode('.',$image_name)[1];
                                 if($no_of_pages>1){
                                         for ($i = 0; $i < $no_of_pages; $i++) {
-                        ?>				<div id="ba-page-wrap_<?php echo $i; ?>" class="ba-page-wrap">
+                        ?>              <div id="ba-page-wrap_<?php echo $i; ?>" class="ba-page-wrap">
                                         <img src="<?php echo BASE_URI."upload/files/mysignature/".$user_id."/".$drop_off_request_id."/".$image_name1."-".$i.".".$image_name2; ?>"  >
                                         <span class="pull-right ba-page-no"><?php echo $i+1 ." of ". $no_of_pages;?></span>
-										</div>
+                                        </div>
                         <?php
                                                        
                                         }
@@ -361,10 +362,10 @@ include('header_no_left.php');
                                 }else{
                                         
                         ?>
-								<div id="ba-page-wrap_0" class="ba-page-wrap">
+                                <div id="ba-page-wrap_0" class="ba-page-wrap">
                                 <img src="<?php echo BASE_URI."upload/files/mysignature/".$user_id."/".$drop_off_request_id."/".$image_name; ?>" >
-								<span class="pull-right ba-page-no"><?php echo $i+1 ." of ". $no_of_pages;?></span>
-								</div>
+                                <span class="pull-right ba-page-no"><?php echo $i+1 ." of ". $no_of_pages;?></span>
+                                </div>
                         <?php
                         
                                 }
@@ -376,7 +377,7 @@ include('header_no_left.php');
      </div>
 <?php 
         }else{
-            echo "<h2 style='height: 505px!important;padding: 20px;'>";echo "You are not authorized to access this page!";	echo "</h2>";
+            echo "<h2 style='height: 505px!important;padding: 20px;'>";echo "You are not authorized to access this page!";  echo "</h2>";
         }
     }
 ?>
@@ -422,7 +423,7 @@ include('header_no_left.php');
 </div>
 
 <?php }?>
-	
+    
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
   <!-- SIGN RELATED -->
@@ -451,9 +452,9 @@ include('header_no_left.php');
                          alert('Please fill out all signature filed');
                          
                     }else{
-						$('#contentdiv').html('Please wait...');
-						$('#status').fadeIn(); 
-						$('#preloader').fadeIn('slow');
+                        $('#contentdiv').html('Please wait...');
+                        $('#status').fadeIn(); 
+                        $('#preloader').fadeIn('slow');
                         
                         $('.not_signature_exist').css("border","2px solid #ffffff");
                         $('.signature_exist').css("border","2px solid #ffffff");
@@ -461,11 +462,11 @@ include('header_no_left.php');
                     
                     
                         var w=595;
-    	                var h=842;
+                        var h=842;
                         var deferreds = [];
                         //var doc = new jsPDF('l', 'px', [h,w]);
-    					var doc = new jsPDF("l", "px", "a4",true);
-    					console.log(doc);
+                        var doc = new jsPDF("l", "px", "a4",true);
+                        console.log(doc);
                         for (let i = 0; i < $('.ba-page-wrap').length; i++) {
                                 var deferred = $.Deferred();
                                 deferreds.push(deferred.promise());
@@ -474,56 +475,56 @@ include('header_no_left.php');
     
                         $.when.apply($, deferreds).then(function () { // executes after adding all images
                         //doc.save('test.pdf');
-    					var ajxurl='<?php echo BASE_URI; ?>';
-    					var blob = doc.output('blob');
-    					var formData = new FormData();
-    					formData.append('pdf', blob);
-    					formData.append('drop_off_request_id', '<?php echo $drop_off_request_id;?>');
-    					$.ajax({
-    						url: ajxurl+'save_signature.php',
-    						method: 'POST',
-    						data: formData,
-    						processData: false,
-    						contentType: false,
-    						success: function(response){
-        						if(response == 1) {
-        				// 			alert(response);
-        				// 			alert('Success!');
-                                    $('#status').fadeOut();
-                                    $('#preloader').fadeOut();
-        							$('#msg1').html('Success!');
-        							$("#cc-mail-status1").modal("toggle").trigger('change');
-                                    //window.location.href="<?php echo BASE_URI.'inbox.php';?>";
-        						}
-        						else {
-        				// 			alert('Something Went wrong.!');
-        							$('#main1').fadeIn();
-                                    $('#status').fadeOut();
-                                    $('#preloader').fadeOut();
-                                    $('#msg1').html('Something Went wrong.!');
-        							$("#cc-mail-status1").modal("toggle");
-        						}
-    						},
-    						error: function(response){
-        						if(response == 1) {
-        				// 			alert('Success!');
+                        var ajxurl='<?php echo BASE_URI; ?>';
+                        var blob = doc.output('blob');
+                        var formData = new FormData();
+                        formData.append('pdf', blob);
+                        formData.append('drop_off_request_id', '<?php echo $drop_off_request_id;?>');
+                        $.ajax({
+                            url: ajxurl+'save_signature.php',
+                            method: 'POST',
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            success: function(response){
+                                if(response == 1) {
+                        //          alert(response);
+                        //          alert('Success!');
                                     $('#status').fadeOut();
                                     $('#preloader').fadeOut();
                                     $('#msg1').html('Success!');
-        							$("#cc-mail-status1").modal("toggle");
+                                    $("#cc-mail-status1").modal("toggle").trigger('change');
                                     //window.location.href="<?php echo BASE_URI.'inbox.php';?>";
-        						}
-        						else {
-        				// 			alert('Something Went wrong.!');
-    								$('#main1').fadeIn();
+                                }
+                                else {
+                        //          alert('Something Went wrong.!');
+                                    $('#main1').fadeIn();
                                     $('#status').fadeOut();
                                     $('#preloader').fadeOut();
                                     $('#msg1').html('Something Went wrong.!');
-        							$("#cc-mail-status1").modal("toggle");
-        						}
-    						}
-    					});
-    					//----------------------------------------------------------
+                                    $("#cc-mail-status1").modal("toggle");
+                                }
+                            },
+                            error: function(response){
+                                if(response == 1) {
+                        //          alert('Success!');
+                                    $('#status').fadeOut();
+                                    $('#preloader').fadeOut();
+                                    $('#msg1').html('Success!');
+                                    $("#cc-mail-status1").modal("toggle");
+                                    //window.location.href="<?php echo BASE_URI.'inbox.php';?>";
+                                }
+                                else {
+                        //          alert('Something Went wrong.!');
+                                    $('#main1').fadeIn();
+                                    $('#status').fadeOut();
+                                    $('#preloader').fadeOut();
+                                    $('#msg1').html('Something Went wrong.!');
+                                    $("#cc-mail-status1").modal("toggle");
+                                }
+                            }
+                        });
+                        //----------------------------------------------------------
                         });
                         
                     }
@@ -532,7 +533,7 @@ include('header_no_left.php');
 
                 function generateCanvas(i, doc, deferred){
                         var w=595;
-		                var h=842;
+                        var h=842;
 
                         html2canvas(document.getElementById("ba-page-wrap_" + i), {
                         
@@ -543,8 +544,8 @@ include('header_no_left.php');
                                         //doc.addImage(img, 'JPEG');
                                         
                                         //doc.addImage(img, 'JPEG',  0, 0,w,h);
-										//doc.addImage(img, 'JPEG', 45, 10, 520, 430,'FAST');
-										doc.addImage(img, 'PNG', 56, 10, 520, 430,'','FAST');
+                                        //doc.addImage(img, 'JPEG', 45, 10, 520, 430,'FAST');
+                                        doc.addImage(img, 'PNG', 56, 10, 520, 430,'','FAST');
                                         var number_of_page = $('.ba-page-wrap').length;
                                         console.log('number_of_page : '+number_of_page);
                                         if(number_of_page-1 > i){
@@ -558,34 +559,34 @@ include('header_no_left.php');
 
 $(window).bind("load", function() {
 //----------------------------
-	var signature = new Array();
+    var signature = new Array();
     $(".sign_pad_pos").each(function(s) {
         //signature.push({id: $(this).attr("id"), top : $(this).css("top"), left: $(this).css("left"), content : $(this).clone()});
-		var sign_pad_h = $(this).height() + 4;
+        var sign_pad_h = $(this).height() + 4;
         var signTop = parseInt($(this).css('top'), 10);
         var signContent = $(this).clone();
         
-        	var pageHeight = 0;
-		
-        	$(".ba-page-wrap").each(function() {
-				pageHeight += $(this).outerHeight(); //  - 3
-				console.log('sign_pad_h binuu:' + sign_pad_h);
-				console.log('signTop binuu:' + signTop);
-				console.log('pageHeight binuu:' + pageHeight);
-        		//console.log('inner height : ' + $(this).attr("id") + ' : ' + pageHeight);
-        		if(pageHeight >= signTop) {
-        			var newBottom = parseInt(pageHeight) - (parseInt(signTop) + parseInt(sign_pad_h));
-        			signContent.css('top','');
-        			signContent.css('bottom',newBottom);
-        			//console.log('left pos' + signContent.css('left').replace(/[^-\d\.]/g, '') - 15);
-        			signContent.css('left', (parseInt(signContent.css('left').replace(/[^-\d\.]/g, '')) - 15)); //where 15parent pading
-        			$(this).append(signContent);
-        			return false;
-        		}
-        	});
+            var pageHeight = 0;
+        
+            $(".ba-page-wrap").each(function() {
+                pageHeight += $(this).outerHeight(); //  - 3
+                console.log('sign_pad_h binuu:' + sign_pad_h);
+                console.log('signTop binuu:' + signTop);
+                console.log('pageHeight binuu:' + pageHeight);
+                //console.log('inner height : ' + $(this).attr("id") + ' : ' + pageHeight);
+                if(pageHeight >= signTop) {
+                    var newBottom = parseInt(pageHeight) - (parseInt(signTop) + parseInt(sign_pad_h));
+                    signContent.css('top','');
+                    signContent.css('bottom',newBottom);
+                    //console.log('left pos' + signContent.css('left').replace(/[^-\d\.]/g, '') - 15);
+                    signContent.css('left', (parseInt(signContent.css('left').replace(/[^-\d\.]/g, '')) - 15)); //where 15parent pading
+                    $(this).append(signContent);
+                    return false;
+                }
+            });
         $(this).remove();
     });
-	
+    
 });   
 
 
@@ -648,28 +649,28 @@ $(document).ready(function(){
                 }
         }
         
-  });			 
+  });            
 </script>
 
 <script>
-// 	$(document).on('click','.not_signature_exist',function(){
-// 	        $('#sig').modal('toggle');
-// 	        var eid = $(this).attr("id");
+//  $(document).on('click','.not_signature_exist',function(){
+//          $('#sig').modal('toggle');
+//          var eid = $(this).attr("id");
 //                 $('#sign_pad_id').val(eid);
 //                 var wdth = $(this).width();
 //                 $('#sign_pad_width').val(wdth);
-// 	});
-	
+//  });
+    
    
        
 
 
 
-// 	$("#upload_this_sign").click(function(e){
+//  $("#upload_this_sign").click(function(e){
 //     //   alert();
-// 	});
+//  });
 
-	
+    
 
 $(':file').on('change', function () {
   var file = this.files[0];
@@ -683,10 +684,10 @@ $(':file').on('change', function () {
 
  
 
-	$(document).ready(function() {
-		$('#signArea').signaturePad({drawOnly:true, drawBezierCurves:true, lineTop:90});
-		$("#preloader").fadeOut();
-	});
+    $(document).ready(function() {
+        $('#signArea').signaturePad({drawOnly:true, drawBezierCurves:true, lineTop:90});
+        $("#preloader").fadeOut();
+    });
  
 </script> 
 
@@ -697,62 +698,64 @@ $(':file').on('change', function () {
 ------------------------------------
 
 <div id="sign_exist_new" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
-	<div class="modal-dialog">
+    <div class="modal-dialog">
 
-	<!-- Modal content-->
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" onclick="signatureexistmodalclose()">&times;</button>
-				<h4 class="modal-title">Use this signature</h4>
-			</div>
-			<div class="modal-body modelstylediv">
-			    
+    <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" onclick="signatureexistmodalclose()">&times;</button>
+                <h4 class="modal-title">Use this signature</h4>
+            </div>
+            <div class="modal-body modelstylediv">
+                
                 <div class="col-sm-12">
                     <input type="hidden" id="uid" value="<?php echo $this_current_id;?>">
                     <span id="imgrender"></span>
-    				<input type="hidden" id="sign_pad_id" value="">
-    				<input type="hidden" id="sign_pad_width" value="">
-			    </div>  
-			 
-				<div class="col-sm-12" id="sigs">
-				    <div class="col-sm-8">
-                		<label>
-                			<input id="0001" type="radio" name="add_user_signature" class="sig1_new" onclick="changeradiobtn(1)"> 
-                			<label for="0001">Current Signature</label>
-                			<input id="0002" type="radio" name="add_user_signature" class="sig2_new" onclick="changeradiobtn(2)"> 
-                			<label for="0002">Add new Signature</label>
-                			<input type="hidden" name="sigtype" class="sigtype" id="sigtype" / >
-                	</div>
-                	<div class="col-sm-4">
+                    <input type="hidden" id="sign_pad_id" value="">
+                    <input type="hidden" id="sign_pad_width" value="">
+                </div>  
+             
+                <div class="col-sm-12" id="sigs">
+                    <div class="col-sm-8">
+                        <label>
+                            <input id="0001" type="radio" name="add_user_signature" class="sig1_new" onclick="changeradiobtn(1)"> 
+                            <label for="0001">Current Signature</label>
+                            <input id="0002" type="radio" name="add_user_signature" class="sig2_new" onclick="changeradiobtn(2)"> 
+                            <label for="0002">Add new Signature</label>
+                            <input type="hidden" name="sigtype" class="sigtype" id="sigtype" / >
+                    </div>
+                    <div class="col-sm-4">
                         <button class="btn btn-primary col-md-8" id="use_this_sign" type="button">Use this</button> 
                     </div>
                     <div class="col-sm-3"></div>
                     <div class="col-sm-9">
-                		<label>
-                			<input type="checkbox" class="sig3_new" / > <?php _e('Save as your account signature','cftp_admin'); ?>
-                	</div>
-				</div>
-                	
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" onclick="signatureexistmodalclose()">Close</button>
-			</div>
-		</div>
+                        <label>
+                            <input type="checkbox" class="sig3_new" / > <?php _e('Save as your account signature','cftp_admin'); ?>
+                            <input type="hidden" id="tempimgsrc" value="">
+                            <input type="hidden" id="tempimgsrc_ext" value="">
+                    </div>
+                </div>
+                    
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" onclick="signatureexistmodalclose()">Close</button>
+            </div>
+        </div>
 
-	</div>
+    </div>
 </div>
 
 
 <div id="signew" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
-	<div class="modal-dialog">
+    <div class="modal-dialog">
 
-	<!-- Modal content-->
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" onclick="signewclose()">&times;</button>
-				<h4 class="modal-title">Add New Signature </h4>
-			</div>
-			<div class="modal-body" style="height: 100px;">
+    <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" onclick="signewclose()">&times;</button>
+                <h4 class="modal-title">Add New Signature </h4>
+            </div>
+            <div class="modal-body" style="height: 100px;">
                 <div class="form-group">
                     <div class="col-sm-12">
                         <input id="0003" type="radio" name="add_usersignature" class="sig1" checked="true">
@@ -765,16 +768,16 @@ $(':file').on('change', function () {
                 <div class="form-group">
                     <div class="col-sm-8">
                         <input type="file"  name="upload_this_sign"  id="upload_this_sign"  accept="*" style="margin-top:15px;">
-    				    <input type="button"  id="but_upload" value="Upload"  style="display:none" onclick="uploadsignaturefun()"/>
+                        <input type="button"  id="but_upload" value="Upload"  style="display:none" onclick="uploadsignaturefun()"/>
                     </div>
                 </div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" onclick="signewclose()">Close</button>
-			</div>
-		</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" onclick="signewclose()">Close</button>
+            </div>
+        </div>
 
-	</div>
+    </div>
 </div>
 
 
@@ -787,6 +790,7 @@ $(':file').on('change', function () {
                 <h4 class="modal-title">Draw New Signature </h4>
             </div>
             <div class="modal-body">
+                <input type="hidden" id="pageid" value="sign_document">
                 <input type="hidden" id="uid" value="<?php echo $this_current_id;?>">
                 <input type="hidden" id="doc_sign_page" name="doc_sign_page" value="<?php echo $this_current_id;?>">
                 <input type="hidden" id="sigfile" name="sigfile" value="1">
@@ -815,6 +819,41 @@ $(':file').on('change', function () {
     }
 </style>
 <script>
+   
+
+    function changeradiobtn(arg){
+        if(arg==2){
+            $('#sign_exist_new').modal('toggle');
+            $('#signew').modal('toggle');
+        }else{
+            // currentsignature(1);
+        }
+    }
+        
+    function signatureexistmodalclose() {
+        $('#sign_exist_new .sig1_new').click();
+        $('#sign_exist_new').modal('toggle');
+    }
+    
+    function signewclose() {
+        $('#signew').modal('toggle');
+        $('#sign_exist_new .sig1_new').click();
+        $('.sig2_new').prop('checked', false);
+    }
+    
+    $("#create_new_sign").click(function(e){
+        $('#sig').modal('toggle');
+        $('#signew').modal('toggle');
+    });
+    
+    function signaturemodalclose() {
+        $('#sig').modal('toggle');
+        $('.sig1').click();
+    }
+    
+</script>
+
+<script>
     $("#frame").on( 'click', '.signature_exist', function () {
         var eid ='';
         var wdth ='';
@@ -824,33 +863,11 @@ $(':file').on('change', function () {
         wdth = $(this).width();
         $('#sign_pad_width').val(wdth);
         arg='<?php echo $this_current_id;?>';
-        chksignaturestatus(1);
+        currentsignature(1);
     });
-
-    function changeradiobtn(arg){
-        if(arg==2){
-            $('#sign_exist_new').modal('toggle');
-            $('#signew').modal('toggle');
-        }else{
-            //chksignaturestatus(1);
-        }
-    }
+    
+    function currentsignature(arg=''){
         
-    function signatureexistmodalclose() {
-        $('#sign_exist_new .sig1_new').click();
-        $('#sign_exist_new').modal('toggle');
-    }
-    
-    $('#signew #upload_this_sign').on('change',function(evt) {
-        $('#signew #but_upload').click();
-    });
-    
-    function uploadsignaturefun(){
-        chksignaturestatus(2);
-    }
-    
-   
-    function chksignaturestatus(arg=''){
         var ajaxurl11='';
         var objectdata11 =''; 
         if(arg!=''){
@@ -870,26 +887,28 @@ $(':file').on('change', function () {
             
                     var fd = '';
                     var files = '';
-                    var randNum2 = '';
-                    var objct2 ='';
-                    var sign_pad_id2 ='';
-                    var sign_pad_width2 ='';
                     var imgurl2= '';
             
                     var ajaxurl3='';
                     var objct3 ='';
                     var imgurl3='';
                     var randNum3 ='';
+                    
+                    var sign_pad_id0 ='';
+                    var sign_pad_width0 ='';
+                    var ajaurl0='';
+                    var objct0 ='';
+                    var randNum0 ='';
+                    var imgurl0='';
             
             
-                    var sign_pad_id4 = '';
-                    var sign_pad_width4 ='';
-                    var ajaxurl4= '';
-                    var imgurl4='';
-                    var objct4 ='';
-                    var randNum4 ='';
+                    var dataUrl ="";
+                    var block ="";
+                    var contentType ="";
+                    var realData ="";
             
                     if(arg==1){  
+                        
                         randNum1='?ver1='+Math.floor(Math.random() * 6);
                         if(objectdata11.status){
                             imgurl1='<?php echo BASE_URI. 'img/avatars/tempsignature/'.$this_current_id.'/temp/';?>'+objectdata11.name+randNum1+'';
@@ -900,8 +919,13 @@ $(':file').on('change', function () {
                             $("#sign_exist_new #use_this_sign").prop("disabled", false);
                             $('#sign_exist_new .sig1_new').attr('checked',true);
                             $('#sign_exist_new #imgrender').html('<img class="sign_img_new img-responsive" src="'+imgurl1+'">').trigger('change');
+                            
                             // $("#sign_exist_new .sig3_new").prop("disabled", true);
+                            // $("#sign_exist_new .sig3_new").prop("checked", true);
+                            
                             $('#sign_exist_new').modal('toggle');
+                            $('#sign_exist_new #tempimgsrc').val('');
+                            $('#sign_exist_new #tempimgsrc_ext').val('');
                             
                         }else{
                             imgurl1='<?php echo BASE_URI. 'img/avatars/no-image.png'?>';
@@ -910,96 +934,63 @@ $(':file').on('change', function () {
                             $("#sign_exist_new .sig1_new").prop("disabled", true);
                             $("#sign_exist_new #use_this_sign").prop("disabled", true);
                             $('#sign_exist_new #imgrender').html('<img class="sign_img_new img-responsive" src="'+imgurl1+randNum1+'" style="margin: auto;">');
+                            
+                            //  $("#sign_exist_new .sig3_new").prop("disabled", false);
+                            // $("#sign_exist_new .sig3_new").prop("checked", false);
+                            
                             $('#sign_exist_new').modal('toggle');
                         }
-                        
-                    }else if(arg==2){
-                        fd = new FormData();
-                        files = $('#upload_this_sign')[0].files[0];
-                        fd.append('upload_this_sign',files);
-                        
-                        $.ajax({
-                            url: 'newsign_choose.php',
-                            type: 'post',
-                            data: fd,
-                            contentType: false,
-                            processData: false,
-                            success: function(response2){
-                                objct2 = jQuery.parseJSON(response2);
-                                randNum2='?ver2='+Math.floor(Math.random() * 7);
-                                sign_pad_id2 = $('#sign_pad_id').val();
-                                sign_pad_width2 = $('#sign_pad_width').val();
-                                $('#signew').modal('toggle');
-                                $("#sign_exist_new .sig1_new").prop("disabled", false);
-                                $('#sign_exist_new .sig1_new').attr('checked',true);
-                                $('#sign_exist_new .sig1_new').click();
-                                $("#sign_exist_new #use_this_sign").prop("disabled", false);
-                                imgurl2 = '<?php echo BASE_URI; ?>' + objct2.file_name+randNum2;
-                                $('.sign_img_new').attr("src",imgurl2).trigger('change');
-                                $('#sign_exist_new').modal('toggle');
-                            },
-                        });
-                    }else if(arg==3){
-                        ajaxurl3='<?php echo BASE_URI; ?>';
-                        $.ajax({
-                            url: ajaxurl3+'altersignature.php',
-                            method: 'POST',
-                            processData: false,
-                            contentType: false,
-                            success: function(response3){
-                                objct3 = jQuery.parseJSON(response3);
-                                if(objct3.status){
-                                    randNum3='?ver3='+Math.floor(Math.random() * 8);
-                                    imgurl3='<?php echo BASE_URI. 'img/avatars/tempsignature/'.$this_current_id.'/temp/';?>'+objct3.name+randNum3+'';
-                                    $('#sign_exist_new #imgrender').html('<img class="sign_img_new img-responsive" src="'+imgurl3+'">').trigger('change');
-                                    $('#sign_exist_new .sig1_new').attr('checked',true);
-                                }
-                                $('#sign_exist_new').modal('toggle');
-                                $('#sign_exist_new .sig1_new').click();
-                                $('#signew .sig1').click();
-                                $("#sign_exist_new #use_this_sign").prop("disabled", false);
-                            }
-                        });
-                    }else if(arg==4){
-                        $('#sign_exist_new').modal('toggle');
-                        sign_pad_id4 = $('#sign_pad_id').val();
-                        sign_pad_width4 = $('#sign_pad_width').val();
-                        ajaxurl4='<?php echo BASE_URI; ?>';
-                        
-                        $.ajax({
-                            url: ajaxurl4+'altersignature.php',
-                            method: 'POST',
-                            processData: false,
-                            contentType: false,
-                            success: function(response4){
-                                objct4 = jQuery.parseJSON(response4);
-                                randNum4='?ver4='+Math.floor(Math.random() * 9);
-                                imgurl4='<?php echo BASE_URI. 'img/avatars/tempsignature/'.$this_current_id.'/temp/';?>'+objct4.name+randNum4+'';
-                                $('#'+sign_pad_id4).html('<img class="size_fix" width="'+sign_pad_width4+'" src="'+imgurl4+'">').trigger('change');
-                                $("#sign_exist_new #use_this_sign").prop("disabled", false);
-                            }
-                        });
-                    }
-                    
-                     
-                    
+                    } 
                     
                 }
             });
         }
             
-    }
-   
     
-    
-    
-    
-    function signewclose() {
-        $('#signew').modal('toggle');
-        $('#sign_exist_new .sig1_new').click();
-        $('.sig2_new').prop('checked', false);
+        
+        
+        
     }
     
+    $('#signew #upload_this_sign').on('change',function(evt) {
+        $('#signew #but_upload').click();
+    });
+    
+    function uploadsignaturefun(){
+        uploadsignature();
+    }
+    
+    $("#signew #upload_this_sign").change(function(){
+        uploadsignature(this);
+    });
+    
+    function uploadsignature(datafile=""){
+        var fd = '';
+        var files = '';
+        var imgurl2= '';
+        fd = new FormData();
+        files = $('#upload_this_sign')[0].files[0];
+        fd.append('upload_this_sign',files);
+        
+        if (datafile.files && datafile.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var str = datafile.files[0].name;
+                var ext = str.substring(str.lastIndexOf(".") + 1, str.length);
+                $('#signew').modal('toggle');
+                $("#sign_exist_new .sig1_new").prop("disabled", false);
+                $('#sign_exist_new .sig1_new').attr('checked',true);
+                $('#sign_exist_new .sig1_new').click();
+                $("#sign_exist_new #use_this_sign").prop("disabled", false);
+                imgurl2 = e.target.result;
+                $('#sign_exist_new #tempimgsrc').val(imgurl2);
+                $('#sign_exist_new #tempimgsrc_ext').val(ext);
+                $('.sign_img_new').attr("src",imgurl2).trigger('change');
+                $('#sign_exist_new').modal('toggle'); 
+            }
+            reader.readAsDataURL(datafile.files[0]);
+        }
+    }
     
     $("#sign_exist_new #use_this_sign").click(function(e){
         var sign_pad_id0 ='';
@@ -1008,26 +999,57 @@ $(':file').on('change', function () {
         var objct0 ='';
         var randNum0 ='';
         var imgurl0='';
-
         sign_pad_id0 = $('#sign_pad_id').val();
         sign_pad_width0 = $('#sign_pad_width').val();
-        ajaxurl0='<?php echo BASE_URI; ?>';
-        imgurl0='';
-        $.ajax({
-            url: ajaurl0+'altersignature.php',
-            method: 'POST',
-            processData: false,
-            contentType: false,
-            success: function(response0){
-                objct0 = jQuery.parseJSON(response0);
-                randNum0='?ver0='+Math.floor(Math.random() * 10);
-                imgurl0='<?php echo BASE_URI. 'img/avatars/tempsignature/'.$this_current_id.'/temp/';?>'+objct0.name+randNum0+'';
-                $('#'+sign_pad_id0).html('<img class="size_fix" width="'+sign_pad_width0+'" src="'+imgurl0+'">').trigger('change');
+        ajaurl0='<?php echo BASE_URI; ?>';
+        if($('#sign_exist_new #tempimgsrc').val()==''){
+            $.ajax({
+                url: ajaurl0+'altersignature.php',
+                method: 'POST',
+                processData: false,
+                contentType: false,
+                success: function(response0){
+                    objct0 = jQuery.parseJSON(response0);
+                    randNum0='?ver0='+Math.floor(Math.random() * 10);
+                    imgurl0='<?php echo BASE_URI. 'img/avatars/tempsignature/'.$this_current_id.'/temp/';?>'+objct0.name+randNum0+'';
+                    $('#'+sign_pad_id0).html('<img class="size_fix" width="'+sign_pad_width0+'" src="'+imgurl0+'">').trigger('change');
+                    $('#sign_exist_new').modal('toggle');
+                }
+            });
+        }else{
+            var dataUrl=$("#tempimgsrc").val();
+            // Split the base64 string in data and contentType
+            var block = dataUrl.split(";");
+            // Get the content type of the image
+            var contentType = block[0].split(":")[1];// In this case "image/gif"
+            // get the real base64 content of the file
+            var realData = block[1].split(",")[1];// In this case "R0lGODlhPQBEAPeoAJosM...." 
+            
+            if($("#sign_exist_new .sig3_new").prop('checked') == true){
+                var altresult = confirm("Are you sure want to save as your account signature?");
+                if (altresult==true) {
+                    $.ajax({
+                        url: 'save_tempfile.php',
+                        data: { 'img_data':realData,'user_id_mic':'<?php echo $this_current_id;?>','doc_sign_page':true,'extension':$('#sign_exist_new #tempimgsrc_ext').val()},
+                        type: 'post',
+                        dataType: 'json',
+                        async: false,
+                        success:function(arg){
+                            if(arg.status==true){
+                                $('#'+sign_pad_id0).html('<img class="size_fix" width="'+sign_pad_width0+'" src="'+dataUrl+'">').trigger('change');
+                                $("#sign_exist_new .sig3_new").prop("checked", false);
+                                $('#sign_exist_new').modal('toggle').trigger('change');
+                            }
+                        }
+                    });
+                }else {
+                    $("#sign_exist_new .sig3_new").prop("checked", false);
+                }
+            }else{
+                $('#'+sign_pad_id0).html('<img class="size_fix" width="'+sign_pad_width0+'" src="'+dataUrl+'">').trigger('change');
                 $('#sign_exist_new').modal('toggle');
             }
-            
-        });
-        
+        }
         
     });
     
@@ -1037,17 +1059,22 @@ $(':file').on('change', function () {
         $('#signew').modal('toggle');
     }
     
-    $("#create_new_sign").click(function(e){
+    function drawnewsignature(datafile=""){
+        var imgurl3='';
+        var str = datafile;
+        var ext = str.substring(str.lastIndexOf(".") + 1, str.length);
         $('#sig').modal('toggle');
-        $('#signew').modal('toggle');
-    });
-    
-    function signaturemodalclose() {
-        $('#sig').modal('toggle');
-        $('.sig1').click();
+        $("#sign_exist_new .sig1_new").prop("disabled", false);
+        $('#signew .sig1').click();
+        $('#sign_exist_new .sig1_new').attr('checked',true);
+        $('#sign_exist_new .sig1_new').click();
+        imgurl3 = datafile;
+        $('#sign_exist_new #tempimgsrc').val(imgurl3);
+        $('#sign_exist_new #tempimgsrc_ext').val('png');
+        $('.sign_img_new').attr("src",imgurl3).trigger('change');
+        $('#sign_exist_new').modal('toggle');         
     }
     
-  
     
 </script>
 

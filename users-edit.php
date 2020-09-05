@@ -550,6 +550,7 @@ include('header.php');
 					<h4 class="modal-title">Draw New Signature </h4>
 				</div>
 				<div class="modal-body">
+				    <input type="hidden" id="pageid" value="users-edit">
 					<input type="hidden" id="uid" value="<?php echo $user_id_mic;?>">
 					<?php
 						include('signature.php');

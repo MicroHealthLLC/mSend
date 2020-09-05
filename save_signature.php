@@ -218,12 +218,16 @@ if($data){
 				</div>
 				<p>If you prefer not to be notified about new files, please go to My Account and deactivate the notifications checkbox.</p>
 				<p>You can access a list of all your files or upload your own <a href='<?php echo BASE_URI;?>' target='_blank'>by logging in here</a></p>
+				
+				
 			</td>
 		</tr>
 	</tbody>
 </table>
         	  </body>
         	</html>";
+        	
+        // 	<a href='".BASE_URI."sign_document.php?auth=".$keypath."&key=sign' target='_blank'
         
         		/**
         		 * phpMailer

@@ -109,7 +109,11 @@ $get_categories = get_categories();
  */
 $current_level = get_current_user_level();
 ?>
-
+<style>
+    .disnone{
+        display: none;
+    }
+</style>
 <div id="main">
   <div id="content">
 
@@ -188,6 +192,7 @@ function randomPassword() {
 			border-radius: 8px;
 			}
 	</style>
+	
           <div class="whiteform whitebox whitebox_text"> <?php echo $no_results_message; ?> </div>
           <?php
 		}
@@ -790,7 +795,7 @@ $message = '
 																	?>
                             </optgroup>
                           </select>
-                          <div class="list_mass_members"> <a href="#" class="btn btn-xs btn-primary add-all" data-type="assigns">
+                          <div class="list_mass_members"> <a href="#" class="btn btn-xs btn-primary add-all disnone" data-type="assigns">
                             <?php _e('Add all','cftp_admin'); ?>
                             </a> <a href="#" class="btn btn-xs btn-primary remove-all" data-type="assigns">
                             <?php _e('Remove all','cftp_admin'); ?>
@@ -831,7 +836,7 @@ $message = '
 																	echo generate_categories_options( $get_categories['arranged'], 0, $current_categories );
 																?>
                           </select>
-                          <div class="list_mass_members"> <a href="#" class="btn btn-xs btn-primary add-all" data-type="categories">
+                          <div class="list_mass_members"> <a href="#" class="btn btn-xs btn-primary add-all disnone" data-type="categories">
                             <?php _e('Add all','cftp_admin'); ?>
                             </a> <a href="#" class="btn btn-xs btn-primary remove-all" data-type="categories">
                             <?php _e('Remove all','cftp_admin'); ?>
