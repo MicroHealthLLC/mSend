@@ -157,9 +157,12 @@ include('header_no_left.php');
     .sign_pad_pos img {
         /*width: auto;*/
         /*max-width: 33px;*/
+        /*max-width: 75%;*/
         
-        /*max-width: 150px !important;*/
-     /*   height: 40px;*/
+        /*max-width: 100px !important;*/
+        /*height: 40px;*/
+        /*width:100%;*/
+        /*object-fit: contain;*/
     }
     .ba-doc-frame {
         -webkit-box-shadow: 0px 0px 16px -12px rgba(0,0,0,1);
