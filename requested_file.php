@@ -155,7 +155,12 @@ $actual_link = SITE_URI.'requested_file.php';
                         $reqst = $dbh->prepare($reqstmail);
                         $reqst->execute();
                         $rfile = $reqst->fetch();
-                        $q_sent_file = "SELECT * FROM tbl_drop_off_request WHERE ( from_id = ".$loggedin_id." ) Order by requested_time DESC";
+                        
+                        
+                        // $q_sent_file = "SELECT * FROM tbl_drop_off_request WHERE ( from_id = ".$loggedin_id." ) Order by requested_time DESC";
+                        
+                        $q_sent_file = "SELECT tdr.* FROM tbl_drop_off_request AS tdr LEFT JOIN tbl_draw_sign_details AS tdsd ON tdr.id = tdsd.drop_off_request_id WHERE ( tdr.from_id = ".$loggedin_id." AND tdsd.drop_off_request_id = tdr.id) Order by tdr.requested_time DESC";
+                        
                         $sql_files = $dbh->prepare($q_sent_file);
                         $sql_files->execute();
                         $count = $sql_files->rowCount();
@@ -213,28 +218,29 @@ $actual_link = SITE_URI.'requested_file.php';
                             <?php }
                             }
                             else
-                            { ?>
-                            <table id="files_list" class=" tb1 cc-mail-listing-style table table-striped table-bordered table-hover dataTable no-footer" data-page-size="<?php echo FOOTABLE_PAGING_NUMBER; ?>">
-                            <thead>
-                            <tr>
-                    <th class="td_checkbox" data-sort-ignore="true">
-                                    <label class="cc-chk-container">
-                        <input type="checkbox" name="select_all" id="select_all" value="0" />
-                        <span class="checkmark"></span> </label>
-                    </th>
-                    <th data-type="numeric" data-sort-initial="descending" data-hide="phone"><?php _e('To Name','cftp_admin'); ?></th>
-                    <th data-hide="phone,tablet"><?php _e('Subject','cftp_admin'); ?></th>
-                    <th data-hide="phone,tablet"><?php _e('To Organization','cftp_admin'); ?></th>
-                    <th><?php _e('To Email','cftp_admin'); ?></th>
-                    <th><?php _e('Note','cftp_admin'); ?></th>
-                    <th><?php _e('Signature Required','cftp_admin'); ?></th>
-                    <th><?php _e('Status','cftp_admin'); ?></th>
-                    <th><?php _e('Requested Time','cftp_admin'); ?></th>
-                    <th><?php _e('Action','cftp_admin'); ?></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <?php
+                            { //1111111111111
+                            ?>
+                                <table id="files_list" class=" tb1 cc-mail-listing-style table table-striped table-bordered table-hover dataTable no-footer" data-page-size="<?php echo FOOTABLE_PAGING_NUMBER; ?>">
+                                    <thead>
+                                        <tr>
+                                            <th class="td_checkbox" data-sort-ignore="true">
+                                            <label class="cc-chk-container">
+                                            <input type="checkbox" name="select_all" id="select_all" value="0" />
+                                            <span class="checkmark"></span> </label>
+                                            </th>
+                                            <th data-type="numeric" data-sort-initial="descending" data-hide="phone"><?php _e('To Name','cftp_admin'); ?></th>
+                                            <th data-hide="phone,tablet"><?php _e('Subject','cftp_admin'); ?></th>
+                                            <th data-hide="phone,tablet"><?php _e('To Organization','cftp_admin'); ?></th>
+                                                            <th><?php _e('To Email','cftp_admin'); ?></th>
+                                            <th><?php _e('Note','cftp_admin'); ?></th>
+                                            <th><?php _e('Signature Required','cftp_admin'); ?></th>
+                                            <th><?php _e('Status','cftp_admin'); ?></th>
+                                            <th><?php _e('Requested Time','cftp_admin'); ?></th>
+                                            <th><?php _e('Action','cftp_admin'); ?></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php
                                     if ($count > 0) {
                                     $sql_files->setFetchMode(PDO::FETCH_ASSOC);
                                         while( $row = $sql_files->fetch() ) {
@@ -243,36 +249,36 @@ $actual_link = SITE_URI.'requested_file.php';
                                                 $disabled_list="disabled";
                                             }
                                         ?>
-                  <tr>
-                    <td><label class="cc-chk-container">
-                        <input type="checkbox" name="files[]" value="<?php echo $row['id']; ?>" />
-                        <span class="checkmark"></span> </label></td>
-                    <td><?php echo $row['to_name']; ?></td>
-                    <td class="file_name"><?php echo $row['to_subject_request']; ?></td>
-                    <td><?php if($row['to_organization'] != NULL){ echo $row['to_organization']; } else { echo ("--"); } ?></td>
-                    <td><?php echo $row['to_email']; ?></td>
-                                        <td><?php echo $row['to_note_request']; ?></td>
-                                        <td><?php if($row['signaturestatus']==0){?>No<?php }else{?>Yes<?php }?></td>
-                    <td class="<?php echo (!empty($row['hidden'])) ? 'file_status_hidden' : 'file_status_visible'; ?>"><?php
+                                        <tr>
+                                            <td><label class="cc-chk-container">
+                                            <input type="checkbox" name="files[]" value="<?php echo $row['id']; ?>" />
+                                            <span class="checkmark"></span> </label></td>
+                                            <td><?php echo $row['to_name']; ?></td>
+                                            <td class="file_name"><?php echo $row['to_subject_request']; ?></td>
+                                            <td><?php if($row['to_organization'] != NULL){ echo $row['to_organization']; } else { echo ("--"); } ?></td>
+                                            <td><?php echo $row['to_email']; ?></td>
+                                            <td><?php echo $row['to_note_request']; ?></td>
+                                            <td><?php if($row['signaturestatus']==0){?>No<?php }else{?>Yes<?php }?></td>
+                                            <td class="<?php echo (!empty($row['hidden'])) ? 'file_status_hidden' : 'file_status_visible'; ?>"><?php
                                         $status_hidden  = __('Pending','cftp_admin');
                                         $hidden = $row['status'];
                                         $status_visible = __('Uploaded','cftp_admin');
                                         $class          = ($hidden == 0) ? 'danger' : 'success';
                                     ?>
-                <span class="label label-<?php echo $class; ?>"> <?php echo ($hidden == 0) ? $status_hidden : $status_visible; ?> </span></td>
-                            <td><?php echo $row['requested_time']; ?></td>
-                            <td><div class="btn btn-primary btn-sm <?php echo !empty($disabled_list)?$disabled_list:'resend_it'; ?>"  id="<?php echo $row['id']; ?>" >
-                                <?php _e('Resend','cftp_admin'); ?>
-                              </div></td>
-                          </tr>
-                          <?php
+                                            <span class="label label-<?php echo $class; ?>"> <?php echo ($hidden == 0) ? $status_hidden : $status_visible; ?> </span></td>
+                                            <td><?php echo $row['requested_time']; ?></td>
+                                            <td><div class="btn btn-primary btn-sm <?php echo !empty($disabled_list)?$disabled_list:'resend_it'; ?>"  id="    <?php echo $row['id']; ?>" >
+                                            <?php _e('Resend','cftp_admin'); ?>
+                                            </div></td>
+                                        </tr>
+                                            <?php
                                                 }
                                             }
                                             ?>
-                        </tbody>
-                      </table>
-            <?php } ?>
-        </div>
+                                    </tbody>
+                                </table>
+                            <?php } ?>
+                        </div>
 				<div class="col-md-12">
 					<br>
 					<h4>Requested of You</h4>
@@ -283,7 +289,10 @@ $actual_link = SITE_URI.'requested_file.php';
 						$reqst = $dbh->prepare($reqstmail);
 						$reqst->execute();
 						$rfile = $reqst->fetch();
-						$req_by = "SELECT * FROM tbl_drop_off_request WHERE ( to_email ='".$rfile['email']."' AND from_id IS NOT NULL) Order by requested_time DESC";
+						
+				// 		$req_by = "SELECT * FROM tbl_drop_off_request WHERE ( to_email ='".$rfile['email']."' AND from_id IS NOT NULL) Order by requested_time DESC";
+						
+						 $req_by = "SELECT tdr.* FROM tbl_drop_off_request AS tdr LEFT JOIN tbl_draw_sign_details AS tdsd ON tdr.id = tdsd.drop_off_request_id WHERE (  to_email ='".$rfile['email']."' AND from_id IS NOT NULL AND tdsd.drop_off_request_id = tdr.id) Order by requested_time DESC";
 
 						$req_by_files = $dbh->prepare($req_by);
 						$req_by_files->execute();
@@ -321,7 +330,7 @@ $actual_link = SITE_URI.'requested_file.php';
 							</thead>
 							<tbody>
 								<?php
-								if ($rqcount > 0) {
+								if ($rqcount > 0) {//222222222222222222
 								$req_by_files->setFetchMode(PDO::FETCH_ASSOC);
 									while( $row = $req_by_files->fetch() ) {
 										$disabled_list='';

@@ -227,10 +227,6 @@ class process {
 
 
 
-
-
-
-
 					$this->expired			= false;
 
 

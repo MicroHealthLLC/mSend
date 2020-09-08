@@ -730,7 +730,7 @@ $(':file').on('change', function () {
                     <div class="col-sm-4">
                         <button class="btn btn-primary col-md-8" id="use_this_sign" type="button">Use this</button> 
                     </div>
-                    <div class="col-sm-3"></div>
+                    <!--<div class="col-sm-3"></div>-->
                     <div class="col-sm-9">
                         <label>
                             <input type="checkbox" class="sig3_new" / > <?php _e('Save as your account signature','cftp_admin'); ?>
@@ -923,8 +923,8 @@ $(':file').on('change', function () {
                             $('#sign_exist_new .sig1_new').attr('checked',true);
                             $('#sign_exist_new #imgrender').html('<img class="sign_img_new img-responsive" src="'+imgurl1+'">').trigger('change');
                             
-                            // $("#sign_exist_new .sig3_new").prop("disabled", true);
-                            // $("#sign_exist_new .sig3_new").prop("checked", true);
+                            $("#sign_exist_new .sig3_new").prop("checked", false);
+                            $("#sign_exist_new .sig3_new").prop("disabled", true);
                             
                             $('#sign_exist_new').modal('toggle');
                             $('#sign_exist_new #tempimgsrc').val('');
@@ -938,8 +938,8 @@ $(':file').on('change', function () {
                             $("#sign_exist_new #use_this_sign").prop("disabled", true);
                             $('#sign_exist_new #imgrender').html('<img class="sign_img_new img-responsive" src="'+imgurl1+randNum1+'" style="margin: auto;">');
                             
-                            //  $("#sign_exist_new .sig3_new").prop("disabled", false);
-                            // $("#sign_exist_new .sig3_new").prop("checked", false);
+                            $("#sign_exist_new .sig3_new").prop("checked", false);
+                            $("#sign_exist_new .sig3_new").prop("disabled", true); 
                             
                             $('#sign_exist_new').modal('toggle');
                         }
@@ -989,6 +989,8 @@ $(':file').on('change', function () {
                 $('#sign_exist_new #tempimgsrc').val(imgurl2);
                 $('#sign_exist_new #tempimgsrc_ext').val(ext);
                 $('.sign_img_new').attr("src",imgurl2).trigger('change');
+                $("#sign_exist_new .sig3_new").prop("checked", false);
+                $("#sign_exist_new .sig3_new").prop("disabled", false);
                 $('#sign_exist_new').modal('toggle'); 
             }
             reader.readAsDataURL(datafile.files[0]);
@@ -1075,6 +1077,9 @@ $(':file').on('change', function () {
         $('#sign_exist_new #tempimgsrc').val(imgurl3);
         $('#sign_exist_new #tempimgsrc_ext').val('png');
         $('.sign_img_new').attr("src",imgurl3).trigger('change');
+        $("#sign_exist_new .sig3_new").prop("checked", false);
+        $("#sign_exist_new .sig3_new").prop("disabled", false);
+        $("#sign_exist_new #use_this_sign").prop("disabled", false);
         $('#sign_exist_new').modal('toggle');         
     }
     
