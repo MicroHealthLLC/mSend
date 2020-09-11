@@ -11,13 +11,14 @@ if($data){
 	$stmt1 = $dbh->prepare("SELECT * FROM tbl_drop_off_request WHERE id=:drop_off_request_id");
 	$stmt1->execute(['drop_off_request_id' => $drop_off_request_id]); 
 	$data1 = $stmt1->fetch();
+// 		var_dump($data1);die();
 	$fname = $data['img_name'];
     $no_of_pages = $data['no_of_pages'];
     $to_email_request = $data1['to_email'];
     $to_subject_request = $data1['to_subject_request'];
     $to_name = $data1['to_name'];
     $reqclientid = $data1['reqclientid'];
-	
+
 	
 	$filename = pathinfo($fname, PATHINFO_FILENAME).".pdf";
 // 	$filename = md5(date("dmYhisA")).".pdf";
@@ -113,6 +114,7 @@ if($data){
         // $filesrelations = $dbh->prepare("INSERT INTO ".TABLE_FILES_RELATIONS." (`timestamp`, `file_id`, `client_id`, `from_id`, `group_id`, `folder_id`, `hidden`, `download_count`,`req_type`) VALUES (CURRENT_TIMESTAMP, ".$img_id.", ".$fromid.", ".$fromid." ,NULL, NULL, '0', '0', '1')");
         $filesrelations = $dbh->prepare("INSERT INTO ".TABLE_FILES_RELATIONS." (`timestamp`, `file_id`, `client_id`, `from_id`, `group_id`, `folder_id`, `hidden`, `download_count`,`req_type`) VALUES (CURRENT_TIMESTAMP, ".$img_id.", ".$fromid.", ".$reqclientid." ,NULL, NULL, '0', '0', '1')");
         // $filesrelations = $dbh->prepare("INSERT INTO ".TABLE_FILES_RELATIONS." (`timestamp`, `file_id`, `client_id`, `group_id`, `folder_id`, `hidden`, `download_count`,`req_type`) VALUES (CURRENT_TIMESTAMP, ".$img_id.", ".$fromid.", NULL, NULL, '0', '0', '1')");
+        
 
         $sql = $dbh->prepare( 'SELECT * FROM '.TABLE_USERS.' WHERE id = "'.$fromid.'"' );	
     	$sql->execute();
@@ -276,7 +278,19 @@ if($data){
         		$send_mail->AddReplyTo($to_email_request, $to_name);
         //
         		$send_mail->AddAddress($from_email);
-        		
+  //--------------------------------------------------------------------------      		
+        		/**
+        		 * Finally, send the e-mail.
+        		 */
+        		if($send_mail->Send()) {
+					
+        			$cc_status = "<div class=\"alert alert-success cc-success\"><strong>Success!</strong>Your Request has been submitted successfully.</div>";
+        		}
+        		else {
+        			$cc_status = "<div class=\"alert alert-danger cc-failed\"><strong>Oops! </strong>Something went wrong! please try after sometime.</div>";
+        		}
+        	
+ //------------------------------------------------------------------------       		
         		/**
         		 * Check if BCC is enabled and get the list of
         		 * addresses to add, based on the email type.
@@ -318,13 +332,13 @@ if($data){
         		/**
         		 * Finally, send the e-mail.
         		 */
-        		if($send_mail->Send()) {
+        // 		if($send_mail->Send()) {
 					
-        			$cc_status = "<div class=\"alert alert-success cc-success\"><strong>Success!</strong>Your Request has been submitted successfully.</div>";
-        		}
-        		else {
-        			$cc_status = "<div class=\"alert alert-danger cc-failed\"><strong>Oops! </strong>Something went wrong! please try after sometime.</div>";
-        		}
+        // 			$cc_status = "<div class=\"alert alert-success cc-success\"><strong>Success!</strong>Your Request has been submitted successfully.</div>";
+        // 		}
+        // 		else {
+        // 			$cc_status = "<div class=\"alert alert-danger cc-failed\"><strong>Oops! </strong>Something went wrong! please try after sometime.</div>";
+        // 		}
         	
 
         }

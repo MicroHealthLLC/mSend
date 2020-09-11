@@ -273,6 +273,28 @@ include('header_no_left.php');
 /*  width: 100%;*/
 /*  height: 100%;*/
 /*}*/
+
+/* loading dots */
+
+.loadinginfo:after {
+  content: ' .';
+  animation: dots 1s steps(5, end) infinite;}
+
+@keyframes dots {
+    100% {
+    text-shadow:
+      .25em 0 0 black,
+      .5em 0 0 black;}
+}
+
+.loadinginfo {
+  color: red;
+  font: 100% Impact;
+  text-align: center;}
+  
+.disnone{
+    display:none;
+}
 </style>
 
 
@@ -398,7 +420,7 @@ include('header_no_left.php');
 
 <!-- Modal -->
 
-<div id="cc-mail-status1" class="modal fade" role="dialog">
+<div id="cc-mail-status1" class="modal fade" role="dialog"  data-backdrop="static" data-keyboard="false">
 
   <div class="modal-dialog">
     <!-- Modal content-->
@@ -455,6 +477,7 @@ include('header_no_left.php');
                          alert('Please fill out all signature filed');
                          
                     }else{
+                        $('#btnSaveSign').prop("disabled", true);
                         $('#contentdiv').html('Please wait...');
                         $('#status').fadeIn(); 
                         $('#preloader').fadeIn('slow');
@@ -651,7 +674,7 @@ $(document).ready(function(){
                         $('#'+sign_pad_id).css('height',sign_pad_height);
                 }
         }
-        
+        $('#btnSaveSign').prop("disabled", false);
   });            
 </script>
 
@@ -741,6 +764,7 @@ $(':file').on('change', function () {
                     
             </div>
             <div class="modal-footer">
+                <span class="col-md-12 disnone loadinginfo" id="loadinginfo">Loading</span>
                 <button type="button" class="btn btn-default" onclick="signatureexistmodalclose()">Close</button>
             </div>
         </div>
@@ -776,6 +800,7 @@ $(':file').on('change', function () {
                 </div>
             </div>
             <div class="modal-footer">
+                <span class="col-md-12 disnone loadinginfo" id="loadinginfo1">Loading</span>
                 <button type="button" class="btn btn-default" onclick="signewclose()">Close</button>
             </div>
         </div>
@@ -784,7 +809,7 @@ $(':file').on('change', function () {
 </div>
 
 
-<div id="sig" class="modal fade" role="dialog">
+<div id="sig" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog" id="sigmodal">
         <!-- Modal content-->
         <div class="modal-content">
@@ -852,6 +877,7 @@ $(':file').on('change', function () {
     function signaturemodalclose() {
         $('#sig').modal('toggle');
         $('.sig1').click();
+        $('.sig1_new').click();
     }
     
 </script>
@@ -870,7 +896,6 @@ $(':file').on('change', function () {
     });
     
     function currentsignature(arg=''){
-        
         var ajaxurl11='';
         var objectdata11 =''; 
         if(arg!=''){
@@ -880,6 +905,7 @@ $(':file').on('change', function () {
                 method: 'POST',
                 processData: false,
                 contentType: false,
+                cache: false,
                 success: function(response11){
                     objectdata11 = jQuery.parseJSON(response11);
                     // rendersignature(objectdata11,arg);
@@ -911,9 +937,9 @@ $(':file').on('change', function () {
                     var realData ="";
             
                     if(arg==1){  
-                        
-                        randNum1='?ver1='+Math.floor(Math.random() * 6);
+                        randNum1='?ver1='+Math.random() * 6;
                         if(objectdata11.status){
+                            imgurl1="";
                             imgurl1='<?php echo BASE_URI. 'img/avatars/tempsignature/'.$this_current_id.'/temp/';?>'+objectdata11.name+randNum1+'';
                             $('#sign_exist_new #sigs').addClass('sigoptionheight');
                             $('#sign_exist_new .modelstylediv').removeClass('modelstyle').addClass('modelstyle');
@@ -922,13 +948,11 @@ $(':file').on('change', function () {
                             $("#sign_exist_new #use_this_sign").prop("disabled", false);
                             $('#sign_exist_new .sig1_new').attr('checked',true);
                             $('#sign_exist_new #imgrender').html('<img class="sign_img_new img-responsive" src="'+imgurl1+'">').trigger('change');
-                            
                             $("#sign_exist_new .sig3_new").prop("checked", false);
                             $("#sign_exist_new .sig3_new").prop("disabled", true);
-                            
-                            $('#sign_exist_new').modal('toggle');
                             $('#sign_exist_new #tempimgsrc').val('');
                             $('#sign_exist_new #tempimgsrc_ext').val('');
+                            $('#sign_exist_new').modal('toggle');
                             
                         }else{
                             imgurl1='<?php echo BASE_URI. 'img/avatars/no-image.png'?>';
@@ -968,6 +992,7 @@ $(':file').on('change', function () {
     });
     
     function uploadsignature(datafile=""){
+        $('#loadinginfo1').removeClass('disnone');
         var fd = '';
         var files = '';
         var imgurl2= '';
@@ -978,20 +1003,23 @@ $(':file').on('change', function () {
         if (datafile.files && datafile.files[0]) {
             var reader = new FileReader();
             reader.onload = function (e) {
-                var str = datafile.files[0].name;
-                var ext = str.substring(str.lastIndexOf(".") + 1, str.length);
-                $('#signew').modal('toggle');
-                $("#sign_exist_new .sig1_new").prop("disabled", false);
-                $('#sign_exist_new .sig1_new').attr('checked',true);
-                $('#sign_exist_new .sig1_new').click();
-                $("#sign_exist_new #use_this_sign").prop("disabled", false);
-                imgurl2 = e.target.result;
-                $('#sign_exist_new #tempimgsrc').val(imgurl2);
-                $('#sign_exist_new #tempimgsrc_ext').val(ext);
-                $('.sign_img_new').attr("src",imgurl2).trigger('change');
-                $("#sign_exist_new .sig3_new").prop("checked", false);
-                $("#sign_exist_new .sig3_new").prop("disabled", false);
-                $('#sign_exist_new').modal('toggle'); 
+                setTimeout(function(){
+                    var str = datafile.files[0].name;
+                    var ext = str.substring(str.lastIndexOf(".") + 1, str.length);
+                    $('#signew').modal('toggle');
+                    // $("#sign_exist_new .sig1_new").prop("disabled", false);
+                    // $('#sign_exist_new .sig1_new').attr('checked',true);
+                    // $('#sign_exist_new .sig1_new').click();
+                    $("#sign_exist_new #use_this_sign").prop("disabled", false);
+                    imgurl2 = e.target.result;
+                    $('#sign_exist_new #tempimgsrc').val(imgurl2);
+                    $('#sign_exist_new #tempimgsrc_ext').val(ext);
+                    $('.sign_img_new').attr("src",imgurl2).trigger('change');
+                    $("#sign_exist_new .sig3_new").prop("checked", false);
+                    $("#sign_exist_new .sig3_new").prop("disabled", false);
+                    $('#sign_exist_new').modal('toggle'); 
+                    $('#loadinginfo1').removeClass('disnone').addClass('disnone');
+                }, 2000);
             }
             reader.readAsDataURL(datafile.files[0]);
         }
@@ -1008,17 +1036,23 @@ $(':file').on('change', function () {
         sign_pad_width0 = $('#sign_pad_width').val();
         ajaurl0='<?php echo BASE_URI; ?>';
         if($('#sign_exist_new #tempimgsrc').val()==''){
+            $('#loadinginfo').removeClass('disnone');
             $.ajax({
                 url: ajaurl0+'altersignature.php',
                 method: 'POST',
                 processData: false,
                 contentType: false,
+                cache: false,
                 success: function(response0){
-                    objct0 = jQuery.parseJSON(response0);
-                    randNum0='?ver0='+Math.floor(Math.random() * 10);
-                    imgurl0='<?php echo BASE_URI. 'img/avatars/tempsignature/'.$this_current_id.'/temp/';?>'+objct0.name+randNum0+'';
-                    $('#'+sign_pad_id0).html('<img class="size_fix" width="'+sign_pad_width0+'" src="'+imgurl0+'">').trigger('change');
-                    $('#sign_exist_new').modal('toggle');
+                    setTimeout(function(){
+                        objct0 = jQuery.parseJSON(response0);
+                        // randNum0='?ver0='+Math.floor(Math.random() * 10);
+                        randNum0='?ver0='+Math.random() * 7;
+                        imgurl0='<?php echo BASE_URI. 'img/avatars/tempsignature/'.$this_current_id.'/temp/';?>'+objct0.name+randNum0+'';
+                        $('#'+sign_pad_id0).html('<img class="size_fix" width="'+sign_pad_width0+'" src="'+imgurl0+'">').trigger('change');
+                        $('#sign_exist_new').modal('toggle');
+                        $('#loadinginfo').removeClass('disnone').addClass('disnone');
+                    }, 2000);
                 }
             });
         }else{
@@ -1032,26 +1066,37 @@ $(':file').on('change', function () {
             
             if($("#sign_exist_new .sig3_new").prop('checked') == true){
                 var altresult = confirm("Are you sure want to save as your account signature?");
+                //  alert(altresult);
                 if (altresult==true) {
+                    $('#loadinginfo').removeClass('disnone');
+                        // alert('aaa');
                     $.ajax({
                         url: 'save_tempfile.php',
                         data: { 'img_data':realData,'user_id_mic':'<?php echo $this_current_id;?>','doc_sign_page':true,'extension':$('#sign_exist_new #tempimgsrc_ext').val()},
                         type: 'post',
                         dataType: 'json',
                         async: false,
+                        cache: false,
                         success:function(arg){
                             if(arg.status==true){
-                                $('#'+sign_pad_id0).html('<img class="size_fix" width="'+sign_pad_width0+'" src="'+dataUrl+'">').trigger('change');
-                                $("#sign_exist_new .sig3_new").prop("checked", false);
-                                $('#sign_exist_new').modal('toggle').trigger('change');
+                                setTimeout(function(){
+                                    $('#'+sign_pad_id0).html('<img class="size_fix" width="'+sign_pad_width0+'" src="'+dataUrl+'">').trigger('change');
+                                    $("#sign_exist_new .sig3_new").prop("checked", false);
+                                    $('#sign_exist_new .sig1_new').click();
+                                    $('#sign_exist_new').modal('toggle').trigger('change');
+                                    $('#loadinginfo').removeClass('disnone').addClass('disnone');
+                                }, 2000);
                             }
                         }
                     });
                 }else {
+                    // alert('bbb');
+                    $('#sign_exist_new .sig1_new').click();
                     $("#sign_exist_new .sig3_new").prop("checked", false);
                 }
             }else{
                 $('#'+sign_pad_id0).html('<img class="size_fix" width="'+sign_pad_width0+'" src="'+dataUrl+'">').trigger('change');
+                $('#sign_exist_new .sig1_new').click();
                 $('#sign_exist_new').modal('toggle');
             }
         }
@@ -1069,10 +1114,10 @@ $(':file').on('change', function () {
         var str = datafile;
         var ext = str.substring(str.lastIndexOf(".") + 1, str.length);
         $('#sig').modal('toggle');
-        $("#sign_exist_new .sig1_new").prop("disabled", false);
+        // $("#sign_exist_new .sig1_new").prop("disabled", false);
         $('#signew .sig1').click();
-        $('#sign_exist_new .sig1_new').attr('checked',true);
-        $('#sign_exist_new .sig1_new').click();
+        // $('#sign_exist_new .sig1_new').attr('checked',true);
+        // $('#sign_exist_new .sig1_new').click();
         imgurl3 = datafile;
         $('#sign_exist_new #tempimgsrc').val(imgurl3);
         $('#sign_exist_new #tempimgsrc_ext').val('png');
