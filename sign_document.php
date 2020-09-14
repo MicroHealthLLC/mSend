@@ -1,3 +1,4 @@
+
 <?php 
 require_once('sys.includes.php');
 $this_current_id = $_SESSION['loggedin_id'];
@@ -21,7 +22,8 @@ if(isset($_POST)){
         $image_width = 1146.260;
 }
 
-
+ 
+ 
 $signature_request_key = $_GET['auth'];
 
 $stmt1 = $dbh->prepare("SELECT * FROM tbl_draw_sign_details WHERE keypath=:keypath");
@@ -36,6 +38,7 @@ $tbl_draw_sign_detail_info = $stmt1->fetch();
 if($tbl_draw_sign_detail_info){
     // $stmt5 = $dbh->prepare("SELECT * FROM tbl_drop_off_request WHERE id=".$tbl_draw_sign_detail_info['drop_off_request_id']." AND status=0");
     // $stmt5->execute(); 
+    
     // $tbl_drop_off_request_info = $stmt5->fetch();
     // // echo "<pre>";print_r($tbl_drop_off_request_info);echo "</pre>";exit;
     // if($tbl_drop_off_request_info){
@@ -854,7 +857,7 @@ $(':file').on('change', function () {
             $('#sign_exist_new').modal('toggle');
             $('#signew').modal('toggle');
         }else{
-            // currentsignature(1);
+            currentsignature(1,'currentsig');
         }
     }
         
@@ -895,7 +898,7 @@ $(':file').on('change', function () {
         currentsignature(1);
     });
     
-    function currentsignature(arg=''){
+    function currentsignature(arg='',arg1=''){
         var ajaxurl11='';
         var objectdata11 =''; 
         if(arg!=''){
@@ -952,8 +955,9 @@ $(':file').on('change', function () {
                             $("#sign_exist_new .sig3_new").prop("disabled", true);
                             $('#sign_exist_new #tempimgsrc').val('');
                             $('#sign_exist_new #tempimgsrc_ext').val('');
-                            $('#sign_exist_new').modal('toggle');
-                            
+                            if(arg1!='currentsig'){
+                                $('#sign_exist_new').modal('toggle');
+                            }
                         }else{
                             imgurl1='<?php echo BASE_URI. 'img/avatars/no-image.png'?>';
                             $('#sign_exist_new .modelstylediv').removeClass('modelstyle1').addClass('modelstyle1');

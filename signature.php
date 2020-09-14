@@ -1,3 +1,4 @@
+
 <style type="text/css">
   #sig-canvas {
     border: 2px dotted #CCCCCC;
@@ -5,6 +6,7 @@
     cursor: crosshair;
   }
 </style>
+
 
   <!-- Content -->
   <div class="container">
@@ -115,6 +117,7 @@
       y: mouseEvent.clientY - rect.top
     }
   }
+  
 
   function getTouchPos(canvasDom, touchEvent) {
     var rect = canvasDom.getBoundingClientRect();
@@ -155,6 +158,7 @@
     renderCanvas();
   })();
 
+
   function clearCanvas() {
     canvas.width = canvas.width;
   }
@@ -180,7 +184,7 @@
     var contentType = block[0].split(":")[1];// In this case "image/gif"
     // get the real base64 content of the file
     var realData = block[1].split(",")[1];// In this case "R0lGODlhPQBEAPeoAJosM...."
-
+    // console.log(realData);
     // Convert it to a blob to upload
     // var blob = b64toBlob(realData, contentType);
     
@@ -209,6 +213,7 @@ function savepic(argument,id) {
     if($('#sigmodal').find('input[name="sigfile"]').val()!=undefined){
         sigfile=true;
     }
+    
     $.ajax({
         url: 'save_sign.php',
         data: { 'img_data':argument,'user_id_mic':id ,'doc_sign_page':doc_sign_page},

@@ -1,17 +1,18 @@
-
 <?php 
 require_once('sys.includes.php');
 // Define the Base64 value you need to save as an image
 $b64 = $_POST['img_data'];
 $doc_sign_page = $_POST['doc_sign_page'];
-$user_id_mic =$_POST['user_id_mic'];
-// var_dump($user_id_mic);die();
 
+$user_id_mic =$_POST['user_id_mic'];
+$ext =$_POST['extension'];
 if($doc_sign_page=="true"){
     $statement = $dbh->prepare("DELETE FROM " . TABLE_USER_EXTRA_PROFILE . " WHERE user_id =".$user_id_mic." AND name='signature_pic' AND sig_type = 2");
 	$statement->execute();
-   	$sign_save = $dbh->prepare( "INSERT INTO " . TABLE_USER_EXTRA_PROFILE . " (user_id, name, sig_type, value) VALUES (".$user_id_mic.",'signature_pic','2','".$user_id_mic.".png' ) ");
+    
+   	$sign_save = $dbh->prepare( "INSERT INTO " . TABLE_USER_EXTRA_PROFILE . " (user_id, name, sig_type, value) VALUES (".$user_id_mic.",'signature_pic','2','".$user_id_mic.".".$ext."' ) ");
 	$prochange=$sign_save->execute();
+// 	var_dump($_POST);die();
 }
   $targetsignature_dir = UPLOADED_FILES_FOLDER.'../../img/avatars/tempsignature/'.$user_id_mic.'/';
 if (!file_exists($targetsignature_dir)) {
@@ -33,18 +34,17 @@ if (empty($size['mime']) || strpos($size['mime'], 'image/') !== 0) {
 
 if($user_id_mic!=''){
   // Specify the location where you want to save the image
-  $img_file = $targetsignature_dir.$user_id_mic.'.png';
+  $img_file = $targetsignature_dir.$user_id_mic.'.'.$ext;
 }else{
-  $img_file = $targetsignature_dir.'temp.png';
+  $img_file = $targetsignature_dir.'temp.jpg';
 }
-// var_dump($img_file);
-
 // Save binary data as raw data (that is, it will not remove metadata or invalid contents)
 // In this case, the PHP backdoor will be stored on the server
+
 if(file_put_contents($img_file, $bin)){
 	$aes = new AESENCRYPT ();					
-	$aes->encryptFile($user_id_mic.'.png','draw',$user_id_mic);
-	$result1  = $aes->decryptFile($user_id_mic.'.png','draw',$user_id_mic);
+	$aes->encryptFile($user_id_mic.'.'.$ext,'upload',$user_id_mic);
+	$result1  = $aes->decryptFile($user_id_mic.'.'.$ext,'upload',$user_id_mic);
   	echo json_encode(array('status'=>true,'tname'=>$img_file,'chageid'=>1));
 }else{
   echo json_encode(array('status'=>false,'tname'=>'','chageid'=>''));

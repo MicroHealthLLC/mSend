@@ -1,3 +1,4 @@
+
 <?php 
 require_once('sys.includes.php');
 $result = array();
@@ -45,13 +46,12 @@ if($data){
 
     	$aes = new AESENCRYPT ();					
 		$result  = $aes->reqencryptFile($filename,$data1['from_id'],$drop_off_request_id);
+		
 // 		$result1  = $aes->reqdecryptFile($filename,$data1['from_id'],$drop_off_request_id);
-
 
 	$result['status'] = true;
 	$result['file_name'] = $file_name1;
 	//$result['file_name'] = '/signatures/'.$filename;
-	
 	
     // $url = $fname;
     $url = $filename;
@@ -65,7 +65,6 @@ if($data){
     $time = '202020-07-07 00:00:00';
     $expdate = '2020-07-07 00:00:00';
   
-    
     $statement = $dbh->prepare("INSERT INTO ".TABLE_FILES." (`url`, `filename`, `description`, `timestamp`, `uploader`, `expires`, `expiry_date`, `future_send_date`, `public_allow`, `public_token`,`request_type`,`tbl_drop_off_request_id`) VALUES ('$url', '$filename', '', CURRENT_TIMESTAMP, '$uploader', '0', '2017-12-09 00:00:00',  '".date('Y-m-d 00:00:00')."','0', NULL,'1','$dropoffrequestid');");
 
     if($statement->execute()) {
@@ -229,6 +228,7 @@ if($data){
         	  </body>
         	</html>";
         	
+        	
         // 	<a href='".BASE_URI."sign_document.php?auth=".$keypath."&key=sign' target='_blank'
         
         		/**
@@ -282,6 +282,18 @@ if($data){
         		/**
         		 * Finally, send the e-mail.
         		 */
+        		 
+        // 		if($send_mail->Send()) {
+					
+        // 			$cc_status1 = "<div class=\"alert alert-success cc-success\"><strong>Success!</strong>Your Request has been submitted successfully.</div>";
+        // 		}
+        // 		else {
+        // 			$cc_status1 = "<div class=\"alert alert-danger cc-failed\"><strong>Oops! </strong>Something went wrong! please try after sometime.</div>";
+        // 		}
+        		 
+        		 
+        		 
+        		 
         		if($send_mail->Send()) {
 					
         			$cc_status = "<div class=\"alert alert-success cc-success\"><strong>Success!</strong>Your Request has been submitted successfully.</div>";
