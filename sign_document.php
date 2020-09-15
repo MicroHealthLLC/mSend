@@ -782,10 +782,10 @@ $(':file').on('change', function () {
     <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" onclick="signewclose()">&times;</button>
+                <button type="button" class="close signew_close" onclick="signewclose()">&times;</button>
                 <h4 class="modal-title">Add New Signature </h4>
             </div>
-            <div class="modal-body" style="height: 100px;">
+            <div class="modal-body" style="height: 130px;">
                 <div class="form-group">
                     <div class="col-sm-12">
                         <input id="0003" type="radio" name="add_usersignature" class="sig1" checked="true">
@@ -804,7 +804,7 @@ $(':file').on('change', function () {
             </div>
             <div class="modal-footer">
                 <span class="col-md-12 disnone loadinginfo" id="loadinginfo1">Loading</span>
-                <button type="button" class="btn btn-default" onclick="signewclose()">Close</button>
+                <button type="button" class="btn btn-default signew_close" onclick="signewclose()">Close</button>
             </div>
         </div>
 
@@ -854,7 +854,10 @@ $(':file').on('change', function () {
 
     function changeradiobtn(arg){
         if(arg==2){
-            $('#sign_exist_new').modal('toggle');
+            // alert('Add new Signature model open - 444');
+            // $('#sign_exist_new #tempimgsrc').val('');
+            // $('#sign_exist_new #tempimgsrc_ext').val('');
+            $('#sign_exist_new').modal('hide');
             $('#signew').modal('toggle');
         }else{
             currentsignature(1,'currentsig');
@@ -862,14 +865,16 @@ $(':file').on('change', function () {
     }
         
     function signatureexistmodalclose() {
-        $('#sign_exist_new .sig1_new').click();
-        $('#sign_exist_new').modal('toggle');
+        // alert('Use this signature model close- 333');
+        // $('#sign_exist_new .sig1_new').click();
+        $('#sign_exist_new').modal('hide');
     }
     
     function signewclose() {
-        $('#signew').modal('toggle');
-        $('#sign_exist_new .sig1_new').click();
+        $('#signew').modal('hide');
+        // $('#sign_exist_new .sig1_new').click();
         $('.sig2_new').prop('checked', false);
+        // alert('Add New Signature model - 666');
     }
     
     $("#create_new_sign").click(function(e){
@@ -878,15 +883,18 @@ $(':file').on('change', function () {
     });
     
     function signaturemodalclose() {
-        $('#sig').modal('toggle');
+        // alert('Draw new signature model close - 888');
+        $('#sig').modal('hide');
+        $('.sig2_new').prop('checked', false);
         $('.sig1').click();
-        $('.sig1_new').click();
+        // $('.sig1_new').click();
     }
     
 </script>
 
 <script>
     $("#frame").on( 'click', '.signature_exist', function () {
+        // alert('Frame click open- 111');
         var eid ='';
         var wdth ='';
         var arg='';
@@ -942,6 +950,7 @@ $(':file').on('change', function () {
                     if(arg==1){  
                         randNum1='?ver1='+Math.random() * 6;
                         if(objectdata11.status){
+                            // alert('Current sign - 555');
                             imgurl1="";
                             imgurl1='<?php echo BASE_URI. 'img/avatars/tempsignature/'.$this_current_id.'/temp/';?>'+objectdata11.name+randNum1+'';
                             $('#sign_exist_new #sigs').addClass('sigoptionheight');
@@ -949,7 +958,7 @@ $(':file').on('change', function () {
                             $('#sign_exist_new .modelstylediv').removeClass('modelstyle1');
                             $("#sign_exist_new .sig1_new").prop("disabled", false);
                             $("#sign_exist_new #use_this_sign").prop("disabled", false);
-                            $('#sign_exist_new .sig1_new').attr('checked',true);
+                            $('#sign_exist_new .sig1_new').prop('checked',true);
                             $('#sign_exist_new #imgrender').html('<img class="sign_img_new img-responsive" src="'+imgurl1+'">').trigger('change');
                             $("#sign_exist_new .sig3_new").prop("checked", false);
                             $("#sign_exist_new .sig3_new").prop("disabled", true);
@@ -959,6 +968,7 @@ $(':file').on('change', function () {
                                 $('#sign_exist_new').modal('toggle');
                             }
                         }else{
+                            // alert('Empty sign - 222');
                             imgurl1='<?php echo BASE_URI. 'img/avatars/no-image.png'?>';
                             $('#sign_exist_new .modelstylediv').removeClass('modelstyle1').addClass('modelstyle1');
                             $('#sign_exist_new .modelstylediv').removeClass('modelstyle');
@@ -975,16 +985,13 @@ $(':file').on('change', function () {
                     
                 }
             });
-        }
-            
-    
-        
-        
+        }  
         
     }
     
     $('#signew #upload_this_sign').on('change',function(evt) {
-        $('#signew #but_upload').click();
+        // $('#signew #but_upload').click();
+        uploadsignature();
     });
     
     function uploadsignaturefun(){
@@ -992,10 +999,12 @@ $(':file').on('change', function () {
     }
     
     $("#signew #upload_this_sign").change(function(){
+        // $(".signew_close").prop("disabled", true);
         uploadsignature(this);
     });
     
     function uploadsignature(datafile=""){
+        // alert('444');
         $('#loadinginfo1').removeClass('disnone');
         var fd = '';
         var files = '';
@@ -1010,7 +1019,7 @@ $(':file').on('change', function () {
                 setTimeout(function(){
                     var str = datafile.files[0].name;
                     var ext = str.substring(str.lastIndexOf(".") + 1, str.length);
-                    $('#signew').modal('toggle');
+                    $('#signew').modal('hide');
                     // $("#sign_exist_new .sig1_new").prop("disabled", false);
                     // $('#sign_exist_new .sig1_new').attr('checked',true);
                     // $('#sign_exist_new .sig1_new').click();
@@ -1021,6 +1030,8 @@ $(':file').on('change', function () {
                     $('.sign_img_new').attr("src",imgurl2).trigger('change');
                     $("#sign_exist_new .sig3_new").prop("checked", false);
                     $("#sign_exist_new .sig3_new").prop("disabled", false);
+                    $('.sig2_new').prop('checked', false);
+                    // $(".signew_close").prop("disabled", false);
                     $('#sign_exist_new').modal('toggle'); 
                     $('#loadinginfo1').removeClass('disnone').addClass('disnone');
                 }, 2000);
@@ -1040,6 +1051,7 @@ $(':file').on('change', function () {
         sign_pad_width0 = $('#sign_pad_width').val();
         ajaurl0='<?php echo BASE_URI; ?>';
         if($('#sign_exist_new #tempimgsrc').val()==''){
+            // alert('use this - 111');
             $('#loadinginfo').removeClass('disnone');
             $.ajax({
                 url: ajaurl0+'altersignature.php',
@@ -1060,6 +1072,7 @@ $(':file').on('change', function () {
                 }
             });
         }else{
+            // alert('use this - 222');
             var dataUrl=$("#tempimgsrc").val();
             // Split the base64 string in data and contentType
             var block = dataUrl.split(";");
@@ -1094,13 +1107,15 @@ $(':file').on('change', function () {
                         }
                     });
                 }else {
+                    // alert('use this to account - 444');
                     // alert('bbb');
                     $('#sign_exist_new .sig1_new').click();
                     $("#sign_exist_new .sig3_new").prop("checked", false);
                 }
             }else{
+                // alert('use this to account - 333');
                 $('#'+sign_pad_id0).html('<img class="size_fix" width="'+sign_pad_width0+'" src="'+dataUrl+'">').trigger('change');
-                $('#sign_exist_new .sig1_new').click();
+                // $('#sign_exist_new .sig1_new').click();
                 $('#sign_exist_new').modal('toggle');
             }
         }
@@ -1108,18 +1123,22 @@ $(':file').on('change', function () {
     });
     
     function newsign(){
+        // alert('Draw Signature - 777');
         $('#signaturechen').removeClass('disnone').addClass('disnone');
+        $('#signew').modal('hide');
         $('#sig').modal('toggle');
-        $('#signew').modal('toggle');
     }
     
     function drawnewsignature(datafile=""){
+        // alert('drawnewsignature - 999');
         var imgurl3='';
         var str = datafile;
         var ext = str.substring(str.lastIndexOf(".") + 1, str.length);
-        $('#sig').modal('toggle');
+        $('#sig').modal('hide');
         // $("#sign_exist_new .sig1_new").prop("disabled", false);
+        
         $('#signew .sig1').click();
+        
         // $('#sign_exist_new .sig1_new').attr('checked',true);
         // $('#sign_exist_new .sig1_new').click();
         imgurl3 = datafile;
@@ -1129,8 +1148,11 @@ $(':file').on('change', function () {
         $("#sign_exist_new .sig3_new").prop("checked", false);
         $("#sign_exist_new .sig3_new").prop("disabled", false);
         $("#sign_exist_new #use_this_sign").prop("disabled", false);
+        $('.sig2_new').prop('checked', false);
         $('#sign_exist_new').modal('toggle');         
     }
+    
+    
     
     
 </script>

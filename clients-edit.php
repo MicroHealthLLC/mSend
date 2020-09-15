@@ -299,11 +299,11 @@ include('header.php');
 						// WORKING DECRYPTION CODE END
 										
 										if(!empty($fl_name)){
-											$statement = $dbh->prepare("DELETE FROM " . TABLE_USER_EXTRA_PROFILE . " WHERE user_id =".$client_id." AND name='signature_pic'");
+											$statement = $dbh->prepare("DELETE FROM " . TABLE_USER_EXTRA_PROFILE . " WHERE user_id =".$client_id." AND name='signature_pic' AND sig_type='2'");
 									    	$statement->execute();
 											// echo("DONE");
 
-											$alternate_email_save = $dbh->prepare( "INSERT INTO " . TABLE_USER_EXTRA_PROFILE . " (user_id, name, value,sig_type) VALUES (".$client_id.",'signature_pic','".$fl_name."',1 ) ");
+											$alternate_email_save = $dbh->prepare( "INSERT INTO " . TABLE_USER_EXTRA_PROFILE . " (user_id, name, value,sig_type) VALUES (".$client_id.",'signature_pic','".$fl_name."',2 ) ");
 											$prochange=$alternate_email_save->execute();
 											if($prochange==true){
 												// header("Location:".SITE_URI."clients-edit.php?id=".$edit_arguments['id']."&fid=1");
