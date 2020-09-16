@@ -702,8 +702,15 @@ $(document).ready(function(){
     
 
 $(':file').on('change', function () {
-  var file = this.files[0];
-     $("#savefile").click(); 
+    $('#loadinginfo').removeClass('disnone').addClass('disnone');
+    $('#loadinginfo1').removeClass('disnone').addClass('disnone');
+    $("#sign_exist_new .sig1_new").prop("disabled", false);
+    $("#sign_exist_new .sig2_new").prop("disabled", false);
+    $("#sign_exist_new .sig3_new").prop("disabled", false);
+    $('#sign_exist_new .sign_exist_new_close').prop("disabled", false);
+    $('#sign_exist_new #use_this_sign').prop("disabled", false);
+    var file = this.files[0];
+    $("#savefile").click(); 
 });
 
 
@@ -732,7 +739,7 @@ $(':file').on('change', function () {
     <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" onclick="signatureexistmodalclose()">&times;</button>
+                <button type="button" class="close sign_exist_new_close" onclick="signatureexistmodalclose()">&times;</button>
                 <h4 class="modal-title">Use this signature</h4>
             </div>
             <div class="modal-body modelstylediv">
@@ -768,7 +775,7 @@ $(':file').on('change', function () {
             </div>
             <div class="modal-footer">
                 <span class="col-md-12 disnone loadinginfo" id="loadinginfo">Loading</span>
-                <button type="button" class="btn btn-default" onclick="signatureexistmodalclose()">Close</button>
+                <button type="button" class="btn btn-default sign_exist_new_close" onclick="signatureexistmodalclose()">Close</button>
             </div>
         </div>
 
@@ -853,6 +860,14 @@ $(':file').on('change', function () {
    
 
     function changeradiobtn(arg){
+        $('#signew .signew_close').prop("disabled", false);
+        $('#loadinginfo').removeClass('disnone').addClass('disnone');
+        $('#loadinginfo1').removeClass('disnone').addClass('disnone');
+        $("#sign_exist_new .sig1_new").prop("disabled", false);
+        $("#sign_exist_new .sig2_new").prop("disabled", false);
+        $("#sign_exist_new .sig3_new").prop("disabled", false);
+        $('#sign_exist_new .sign_exist_new_close').prop("disabled", false);
+        $('#sign_exist_new #use_this_sign').prop("disabled", false);
         if(arg==2){
             // alert('Add new Signature model open - 444');
             // $('#sign_exist_new #tempimgsrc').val('');
@@ -865,12 +880,28 @@ $(':file').on('change', function () {
     }
         
     function signatureexistmodalclose() {
+        $('#signew .signew_close').prop("disabled", false);
+        $('#loadinginfo').removeClass('disnone').addClass('disnone');
+        $('#loadinginfo1').removeClass('disnone').addClass('disnone');
+        $("#sign_exist_new .sig1_new").prop("disabled", false);
+        $("#sign_exist_new .sig2_new").prop("disabled", false);
+        $("#sign_exist_new .sig3_new").prop("disabled", false);
+        $('#sign_exist_new .sign_exist_new_close').prop("disabled", false);
+        $('#sign_exist_new #use_this_sign').prop("disabled", false);
         // alert('Use this signature model close- 333');
         // $('#sign_exist_new .sig1_new').click();
         $('#sign_exist_new').modal('hide');
     }
     
     function signewclose() {
+        $('#signew .signew_close').prop("disabled", false);
+        $('#loadinginfo').removeClass('disnone').addClass('disnone');
+        $('#loadinginfo1').removeClass('disnone').addClass('disnone');
+        $("#sign_exist_new .sig1_new").prop("disabled", false);
+        $("#sign_exist_new .sig2_new").prop("disabled", false);
+        $("#sign_exist_new .sig3_new").prop("disabled", false);
+        $('#sign_exist_new .sign_exist_new_close').prop("disabled", false);
+        $('#sign_exist_new #use_this_sign').prop("disabled", false);
         $('#signew').modal('hide');
         // $('#sign_exist_new .sig1_new').click();
         $('.sig2_new').prop('checked', false);
@@ -878,11 +909,27 @@ $(':file').on('change', function () {
     }
     
     $("#create_new_sign").click(function(e){
+        $('#signew .signew_close').prop("disabled", false);
+        $('#loadinginfo').removeClass('disnone').addClass('disnone');
+        $('#loadinginfo1').removeClass('disnone').addClass('disnone');
+        $("#sign_exist_new .sig1_new").prop("disabled", false);
+        $("#sign_exist_new .sig2_new").prop("disabled", false);
+        $("#sign_exist_new .sig3_new").prop("disabled", false);
+        $('#sign_exist_new .sign_exist_new_close').prop("disabled", false);
+        $('#sign_exist_new #use_this_sign').prop("disabled", false);
         $('#sig').modal('toggle');
         $('#signew').modal('toggle');
     });
     
     function signaturemodalclose() {
+        $('#signew .signew_close').prop("disabled", false);
+        $('#loadinginfo').removeClass('disnone').addClass('disnone');
+        $('#loadinginfo1').removeClass('disnone').addClass('disnone');
+        $("#sign_exist_new .sig1_new").prop("disabled", false);
+        $("#sign_exist_new .sig2_new").prop("disabled", false);
+        $("#sign_exist_new .sig3_new").prop("disabled", false);
+        $('#sign_exist_new .sign_exist_new_close').prop("disabled", false);
+        $('#sign_exist_new #use_this_sign').prop("disabled", false);
         // alert('Draw new signature model close - 888');
         $('#sig').modal('hide');
         $('.sig2_new').prop('checked', false);
@@ -894,6 +941,14 @@ $(':file').on('change', function () {
 
 <script>
     $("#frame").on( 'click', '.signature_exist', function () {
+        $('#signew .signew_close').prop("disabled", false);
+        $('#loadinginfo').removeClass('disnone').addClass('disnone');
+        $('#loadinginfo1').removeClass('disnone').addClass('disnone');
+        $("#sign_exist_new .sig1_new").prop("disabled", false);
+        $("#sign_exist_new .sig2_new").prop("disabled", false);
+        $("#sign_exist_new .sig3_new").prop("disabled", false);
+        $('#sign_exist_new .sign_exist_new_close').prop("disabled", false);
+        $('#sign_exist_new #use_this_sign').prop("disabled", false);
         // alert('Frame click open- 111');
         var eid ='';
         var wdth ='';
@@ -907,6 +962,14 @@ $(':file').on('change', function () {
     });
     
     function currentsignature(arg='',arg1=''){
+        $('#signew .signew_close').prop("disabled", false);
+        $('#loadinginfo').removeClass('disnone').addClass('disnone');
+        $('#loadinginfo1').removeClass('disnone').addClass('disnone');
+        $("#sign_exist_new .sig1_new").prop("disabled", false);
+        $("#sign_exist_new .sig2_new").prop("disabled", false);
+        $("#sign_exist_new .sig3_new").prop("disabled", false);
+        $('#sign_exist_new .sign_exist_new_close').prop("disabled", false);
+        $('#sign_exist_new #use_this_sign').prop("disabled", false);
         var ajaxurl11='';
         var objectdata11 =''; 
         if(arg!=''){
@@ -990,20 +1053,52 @@ $(':file').on('change', function () {
     }
     
     $('#signew #upload_this_sign').on('change',function(evt) {
+        // $('#signew .signew_close').prop("disabled", false);
+        // $('#loadinginfo').removeClass('disnone').addClass('disnone');
+        // $('#loadinginfo1').removeClass('disnone').addClass('disnone');
+        // $("#sign_exist_new .sig1_new").prop("disabled", false);
+        // $("#sign_exist_new .sig2_new").prop("disabled", false);
+        // $("#sign_exist_new .sig3_new").prop("disabled", false);
+        // $('#sign_exist_new .sign_exist_new_close').prop("disabled", false);
+        // $('#sign_exist_new #use_this_sign').prop("disabled", false);
         // $('#signew #but_upload').click();
         uploadsignature();
     });
     
     function uploadsignaturefun(){
+        $('#signew .signew_close').prop("disabled", false);
+        $('#loadinginfo').removeClass('disnone').addClass('disnone');
+        $('#loadinginfo1').removeClass('disnone').addClass('disnone');
+        $("#sign_exist_new .sig1_new").prop("disabled", false);
+        $("#sign_exist_new .sig2_new").prop("disabled", false);
+        $("#sign_exist_new .sig3_new").prop("disabled", false);
+        $('#sign_exist_new .sign_exist_new_close').prop("disabled", false);
+        $('#sign_exist_new #use_this_sign').prop("disabled", false);
         uploadsignature();
     }
     
     $("#signew #upload_this_sign").change(function(){
+        $('#signew .signew_close').prop("disabled", false);
+        $('#loadinginfo').removeClass('disnone').addClass('disnone');
+        $('#loadinginfo1').removeClass('disnone').addClass('disnone');
+        $("#sign_exist_new .sig1_new").prop("disabled", false);
+        $("#sign_exist_new .sig2_new").prop("disabled", false);
+        $("#sign_exist_new .sig3_new").prop("disabled", false);
+        $('#sign_exist_new .sign_exist_new_close').prop("disabled", false);
+        $('#sign_exist_new #use_this_sign').prop("disabled", false);
         // $(".signew_close").prop("disabled", true);
         uploadsignature(this);
     });
     
     function uploadsignature(datafile=""){
+        $('#signew .signew_close').prop("disabled", true);
+        $('#loadinginfo').removeClass('disnone').addClass('disnone');
+        $('#loadinginfo1').removeClass('disnone').addClass('disnone');
+        $("#sign_exist_new .sig1_new").prop("disabled", false);
+        $("#sign_exist_new .sig2_new").prop("disabled", false);
+        $("#sign_exist_new .sig3_new").prop("disabled", false);
+        $('#sign_exist_new .sign_exist_new_close').prop("disabled", false);
+        $('#sign_exist_new #use_this_sign').prop("disabled", false);
         // alert('444');
         $('#loadinginfo1').removeClass('disnone');
         var fd = '';
@@ -1012,35 +1107,44 @@ $(':file').on('change', function () {
         fd = new FormData();
         files = $('#upload_this_sign')[0].files[0];
         fd.append('upload_this_sign',files);
-        
-        if (datafile.files && datafile.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                setTimeout(function(){
-                    var str = datafile.files[0].name;
-                    var ext = str.substring(str.lastIndexOf(".") + 1, str.length);
-                    $('#signew').modal('hide');
-                    // $("#sign_exist_new .sig1_new").prop("disabled", false);
-                    // $('#sign_exist_new .sig1_new').attr('checked',true);
-                    // $('#sign_exist_new .sig1_new').click();
-                    $("#sign_exist_new #use_this_sign").prop("disabled", false);
-                    imgurl2 = e.target.result;
-                    $('#sign_exist_new #tempimgsrc').val(imgurl2);
-                    $('#sign_exist_new #tempimgsrc_ext').val(ext);
-                    $('.sign_img_new').attr("src",imgurl2).trigger('change');
-                    $("#sign_exist_new .sig3_new").prop("checked", false);
-                    $("#sign_exist_new .sig3_new").prop("disabled", false);
-                    $('.sig2_new').prop('checked', false);
-                    // $(".signew_close").prop("disabled", false);
-                    $('#sign_exist_new').modal('toggle'); 
-                    $('#loadinginfo1').removeClass('disnone').addClass('disnone');
-                }, 2000);
+        setTimeout(function(){
+            if (datafile.files && datafile.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    // setTimeout(function(){
+                        var str = datafile.files[0].name;
+                        var ext = str.substring(str.lastIndexOf(".") + 1, str.length);
+                        $('#signew').modal('hide');
+                        // $("#sign_exist_new .sig1_new").prop("disabled", false);
+                        // $('#sign_exist_new .sig1_new').attr('checked',true);
+                        // $('#sign_exist_new .sig1_new').click();
+                        $("#sign_exist_new #use_this_sign").prop("disabled", false);
+                        imgurl2 = e.target.result;
+                        $('#sign_exist_new #tempimgsrc').val(imgurl2);
+                        $('#sign_exist_new #tempimgsrc_ext').val(ext);
+                        $('.sign_img_new').attr("src",imgurl2).trigger('change');
+                        $("#sign_exist_new .sig3_new").prop("checked", false);
+                        $("#sign_exist_new .sig3_new").prop("disabled", false);
+                        $('.sig2_new').prop('checked', false);
+                        // $(".signew_close").prop("disabled", false);
+                        $('#sign_exist_new').modal('toggle');
+                        $('#loadinginfo1').removeClass('disnone').addClass('disnone');
+                    // }, 2000);
+                }
+                reader.readAsDataURL(datafile.files[0]);
             }
-            reader.readAsDataURL(datafile.files[0]);
-        }
+        }, 2000);
     }
     
     $("#sign_exist_new #use_this_sign").click(function(e){
+        $('#signew .signew_close').prop("disabled", false);
+        $('#loadinginfo').removeClass('disnone').addClass('disnone');
+        $('#loadinginfo1').removeClass('disnone').addClass('disnone');
+        $("#sign_exist_new .sig1_new").prop("disabled", false);
+        $("#sign_exist_new .sig2_new").prop("disabled", false);
+        $("#sign_exist_new .sig3_new").prop("disabled", false);
+        $('#sign_exist_new .sign_exist_new_close').prop("disabled", false);
+        $('#sign_exist_new #use_this_sign').prop("disabled", false);
         var sign_pad_id0 ='';
         var sign_pad_width0 ='';
         var ajaurl0='';
@@ -1052,7 +1156,13 @@ $(':file').on('change', function () {
         ajaurl0='<?php echo BASE_URI; ?>';
         if($('#sign_exist_new #tempimgsrc').val()==''){
             // alert('use this - 111');
+            $("#sign_exist_new .sig1_new").prop("disabled", true);
+            $("#sign_exist_new .sig2_new").prop("disabled", true);
+            $("#sign_exist_new .sig3_new").prop("disabled", true);
+            $('#sign_exist_new .sign_exist_new_close').prop("disabled", true);
+            $('#sign_exist_new #use_this_sign').prop("disabled", true);
             $('#loadinginfo').removeClass('disnone');
+            
             $.ajax({
                 url: ajaurl0+'altersignature.php',
                 method: 'POST',
@@ -1085,6 +1195,11 @@ $(':file').on('change', function () {
                 var altresult = confirm("Are you sure want to save as your account signature?");
                 //  alert(altresult);
                 if (altresult==true) {
+                    $("#sign_exist_new .sig1_new").prop("disabled", true);
+                    $("#sign_exist_new .sig2_new").prop("disabled", true);
+                    $("#sign_exist_new .sig3_new").prop("disabled", true);
+                    $('#sign_exist_new .sign_exist_new_close').prop("disabled", true);
+                    $('#sign_exist_new #use_this_sign').prop("disabled", true);
                     $('#loadinginfo').removeClass('disnone');
                         // alert('aaa');
                     $.ajax({
@@ -1123,6 +1238,14 @@ $(':file').on('change', function () {
     });
     
     function newsign(){
+        $('#signew .signew_close').prop("disabled", false);
+        $('#loadinginfo').removeClass('disnone').addClass('disnone');
+        $('#loadinginfo1').removeClass('disnone').addClass('disnone');
+        $("#sign_exist_new .sig1_new").prop("disabled", false);
+        $("#sign_exist_new .sig2_new").prop("disabled", false);
+        $("#sign_exist_new .sig3_new").prop("disabled", false);
+        $('#sign_exist_new .sign_exist_new_close').prop("disabled", false);
+        $('#sign_exist_new #use_this_sign').prop("disabled", false);
         // alert('Draw Signature - 777');
         $('#signaturechen').removeClass('disnone').addClass('disnone');
         $('#signew').modal('hide');
@@ -1130,6 +1253,14 @@ $(':file').on('change', function () {
     }
     
     function drawnewsignature(datafile=""){
+        $('#signew .signew_close').prop("disabled", false);
+        $('#loadinginfo').removeClass('disnone').addClass('disnone');
+        $('#loadinginfo1').removeClass('disnone').addClass('disnone');
+        $("#sign_exist_new .sig1_new").prop("disabled", false);
+        $("#sign_exist_new .sig2_new").prop("disabled", false);
+        $("#sign_exist_new .sig3_new").prop("disabled", false);
+        $('#sign_exist_new .sign_exist_new_close').prop("disabled", false);
+        $('#sign_exist_new #use_this_sign').prop("disabled", false);
         // alert('drawnewsignature - 999');
         var imgurl3='';
         var str = datafile;
