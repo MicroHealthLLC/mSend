@@ -1643,9 +1643,7 @@ cursor: pointer;
 
 	
 
-        if(($row['expires'] == 0) || (time() < strtotime($row['expiry_date']))) {
-
-			
+        if((($row['expires'] == 0) || (time() < strtotime($row['expiry_date']))) && (time() >= strtotime($row['future_send_date']))) {
 
 		      ?>
 
@@ -1866,6 +1864,26 @@ cursor: pointer;
                                         ?>
 
                                     </td>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

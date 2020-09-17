@@ -105,6 +105,10 @@ include('header-unlogged.php');
 				$real_file = UPLOADED_FILES_FOLDER.'/temp/'.$real_file_url;
 			    	file_put_contents($real_file  , $encData1);*/
 				/* AES Decryption ended by RJ-07-Oct-2016 */
+				
+				// 	$aes = new AESENCRYPT();
+    //                 $aes->decryptZipFile($real_file);
+                    
 
 				if (file_exists($real_file)) {
 					session_write_close(); 

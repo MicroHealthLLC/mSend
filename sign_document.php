@@ -418,12 +418,13 @@ include('header_no_left.php');
 
 
 
-<?php if($signature_exist){?>
+<?php //if($signature_exist){?>
 
 
 <!-- Modal -->
 
-<div id="cc-mail-status1" class="modal fade" role="dialog"  data-backdrop="static" data-keyboard="false">
+<!--<div id="cc-mail-status1" class="modal fade" role="dialog"  data-backdrop="static" data-keyboard="false">-->
+<div id="cc-mail-status1" class="modal fade" role="dialog" >
 
   <div class="modal-dialog">
     <!-- Modal content-->
@@ -450,7 +451,7 @@ include('header_no_left.php');
   </div>
 </div>
 
-<?php }?>
+<?php //}?>
     
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
@@ -516,17 +517,17 @@ include('header_no_left.php');
                             processData: false,
                             contentType: false,
                             success: function(response){
+                                // alert(response);
                                 if(response == 1) {
                         //          alert(response);
-                        //          alert('Success!');
+                                //  alert('Success!');
                                     $('#status').fadeOut();
                                     $('#preloader').fadeOut();
-                                    $('#msg1').html('Success!');
                                     $("#cc-mail-status1").modal("toggle").trigger('change');
-                                    //window.location.href="<?php echo BASE_URI.'inbox.php';?>";
+                                    //window.location.href="<?php //echo BASE_URI.'inbox.php';?>";
                                 }
                                 else {
-                        //          alert('Something Went wrong.!');
+                                //  alert('Something Went wrong.!');
                                     $('#main1').fadeIn();
                                     $('#status').fadeOut();
                                     $('#preloader').fadeOut();
@@ -541,7 +542,7 @@ include('header_no_left.php');
                                     $('#preloader').fadeOut();
                                     $('#msg1').html('Success!');
                                     $("#cc-mail-status1").modal("toggle");
-                                    //window.location.href="<?php echo BASE_URI.'inbox.php';?>";
+                                    //window.location.href="<?php //echo BASE_URI.'inbox.php';?>";
                                 }
                                 else {
                         //          alert('Something Went wrong.!');
