@@ -151,6 +151,7 @@ include('header_no_left.php');
         text-align: center;
         font-size: 20px;
     }
+ 
     .sign_text{
         border: 0;
     }
@@ -351,7 +352,7 @@ include('header_no_left.php');
                                         <input type="hidden" id="sign_text_pad_width-<?php echo $sg['id'];?>" value="<?php echo $sg['sign_width'];?>" >
                                         <input type="hidden" id="sign_text_pad_height-<?php echo $sg['id'];?>" value="<?php echo $sg['sign_height'];?>" >
                                         <!--<div  id="sign_text_pad-<?php //echo $sg['id'];?>" style="left:<?php //echo $sg['sign_left_pos']."px";?>;top:<?php //echo $sg['sign_top_pos']."px";?>;width:<?php //echo $sg['sign_width']."px";?>;height:<?php //echo $sg['sign_height']."px";?>;" class="sign_pad_pos signature_text" ><input type="text" class="sign_text"></div>-->
-                                        <div  id="sign_text_pad-<?php echo $sg['id'];?>" style="left:<?php echo $sg['sign_left_pos']."px";?>;top:<?php echo $sg['sign_top_pos']."px";?>;width:<?php echo $sg['sign_width']."px";?>;height:<?php echo $sg['sign_height']."px";?>;" class="sign_pad_pos signature_text resizable_text" ><input type="text" class="sign_text resizable_text" style="left:<?php echo $sg['sign_left_pos']."px";?>;top:<?php echo $sg['sign_top_pos']."px";?>;width:<?php echo $sg['sign_width']."px";?>;height:<?php echo $sg['sign_height']."px";?>;"></div>
+                                        <div  id="sign_text_pad-<?php echo $sg['id'];?>" style="left:<?php echo $sg['sign_left_pos']."px";?>;top:<?php echo $sg['sign_top_pos']."px";?>;width:<?php echo $sg['sign_width']."px";?>;height:<?php echo $sg['sign_height']."px";?>;" class="sign_pad_pos signature_text resizable_text " ><input type="text" class="sign_text resizable_text" style="left:<?php echo $sg['sign_left_pos']."px";?>;top:<?php echo $sg['sign_top_pos']."px";?>;width:<?php echo $sg['sign_width']."px";?>;height:<?php echo $sg['sign_height']."px";?>;"></div>
                                 
                                 <?php }else if($sg['sig_type']=='textarea'){?>
                                         <input type="hidden" id="sign_textarea_pad_left-<?php echo $sg['id'];?>" value="<?php echo $sg['sign_left_pos'];?>" >
@@ -1225,8 +1226,11 @@ $(':file').on('change', function () {
                 }else {
                     // alert('use this to account - 444');
                     // alert('bbb');
-                    $('#sign_exist_new .sig1_new').click();
+                    // $('#sign_exist_new .sig1_new').click();
                     $("#sign_exist_new .sig3_new").prop("checked", false);
+                    
+                    $('#'+sign_pad_id0).html('<img class="size_fix" width="'+sign_pad_width0+'" src="'+dataUrl+'">').trigger('change');
+                    $('#sign_exist_new').modal('toggle');
                 }
             }else{
                 // alert('use this to account - 333');

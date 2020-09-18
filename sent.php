@@ -559,6 +559,12 @@ include('header.php');
                         $no_results_message = __('There are no files for this client.','cftp_admin');;
                     }
                     echo system_message('error',$no_results_message);
+                }else{
+                    if($count<=1){
+                        $no_results_message = __('You have not uploaded any files for this account.','cftp_admin');
+                        echo system_message('error',$no_results_message);
+                    }
+                      
                 }
             ?>
             <section id="no-more-tables" class="cc-overflow-scroll">
