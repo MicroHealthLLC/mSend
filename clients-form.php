@@ -190,7 +190,7 @@ switch ($clients_form_type) {
 <div class="form-group">
 	<label for="add_user_form_email_alternate1" class="col-sm-4 control-label"><?php _e('Upload profile pic','cftp_admin'); ?></label>
 	<div class="col-sm-8">
-		<input type="file" name="userfiles" class="required" value="" placeholder="upload file" />
+		<input type="file" name="userfiles" class="required" accept=".png,.jpg,.jpeg,.gif" value="" placeholder="upload file" />
 	</div>
 </div>
 <?php if (CURRENT_USER_ID == $client_id) { ?>
@@ -205,7 +205,7 @@ switch ($clients_form_type) {
 	<div class="form-group disnone" id="signaturechen">
 		<label  class="col-sm-4 control-label"><?php _e('Upload Signature pic','cftp_admin'); ?></label>
 		<div class="col-sm-8">
-			<input type="file" name="usersignature"  id="usersignature" class="required usersignature" value="" placeholder="upload file" />
+			<input type="file" name="usersignature"  id="usersignature" class="required usersignature" value="" accept=".png,.jpg,.jpeg,.gif" placeholder="upload file" />
 		</div>
 	</div>	
 <?php }?>	

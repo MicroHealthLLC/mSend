@@ -168,7 +168,7 @@ switch ($user_form_type) {
 <div class="form-group">
 	<label  class="col-sm-4 control-label"><?php _e('Upload profile pic','cftp_admin'); ?></label>
 	<div class="col-sm-8">
-		<input type="file" name="userfiles" class="required" value="" placeholder="upload file" />
+		<input type="file" name="userfiles" accept=".png,.jpg,.jpeg,.gif" class="required" value="" placeholder="upload file" />
 	</div>
 </div>	
 <?php if (CURRENT_USER_ID == $user_id_mic) { ?>
@@ -183,7 +183,7 @@ switch ($user_form_type) {
 <div class="form-group disnone" id="signaturechen">
 	<label  class="col-sm-4 control-label"><?php _e('Upload Signature pic','cftp_admin'); ?></label>
 	<div class="col-sm-8">
-		<input type="file" name="usersignature"  id="usersignature" class="required usersignature" value="" placeholder="upload file" / onchange="normalsignature()">
+		<input type="file" name="usersignature"  id="usersignature" class="required usersignature" value="" accept=".png,.jpg,.jpeg,.gif" placeholder="upload file" / onchange="normalsignature()">
 	</div>
 </div>	
 <?php }?>		
