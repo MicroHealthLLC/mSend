@@ -341,7 +341,11 @@ include('header.php');
                 $params[':uploader'] = $global_user;
             }
             /** Check expires status for no file message */
-            $conditions[] = "tf.expires = '0' || tf.expires = '1' && tf.expiry_date >'".$current_date."')";
+            // $conditions[] = "tf.expires = '0' || tf.expires = '1' && tf.expiry_date >'".$current_date."')";
+            
+            
+            $conditions[] = "tf.expires = '0' || tf.expires = '1' && tf.expiry_date >'".$current_date."' && tf.future_send_date <='".$current_date."')";
+            
 
             /** Add the search terms */
             if(isset($_GET['search']) && !empty($_GET['search'])) {
@@ -399,8 +403,6 @@ include('header.php');
             $fq .= "ORDER BY tfr.timestamp DESC";
             $sql_files = $dbh->prepare($fq);
             $sql_files->execute();
-            // echo "<pre>";print_r($sql_files);echo "</pre>";exit;
-            // var_dump($sql_files);die();
 			$count = $sql_files->rowCount();
 			/*$sql_files->setFetchMode(PDO::FETCH_ASSOC);
 			$arr = $sql_files->fetchAll(); */
@@ -559,13 +561,13 @@ include('header.php');
                         $no_results_message = __('There are no files for this client.','cftp_admin');;
                     }
                     echo system_message('error',$no_results_message);
-                }else{
+                }/*else{
                     if($count<=1){
                         $no_results_message = __('You have not uploaded any files for this account.','cftp_admin');
                         echo system_message('error',$no_results_message);
                     }
                       
-                }
+                }*/
             ?>
             <section id="no-more-tables" class="cc-overflow-scroll">
 <?php

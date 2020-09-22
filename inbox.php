@@ -882,7 +882,11 @@ cursor: pointer;
 
 		 	$current_date = date("Y-m-d");
 
-        	$conditions[] = "tbl_files.expires = '0' || tbl_files.expires = '1' && tbl_files.expiry_date >'".$current_date."'";
+        // 	$conditions[] = "tbl_files.expires = '0' || tbl_files.expires = '1' && tbl_files.expiry_date >'".$current_date."'";
+        
+            $conditions[] = "tbl_files.expires = '0' || tbl_files.expires = '1' && tbl_files.expiry_date >'".$current_date."' && tbl_files.future_send_date <='".$current_date."'";
+        	  
+        	  
 
 			if ( isset($search_on) && !empty($gotten_files) ) {
 
@@ -929,12 +933,11 @@ cursor: pointer;
 
 				$conditions[] = "tbl_files_relations.client_id =" . CURRENT_USER_ID;
 
-				$conditions[] = "tbl_files.future_send_date< DATE('".$today."')";
+				$conditions[] = "tbl_files.future_send_date<= DATE('".$today."')";
 
 				$params[':uploader'] = $global_user;
 
 			}
-
 			
 
 			/**
@@ -1286,6 +1289,7 @@ cursor: pointer;
             <div class="clear"></div>
 
             <?php
+// echo "<pre>";print_r($count);echo "</pre>";exit;
 
 				if (!$count) {
 
@@ -1335,7 +1339,13 @@ cursor: pointer;
 
 					echo system_message('error',$no_results_message);
 
-				}
+				}else{
+                    if($count<=1){
+                        $no_results_message = __('There are no files for this client.','cftp_admin');
+                        echo system_message('error',$no_results_message);
+                    }
+                      
+                }
 
 			?>
 
