@@ -656,8 +656,10 @@ include('header_no_left.php');
         <div class="row">
 
         <div class="col-md-12 tools_section" >
-
-                <button id="btnSaveSign" class="btn btn-primary pull-right" onClick="genPDF()"><i class="fa fa-floppy-o" aria-hidden="true"></i> &nbsp;&nbsp; Save Signature</button>
+            <input type="hidden" id="textid">
+            <button class="btn btn-primary pull-right fontplus disnone" onclick="changetextsize('+')">Font-size <i class="fa fa-plus" aria-hidden="true"></i></button>&nbsp;&nbsp;
+            <button class="btn btn-primary pull-right fontminus disnone" onclick="changetextsize('-')">Font-size <i class="fa fa-minus" aria-hidden="true"></i> &nbsp;&nbsp; </button>
+            <button id="btnSaveSign" class="btn btn-primary pull-right" onClick="genPDF()"><i class="fa fa-floppy-o" aria-hidden="true"></i> &nbsp;&nbsp; Save Signature</button>
 
         </div>
 
@@ -703,7 +705,7 @@ include('header_no_left.php');
 
                                         <!--<div  id="sign_text_pad-<?php //echo $sg['id'];?>" style="left:<?php //echo $sg['sign_left_pos']."px";?>;top:<?php //echo $sg['sign_top_pos']."px";?>;width:<?php //echo $sg['sign_width']."px";?>;height:<?php //echo $sg['sign_height']."px";?>;" class="sign_pad_pos signature_text" ><input type="text" class="sign_text"></div>-->
 
-                                        <div  id="sign_text_pad-<?php echo $sg['id'];?>" style="left:<?php echo $sg['sign_left_pos']."px";?>;top:<?php echo $sg['sign_top_pos']."px";?>;width:<?php echo $sg['sign_width']."px";?>;height:<?php echo $sg['sign_height']."px";?>;" class="sign_pad_pos signature_text resizable_text " ><input type="text" class="sign_text resizable_text" style="left:<?php echo $sg['sign_left_pos']."px";?>;top:<?php echo $sg['sign_top_pos']."px";?>;width:<?php echo $sg['sign_width']."px";?>;height:<?php echo $sg['sign_height']."px";?>;"></div>
+                                        <div  id="sign_text_pad-<?php echo $sg['id'];?>" style="left:<?php echo $sg['sign_left_pos']."px";?>;top:<?php echo $sg['sign_top_pos']."px";?>;width:<?php echo $sg['sign_width']."px";?>;height:<?php echo $sg['sign_height']."px";?>;" class="sign_pad_pos signature_text resizable_text" onclick="changefont('<?php echo $sg['id'];?>')"><input type="text" class="sign_text resizable_text" style="left:<?php echo $sg['sign_left_pos']."px";?>;top:<?php echo $sg['sign_top_pos']."px";?>;width:<?php echo $sg['sign_width']."px";?>;height:<?php echo $sg['sign_height']."px";?>;"></div>
 
                                 
 
@@ -1172,74 +1174,6 @@ include('header_no_left.php');
                         });
 
                 }
-
-
-
-$(window).bind("load", function() {
-
-//----------------------------
-
-    var signature = new Array();
-
-    $(".sign_pad_pos").each(function(s) {
-
-        //signature.push({id: $(this).attr("id"), top : $(this).css("top"), left: $(this).css("left"), content : $(this).clone()});
-
-        var sign_pad_h = $(this).height() + 4;
-
-        var signTop = parseInt($(this).css('top'), 10);
-
-        var signContent = $(this).clone();
-
-        
-
-            var pageHeight = 0;
-
-        
-
-            $(".ba-page-wrap").each(function() {
-
-                pageHeight += $(this).outerHeight(); //  - 3
-
-                console.log('sign_pad_h binuu:' + sign_pad_h);
-
-                console.log('signTop binuu:' + signTop);
-
-                console.log('pageHeight binuu:' + pageHeight);
-
-                //console.log('inner height : ' + $(this).attr("id") + ' : ' + pageHeight);
-
-                if(pageHeight >= signTop) {
-
-                    var newBottom = parseInt(pageHeight) - (parseInt(signTop) + parseInt(sign_pad_h));
-
-                    signContent.css('top','');
-
-                    signContent.css('bottom',newBottom);
-
-                    //console.log('left pos' + signContent.css('left').replace(/[^-\d\.]/g, '') - 15);
-
-                    signContent.css('left', (parseInt(signContent.css('left').replace(/[^-\d\.]/g, '')) - 15)); //where 15parent pading
-
-                    $(this).append(signContent);
-
-                    return false;
-
-                }
-
-            });
-
-        $(this).remove();
-
-    });
-
-    
-
-});   
-
-
-
-
 
 $(".sign_pad_pos").each(function() {
 
@@ -2695,8 +2629,26 @@ $(':file').on('change', function () {
         $("#signew #upload_this_sign").change();
     }
 
- 
+    function changefont(signtext_id){
+        $('#textid').val(signtext_id);
+        $('.fontplus').removeClass('disnone').addClass('disnone');
+        $('.fontminus').removeClass('disnone').addClass('disnone');
+        $('.fontplus').removeClass('disnone');
+        $('.fontminus').removeClass('disnone');
+    }
 
+    function changetextsize(fonttype){
+        var total=0;
+        var textpos=$('#textid').val();
+        var currentfontsize=$('#sign_text_pad-'+textpos+ '.signature_text').css('font-size');
+        if(fonttype=='+'){
+            total = parseFloat(currentfontsize) + Number(1);
+                $('#sign_text_pad-'+textpos+ '.signature_text').css("font-size",total + "px");
+        }else{
+            total = parseFloat(currentfontsize) - Number(1);
+                $('#sign_text_pad-'+textpos+ '.signature_text').css("font-size",total + "px");
+        }
+    }
     
 
 </script>
