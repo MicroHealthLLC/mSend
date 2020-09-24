@@ -270,7 +270,7 @@ color:#e33a49;
 
 }
 
-.delBtn ,.unAssnBtn{
+.delBtn ,.unAssnBtn ,.delBtn1{
 
 -webkit-appearance: none;
 
@@ -282,7 +282,7 @@ cursor: pointer;
 
 }
 
-.delBtn{
+.delBtn ,.delBtn1{
 
  color: red;
 
@@ -558,7 +558,7 @@ cursor: pointer;
 
 					foreach ($filedetails as $work_file) {
 
-						$affected_name= $dbh->prepare("SELECT filename from ".TABLE_FILES." WHERE id = ".$work_file['file_id']);
+						$affected_name= $dbh->prepare("SELECT filename,tbl_drop_off_request_id from ".TABLE_FILES." WHERE id = ".$work_file['file_id']);
 
 						$affected_name->execute();
 
@@ -885,6 +885,7 @@ cursor: pointer;
         // 	$conditions[] = "tbl_files.expires = '0' || tbl_files.expires = '1' && tbl_files.expiry_date >'".$current_date."'";
         
             $conditions[] = "tbl_files.expires = '0' || tbl_files.expires = '1' && tbl_files.expiry_date >'".$current_date."' && tbl_files.future_send_date <='".$current_date."'";
+            // $conditions[] = "(tbl_files.expires = '0' && tbl_files.expiry_date >'".$current_date."' && tbl_files.future_send_date <='".$current_date."') || (tbl_files.expires = '1' && tbl_files.expiry_date >'".$current_date."' && tbl_files.future_send_date <='".$current_date."')";
         	  
         	  
 
@@ -1084,7 +1085,7 @@ cursor: pointer;
 
 			}
 
-			$fq .= "ORDER BY tbl_files_relations.timestamp DESC";
+			$fq .= " ORDER BY tbl_files_relations.timestamp DESC";
 
 			$sql_files = $dbh->prepare($fq);
 // echo "<pre>";print_r($sql_files);echo "</pre>";exit;
@@ -1340,10 +1341,10 @@ cursor: pointer;
 					echo system_message('error',$no_results_message);
 
 				}else{
-                    if($count<=1){
-                        $no_results_message = __('There are no files for this client.','cftp_admin');
-                        echo system_message('error',$no_results_message);
-                    }
+                    // if($count<=1){
+                    //     $no_results_message = __('There are no files for this client.','cftp_admin');
+                    //     echo system_message('error',$no_results_message);
+                    // }
                       
                 }
 
@@ -2182,15 +2183,22 @@ cursor: pointer;
 
 										<td>
 
-									<?php if (($current_level != '0') && (($row['request_type'] == '1' || $row['request_type'] == '2'))) { ?>
+									<?php if (($current_level != '0') && (($row['request_type'] == '1' || $row['request_type'] == '2'))) {if($row['tbl_drop_off_request_id']!=0){ ?>
 
-                                        <a del-id="<?php echo $row["file_id"]; ?>" class="delBtn" id="delBtn" >
+                                        <a del-id="<?php echo $row["file_id"]; ?>" class="delBtn1" id="delBtn1" >
 
                                             <i class="fa fa-times" aria-hidden="true"></i>
 
                                         </a>
 
-                                    <?php } else if ((empty($row['group_id'])) && (($current_level != '0') || ($current_level == '0') && ($row['request_type'] != '1'))) {
+                                    <?php }else{?>
+                                        <a del-id="<?php echo $row["file_id"]; ?>" class="delBtn" id="delBtn" >
+
+                                            <i class="fa fa-times" aria-hidden="true"></i>
+
+                                        </a>
+                                    
+                                    <?php }} else if ((empty($row['group_id'])) && (($current_level != '0') || ($current_level == '0') && ($row['request_type'] != '1'))) {
 
                                     ?>
 
@@ -2515,6 +2523,24 @@ $(".refreshcls").on("click", function (e) {
 	 $(".delBtn").click(function() {
 
 				var msg_1 = 'You are about to delete a file from your Inbox permanently. Only your copy will be deleted. Are you sure you want to continue??';
+
+					if (confirm(msg_1)) {
+
+						$('#delete_file').val($(this).attr('del-id'));
+
+					  $('#deleteForm').submit();
+
+				} else {
+
+					return false;
+
+				}
+
+		});
+		
+		$(".delBtn1").click(function() {
+
+				var msg_1 = 'You are about to delete a file from your Inbox permanently. Full data will be deleted. Are you sure you want to continue?';
 
 					if (confirm(msg_1)) {
 
