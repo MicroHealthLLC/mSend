@@ -236,15 +236,15 @@ include('header_no_left.php');
 
     /*body{overflow-y:hidden;}*/
 
-    #frame{
+    /*#frame{*/
 
-        position: relative;
+        /*position: relative;*/
 
     /*overflow-y: scroll;
 
     max-height: 450px;*/
 
-    }
+    /*}*/
 
     #frame img{
 
@@ -354,11 +354,11 @@ include('header_no_left.php');
 
     }
 
-    #btnSaveSign {
+    /*.tools-wrap {*/
 
-        margin: 10px 15px;
+    /*    margin: 10px 15px;*/
 
-    }
+    /*}*/
 
     #myform {
 
@@ -644,24 +644,43 @@ include('header_no_left.php');
 <div id="main1">
 
     <div id="content" style="background:#edebeb;"> 
-
+        <div class="container" >
+            <div class="row">
+    	        <div class="col-md-12">
+    	            <input type="hidden" id="textid">
+    	           <div  class="tools-wrap">
+                        <div  class="tools">  
+                            <div  class="tools">
+                                <span class="fontplus disnone"><a href="#" onclick="changetextsize('+')">Font-size <i class="fa fa-plus" aria-hidden="true"></i></a> | </span>
+                                <span class="fontminus disnone"><a href="#" onclick="changetextsize('-')">Font-size <i class="fa fa-minus" aria-hidden="true"></i></a> | </span>
+                                <a href="#"  onClick="genPDF()"  id="btnSaveSign"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save Signature</a>                    
+                            </div>
+                        </div>
+    	           </div>
+    	        </div>
+           </div>
+        </div> 
     
 
     <!-- Added by B) -------------------->
 
-    <div class="container ba-doc-frame">
+    <div class="container ba-doc-frame" id="headerdiv">
 
         <div class="row">
 
         <div class="row">
 
-        <div class="col-md-12 tools_section" >
-            <input type="hidden" id="textid">
-            <button class="btn btn-primary pull-right fontplus disnone" onclick="changetextsize('+')">Font-size <i class="fa fa-plus" aria-hidden="true"></i></button>&nbsp;&nbsp;
-            <button class="btn btn-primary pull-right fontminus disnone" onclick="changetextsize('-')">Font-size <i class="fa fa-minus" aria-hidden="true"></i> &nbsp;&nbsp; </button>
-            <button id="btnSaveSign" class="btn btn-primary pull-right" onClick="genPDF()"><i class="fa fa-floppy-o" aria-hidden="true"></i> &nbsp;&nbsp; Save Signature</button>
+        <!--<div class="col-md-12 tools_section" >-->
+        <!--        <input type="hidden" id="textid">-->
+        <!--            <div  class="tools-wrap">-->
+        <!--                <div  class="tools">-->
+        <!--                    <span class="fontplus disnone"><a href="#" onclick="changetextsize('+')">Font-size <i class="fa fa-plus" aria-hidden="true"></i></a> | </span>-->
+        <!--                    <span class="fontminus disnone"><a href="#" onclick="changetextsize('-')">Font-size <i class="fa fa-minus" aria-hidden="true"></i></a> | </span>-->
+        <!--                    <a href="#"  onClick="genPDF()"  id="btnSaveSign"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save Signature</a>                         -->
+        <!--                </div>-->
+        <!--            </div>-->
 
-        </div>
+        <!--</div>-->
 
         </div>
 
@@ -691,7 +710,7 @@ include('header_no_left.php');
 
                                     <input type="hidden" id="sign_date_pad_height-<?php echo $sg['id'];?>" value="<?php echo $sg['sign_height'];?>" >
 
-                                    <div  id="sign_date_pad-<?php echo $sg['id'];?>" style="left:<?php echo $sg['sign_left_pos']."px";?>;top:<?php echo $sg['sign_top_pos']."px";?>;width:<?php echo $sg['sign_width']."px";?>;height:<?php echo $sg['sign_height']."px";?>;" class="sign_pad_pos" ><?php echo date('d/m/Y');?></div>
+                                    <div  id="sign_date_pad-<?php echo $sg['id'];?>" style="left:<?php echo $sg['sign_left_pos']."px";?>;top:<?php echo $sg['sign_top_pos']."px";?>;width:<?php echo $sg['sign_width']."px";?>;height:<?php echo $sg['sign_height']."px";?>;" class="sign_pad_pos" onclick="changefont('')"><?php echo date('d/m/Y');?></div>
 
                                 <?php }else if($sg['sig_type']=='text'){?>
 
@@ -719,7 +738,7 @@ include('header_no_left.php');
 
                                         <input type="hidden" id="sign_textarea_pad_height-<?php echo $sg['id'];?>" value="<?php echo $sg['sign_height'];?>" >
 
-                                        <div  id="sign_textarea_pad-<?php echo $sg['id'];?>" style="left:<?php echo $sg['sign_left_pos']."px";?>;top:<?php echo $sg['sign_top_pos']."px";?>;width:<?php echo $sg['sign_width']."px";?>;height:<?php echo $sg['sign_height']."px";?>;" class="sign_pad_pos signature_textarea resizable_textarea" ><textarea class="sign_text resizable_textarea" style="left:<?php echo $sg['sign_left_pos']."px";?>;top:<?php echo $sg['sign_top_pos']."px";?>;width:<?php echo $sg['sign_width']."px";?>;height:<?php echo $sg['sign_height']."px";?>;"></textarea></div>
+                                        <div  id="sign_textarea_pad-<?php echo $sg['id'];?>" style="left:<?php echo $sg['sign_left_pos']."px";?>;top:<?php echo $sg['sign_top_pos']."px";?>;width:<?php echo $sg['sign_width']."px";?>;height:<?php echo $sg['sign_height']."px";?>;" class="sign_pad_pos signature_textarea resizable_textarea" onclick="changefont('')" ><textarea class="sign_text resizable_textarea" style="left:<?php echo $sg['sign_left_pos']."px";?>;top:<?php echo $sg['sign_top_pos']."px";?>;width:<?php echo $sg['sign_width']."px";?>;height:<?php echo $sg['sign_height']."px";?>;"></textarea></div>
 
                                 
 
@@ -733,7 +752,7 @@ include('header_no_left.php');
 
                                     <input type="hidden" id="sign_pad_height-<?php echo $sg['id'];?>" value="<?php echo $sg['sign_height'];?>" >
 
-                                    <div id="sign_pad-<?php echo $sg['id'];?>" style="left:<?php echo $sg['sign_left_pos']."px";?>;top:<?php echo $sg['sign_top_pos']."px";?>;width:<?php echo $sg['sign_width']."px";?>;height:<?php echo $sg['sign_height']."px";?>;" class ="signature_exist sign_pad_pos " ></div>
+                                    <div id="sign_pad-<?php echo $sg['id'];?>" style="left:<?php echo $sg['sign_left_pos']."px";?>;top:<?php echo $sg['sign_top_pos']."px";?>;width:<?php echo $sg['sign_width']."px";?>;height:<?php echo $sg['sign_height']."px";?>;" class ="signature_exist sign_pad_pos " onclick="changefont('')"></div>
 
                                <?php }
 
@@ -939,7 +958,7 @@ include('header_no_left.php');
 
 
 
-<script>
+<script defer>
 
     function modalclose(){
 
@@ -950,7 +969,7 @@ include('header_no_left.php');
                      
 
                 function genPDF() {
-
+                    changefont('');
                     var tot_signaturecount = $('.signature_exist').length;
 
                     var sig_count=$(".signature_exist > img").length;
@@ -964,8 +983,7 @@ include('header_no_left.php');
                          
 
                     }else{
-
-                        $('#btnSaveSign').prop("disabled", true);
+                        $('#btnSaveSign').removeClass("disable_click").addClass("disable_click");
 
                         $('#contentdiv').html('Please wait...');
 
@@ -1174,16 +1192,45 @@ include('header_no_left.php');
                         });
 
                 }
+                
+                
+                
+//$(window).bind("load", function() { //alert('hello');
+$(document).ready(function(){
+$(window).on('load', function() {
 
+    var signature = new Array();
+    $(".sign_pad_pos").each(function(s) {
+        var sign_pad_h = $(this).height() + 4;
+        var signTop = parseInt($(this).css('top'), 10);
+        var signContent = $(this).clone();
+            var pageHeight = 0;
+            $(".ba-page-wrap").each(function() {
+
+                pageHeight += $(this).outerHeight(); //  - 3
+                if(pageHeight >= signTop) {
+                    var newBottom = parseInt(pageHeight) - (parseInt(signTop) + parseInt(sign_pad_h));
+                    signContent.css('top','');
+                    signContent.css('bottom',newBottom);
+                    signContent.css('left', (parseInt(signContent.css('left').replace(/[^-\d\.]/g, '')) - 15)); //where 15parent pading
+                    $(this).append(signContent);
+                    return false;
+
+                }
+
+            });
+
+        $(this).remove();
+
+    });
+});
+});
+$(document).ready(function(){
 $(".sign_pad_pos").each(function() {
 
-    e_id = $(this).attr('id');    
+e_id = $(this).attr('id');    
 
 });
-
-
-
-$(document).ready(function(){
 
         var current_frame_width = $('#frame').width();
 
@@ -1290,8 +1337,7 @@ $(document).ready(function(){
                 }
 
         }
-
-        $('#btnSaveSign').prop("disabled", false);
+        $('#btnSaveSign').removeClass("disable_click");
 
   });            
 
@@ -1379,15 +1425,6 @@ $(':file').on('change', function () {
 
 
 
-
-
-
-
-------------------------------------
-
-            START
-
-------------------------------------
 
 
 
@@ -1638,9 +1675,58 @@ $(':file').on('change', function () {
         height: 200px !important;
 
     }
+    
+     /*#frame {*/
+
+        /*margin: 10px 15px;*/
+            /*margin-top: 40px;*/
+
+    /*}*/
+    
 
 </style>
+<style>
+    /*body{overflow-y:hidden;}*/
+    #headerdiv{
+        position: relative;
+        /*overflow-y: scroll;*/
+        /*max-height: 450px;*/
+        /*margin-top: 40px;*/
+    }
+   
 
+    .tools {
+        z-index: 9998; 
+        position: relative;
+        /*position: fixed;*/
+        height:40px;
+        width:100%;
+        background: #edebeb;
+        font-size: 14px;
+        line-height: 38px;
+        padding: 0 15px;
+        text-align: center
+    }
+    .tools a {
+    color: #121519;
+    letter-spacing: 1px;
+    word-spacing: 4px;
+    padding: 0 8px;
+    }
+  
+   
+    .tools-wrap {
+        position: relative;
+    }
+   
+    .close_icon{
+        float:right;
+    }
+    
+    .disable_click{
+        pointer-events:none;
+    }
+  </style>
 <script>
 
    
@@ -1814,6 +1900,7 @@ $(':file').on('change', function () {
 
 <script>
 
+    
     $("#frame").on( 'click', '.signature_exist', function () {
 
         $('#signew .signew_close').prop("disabled", false);
@@ -1849,7 +1936,6 @@ $(':file').on('change', function () {
         $('#sign_pad_width').val(wdth);
 
         arg='<?php echo $this_current_id;?>';
-
         currentsignature(1);
 
     });
@@ -2629,12 +2715,16 @@ $(':file').on('change', function () {
         $("#signew #upload_this_sign").change();
     }
 
-    function changefont(signtext_id){
-        $('#textid').val(signtext_id);
+    function changefont(signtext_id=''){
         $('.fontplus').removeClass('disnone').addClass('disnone');
         $('.fontminus').removeClass('disnone').addClass('disnone');
-        $('.fontplus').removeClass('disnone');
-        $('.fontminus').removeClass('disnone');
+        if(signtext_id==''){
+            $('#textid').val('');
+        }else{
+            $('#textid').val(signtext_id);
+            $('.fontplus').removeClass('disnone');
+            $('.fontminus').removeClass('disnone');
+        }
     }
 
     function changetextsize(fonttype){
@@ -2643,21 +2733,24 @@ $(':file').on('change', function () {
         var currentfontsize=$('#sign_text_pad-'+textpos+ '.signature_text').css('font-size');
         if(fonttype=='+'){
             total = parseFloat(currentfontsize) + Number(1);
+            if(total<=Number(20)){
                 $('#sign_text_pad-'+textpos+ '.signature_text').css("font-size",total + "px");
+            }
         }else{
             total = parseFloat(currentfontsize) - Number(1);
+            if(total>=Number(8)){
                 $('#sign_text_pad-'+textpos+ '.signature_text').css("font-size",total + "px");
+            }
         }
     }
+     
+     $('.ba-page-wrap>img').click(function(){
+         changefont('');
+     });
     
 
 </script>
 
 
 
------------------------------
-
-            END
-
-------------------------------
 

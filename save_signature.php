@@ -218,7 +218,7 @@ if($data){
 					</ul>
 				</div>
 				<p>If you prefer not to be notified about new files, please go to My Account and deactivate the notifications checkbox.</p>
-				<p>You can access a list of all your files or upload your own  <a href='".BASE_URI."' target='_blank'>by logging in here</a></p>
+				<p>You can access a list of all your files or upload your own  <a href='".BASE_URI."inbox.php' target='_blank'>by logging in here</a></p>
 				
 				
 			</td>

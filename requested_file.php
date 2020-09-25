@@ -290,9 +290,9 @@ $actual_link = SITE_URI.'requested_file.php';
 						$reqst->execute();
 						$rfile = $reqst->fetch();
 						
-				// 		$req_by = "SELECT * FROM tbl_drop_off_request WHERE ( to_email ='".$rfile['email']."' AND from_id IS NOT NULL) Order by requested_time DESC";
+						$req_by = "SELECT * FROM tbl_drop_off_request WHERE ( to_email ='".$rfile['email']."' AND from_id IS NOT NULL) Order by requested_time DESC";
 						
-						 $req_by = "SELECT tdr.* FROM tbl_drop_off_request AS tdr LEFT JOIN tbl_draw_sign_details AS tdsd ON tdr.id = tdsd.drop_off_request_id WHERE (  to_email ='".$rfile['email']."' AND from_id IS NOT NULL AND tdsd.drop_off_request_id = tdr.id) Order by requested_time DESC";
+				// 		 $req_by = "SELECT tdr.* FROM tbl_drop_off_request AS tdr LEFT JOIN tbl_draw_sign_details AS tdsd ON tdr.id = tdsd.drop_off_request_id WHERE (  to_email ='".$rfile['email']."' AND from_id IS NOT NULL AND tdsd.drop_off_request_id = tdr.id) Order by requested_time DESC";
 
 						$req_by_files = $dbh->prepare($req_by);
 						$req_by_files->execute();
