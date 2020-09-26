@@ -284,7 +284,7 @@ include('header_no_left.php');
 
     }
 
-   .not_signature_exist,.signature_exist,.sign_pad_pos,.signature_text,.signature_textarea{
+   .not_signature_exist,.signature_exist,.sign_pad_pos,.signature_textarea{
 
         z-index: 3; 
 
@@ -302,6 +302,24 @@ include('header_no_left.php');
 
         font-size: 20px;
 
+    }
+    
+    .signature_text{
+        z-index: 3; 
+
+        position: absolute;
+
+        /*background:white; */
+
+        border:2px solid gray;
+
+        /*border:2px solid #ffffff;*/
+
+        overflow: hidden;
+
+        text-align: left;
+
+        font-size: 12px;
     }
 
  
@@ -2733,11 +2751,13 @@ $(':file').on('change', function () {
         var currentfontsize=$('#sign_text_pad-'+textpos+ '.signature_text').css('font-size');
         if(fonttype=='+'){
             total = parseFloat(currentfontsize) + Number(1);
-            if(total<=Number(20)){
+            // alert('111 : '+total);
+            if(total<=Number(12)){
                 $('#sign_text_pad-'+textpos+ '.signature_text').css("font-size",total + "px");
             }
         }else{
             total = parseFloat(currentfontsize) - Number(1);
+            //  alert('222 : '+total);
             if(total>=Number(8)){
                 $('#sign_text_pad-'+textpos+ '.signature_text').css("font-size",total + "px");
             }

@@ -2540,7 +2540,7 @@ $(".refreshcls").on("click", function (e) {
 		
 		$(".delBtn1").click(function() {
 
-				var msg_1 = 'You are about to delete a file from your Inbox permanently. Full data will be deleted. Are you sure you want to continue?';
+				var msg_1 = "You are about to delete a file from your Inbox permanently. Sender's file will be deleted as well. Are you sure you want to continue?";
 
 					if (confirm(msg_1)) {
 

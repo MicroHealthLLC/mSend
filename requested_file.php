@@ -157,9 +157,9 @@ $actual_link = SITE_URI.'requested_file.php';
                         $rfile = $reqst->fetch();
                         
                         
-                        // $q_sent_file = "SELECT * FROM tbl_drop_off_request WHERE ( from_id = ".$loggedin_id." ) Order by requested_time DESC";
+                        $q_sent_file = "SELECT * FROM tbl_drop_off_request WHERE ( from_id = ".$loggedin_id." ) Order by requested_time DESC";
                         
-                        $q_sent_file = "SELECT tdr.* FROM tbl_drop_off_request AS tdr LEFT JOIN tbl_draw_sign_details AS tdsd ON tdr.id = tdsd.drop_off_request_id WHERE ( tdr.from_id = ".$loggedin_id." AND tdsd.drop_off_request_id = tdr.id) Order by tdr.requested_time DESC";
+                        // $q_sent_file = "SELECT tdr.* FROM tbl_drop_off_request AS tdr LEFT JOIN tbl_draw_sign_details AS tdsd ON tdr.id = tdsd.drop_off_request_id WHERE ( tdr.from_id = ".$loggedin_id." AND tdsd.drop_off_request_id = tdr.id) Order by tdr.requested_time DESC";
                         
                         $sql_files = $dbh->prepare($q_sent_file);
                         $sql_files->execute();
