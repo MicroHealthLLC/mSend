@@ -140,8 +140,12 @@ $user_id=CURRENT_USER_ID;
 							}
 						return implode($pass); //turn the array into a string
 					}
+					
+					
+					
 					if (isset($_POST['submit'])) 
 					{
+					   // var_dump($_POST);die();
 						$auth_key = isset($_POST['auth_key'])?$_POST['auth_key']:'';
 						/* Get the ID of the current client that is uploading files. */
 						if ($current_level == 0) {
@@ -340,6 +344,12 @@ $user_id=CURRENT_USER_ID;
 							}
 						}
 					}
+					
+					
+					
+					
+					
+					
 
 					/**
 					 * Generate the table of files that were assigned to a client

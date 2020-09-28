@@ -319,7 +319,7 @@ include('header_no_left.php');
 
         text-align: left;
 
-        font-size: 12px;
+        font-size: 20px;
     }
 
  
@@ -658,26 +658,27 @@ include('header_no_left.php');
         if($tbl_drop_off_request_info){
 
 ?>
+    <div clas="sizeadj">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <input type="hidden" id="textid">
+                   <div class="tools-wrap">
+                        <div class="sizestyle sizehide">  
+                            <span class="fontplus disnone"><a href="javascript:void(0)" onclick="changetextsize('+')">Font-size <i class="fa fa-plus" aria-hidden="true"></i></a> | </span>
+                            <span class="fontminus disnone"><a href="javascript:void(0)" onclick="changetextsize('-')">Font-size <i class="fa fa-minus" aria-hidden="true"></i></a>|</span>
+                              <a href="#"  onClick="genPDF()"  id="btnSaveSign"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save Signature</a>  
+                        </div>
+                   </div>
+                </div>
+           </div>
+        </div> 
+    </div> 
 
 <div id="main1">
 
     <div id="content" style="background:#edebeb;"> 
-        <div class="container" >
-            <div class="row">
-    	        <div class="col-md-12">
-    	            <input type="hidden" id="textid">
-    	           <div  class="tools-wrap">
-                        <div  class="tools">  
-                            <div  class="tools">
-                                <span class="fontplus disnone"><a href="#" onclick="changetextsize('+')">Font-size <i class="fa fa-plus" aria-hidden="true"></i></a> | </span>
-                                <span class="fontminus disnone"><a href="#" onclick="changetextsize('-')">Font-size <i class="fa fa-minus" aria-hidden="true"></i></a> | </span>
-                                <a href="#"  onClick="genPDF()"  id="btnSaveSign"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save Signature</a>                    
-                            </div>
-                        </div>
-    	           </div>
-    	        </div>
-           </div>
-        </div> 
+      
     
 
     <!-- Added by B) -------------------->
@@ -688,17 +689,17 @@ include('header_no_left.php');
 
         <div class="row">
 
-        <!--<div class="col-md-12 tools_section" >-->
+        <div class="col-md-12 tools_section" >
         <!--        <input type="hidden" id="textid">-->
-        <!--            <div  class="tools-wrap">-->
-        <!--                <div  class="tools">-->
+                    <div  class="tools-wrap">
+                        <div  class="tools savebtn">
         <!--                    <span class="fontplus disnone"><a href="#" onclick="changetextsize('+')">Font-size <i class="fa fa-plus" aria-hidden="true"></i></a> | </span>-->
         <!--                    <span class="fontminus disnone"><a href="#" onclick="changetextsize('-')">Font-size <i class="fa fa-minus" aria-hidden="true"></i></a> | </span>-->
-        <!--                    <a href="#"  onClick="genPDF()"  id="btnSaveSign"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save Signature</a>                         -->
-        <!--                </div>-->
-        <!--            </div>-->
+                            <a href="#"  onClick="genPDF()"  id="btnSaveSign"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save Signature</a>                         
+                        </div>
+                    </div>
 
-        <!--</div>-->
+        </div>
 
         </div>
 
@@ -1001,7 +1002,8 @@ include('header_no_left.php');
                          
 
                     }else{
-                        $('#btnSaveSign').removeClass("disable_click").addClass("disable_click");
+                        // $('#btnSaveSign').removeClass("disable_click").addClass("disable_click");
+                         $('#headerdiv .savebtn').removeClass('disnone').addClass("disnone");
 
                         $('#contentdiv').html('Please wait...');
 
@@ -1355,7 +1357,8 @@ e_id = $(this).attr('id');
                 }
 
         }
-        $('#btnSaveSign').removeClass("disable_click");
+        // $('#btnSaveSign').removeClass("disable_click");
+        $('#headerdiv .savebtn').removeClass('disnone');
 
   });            
 
@@ -1714,7 +1717,7 @@ $(':file').on('change', function () {
    
 
     .tools {
-        z-index: 9998; 
+        /*z-index: 9998; */
         position: relative;
         /*position: fixed;*/
         height:40px;
@@ -1725,12 +1728,16 @@ $(':file').on('change', function () {
         padding: 0 15px;
         text-align: center
     }
+
+    
     .tools a {
     color: #121519;
     letter-spacing: 1px;
     word-spacing: 4px;
     padding: 0 8px;
     }
+  
+   
   
    
     .tools-wrap {
@@ -1743,6 +1750,29 @@ $(':file').on('change', function () {
     
     .disable_click{
         pointer-events:none;
+    }
+    
+    .sizestyle {
+        z-index: 9998; 
+        position: fixed;
+        height:40px;
+        width:85%;
+        background: #edebeb;
+        font-size: 14px;
+        line-height: 38px;
+        padding: 0 15px;
+        text-align: center
+    }
+    
+    .sizestyle a {
+        color: #121519;
+        letter-spacing: 1px;
+        word-spacing: 4px;
+        padding: 0 8px;
+    }
+    
+    .sizehide {
+        z-index: unset;
     }
   </style>
 <script>
@@ -2738,10 +2768,12 @@ $(':file').on('change', function () {
         $('.fontminus').removeClass('disnone').addClass('disnone');
         if(signtext_id==''){
             $('#textid').val('');
+            $('.sizestyle').removeClass('sizehide').addClass('sizehide');
         }else{
             $('#textid').val(signtext_id);
             $('.fontplus').removeClass('disnone');
             $('.fontminus').removeClass('disnone');
+            $('.sizestyle').removeClass('sizehide');
         }
     }
 
@@ -2752,13 +2784,13 @@ $(':file').on('change', function () {
         if(fonttype=='+'){
             total = parseFloat(currentfontsize) + Number(1);
             // alert('111 : '+total);
-            if(total<=Number(12)){
+            if(total<=Number(20)){
                 $('#sign_text_pad-'+textpos+ '.signature_text').css("font-size",total + "px");
             }
         }else{
             total = parseFloat(currentfontsize) - Number(1);
             //  alert('222 : '+total);
-            if(total>=Number(8)){
+            if(total>=Number(12)){
                 $('#sign_text_pad-'+textpos+ '.signature_text').css("font-size",total + "px");
             }
         }

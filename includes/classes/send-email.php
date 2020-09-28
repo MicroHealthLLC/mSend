@@ -721,8 +721,8 @@ class PSend_Email
 
 										$email_strings_file_by_client['body3'],
 
-										BASE_URI
-
+								// 		BASE_URI
+                                        BASE_URI.'inbox.php'
 									),
 
 									$this->email_body
@@ -818,6 +818,7 @@ class PSend_Email
 	function psend_send_email($arguments)
 
 	{
+	   // var_dump($arguments);die();
 
 		/** Generate the values from the arguments */
 
