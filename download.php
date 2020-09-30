@@ -67,6 +67,7 @@ include('header-unlogged.php');
 				$download_link = BASE_URI .'process.php?do=download&amp;client='.$global_user.'&amp;id='.$got_file_id.'&amp;n=1';
 			}
 			else {
+			    
 				/** Add the download row */
 				$statement = $dbh->prepare("INSERT INTO " . TABLE_DOWNLOADS . " (file_id, remote_ip, remote_host, anonymous)"
 											." VALUES (:file_id, :remote_ip, :remote_host, :anonymous)");

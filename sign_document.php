@@ -1181,8 +1181,8 @@ include('header_no_left.php');
 
 
 
-                                        var img = canvas.toDataURL();
-
+                                        //var img = canvas.toDataURL();
+										var img = canvas.toDataURL( 'image/jpeg', 1.0 );
                                         //doc.addImage(img, 'JPEG');
 
                                         
@@ -1191,7 +1191,8 @@ include('header_no_left.php');
 
                                         //doc.addImage(img, 'JPEG', 45, 10, 520, 430,'FAST');
 
-                                        doc.addImage(img, 'PNG', 56, 10, 520, 430,'','FAST');
+                                        //doc.addImage(img, 'JPEG', 56, 10, 520, 430,'','FAST');
+										doc.addImage(img, 'JPEG', 56, 10, 520, 430);
 
                                         var number_of_page = $('.ba-page-wrap').length;
 

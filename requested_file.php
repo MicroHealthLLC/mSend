@@ -156,10 +156,18 @@ $actual_link = SITE_URI.'requested_file.php';
                         $reqst->execute();
                         $rfile = $reqst->fetch();
                         
+                        //full normal and signature with unfinished
+                        // $q_sent_file = "SELECT * FROM tbl_drop_off_request WHERE ( from_id = ".$loggedin_id." ) Order by requested_time DESC";
                         
-                        $q_sent_file = "SELECT * FROM tbl_drop_off_request WHERE ( from_id = ".$loggedin_id." ) Order by requested_time DESC";
-                        
+                        //only signature without unfinished
                         // $q_sent_file = "SELECT tdr.* FROM tbl_drop_off_request AS tdr LEFT JOIN tbl_draw_sign_details AS tdsd ON tdr.id = tdsd.drop_off_request_id WHERE ( tdr.from_id = ".$loggedin_id." AND tdsd.drop_off_request_id = tdr.id) Order by tdr.requested_time DESC";
+
+                        // signature with unfinished and normal file
+                        // $q_sent_file = "SELECT tdr.* FROM tbl_drop_off_request AS tdr LEFT JOIN tbl_draw_sign_details AS tdsd ON tdr.id = tdsd.drop_off_request_id WHERE ( tdr.from_id = ".$loggedin_id.") Order by tdr.requested_time DESC";
+                        
+                        $q_sent_file = "SELECT tdr.* FROM tbl_drop_off_request AS tdr LEFT JOIN tbl_draw_sign_details AS tdsd ON tdr.id = tdsd.drop_off_request_id WHERE tdr.from_id = ".$loggedin_id." AND (tdsd.drop_off_request_id = tdr.id OR tdr.signaturestatus != 1) Order by tdr.requested_time DESC";
+                        
+                     
                         
                         $sql_files = $dbh->prepare($q_sent_file);
                         $sql_files->execute();
@@ -290,11 +298,21 @@ $actual_link = SITE_URI.'requested_file.php';
 						$reqst->execute();
 						$rfile = $reqst->fetch();
 						
-						$req_by = "SELECT * FROM tbl_drop_off_request WHERE ( to_email ='".$rfile['email']."' AND from_id IS NOT NULL) Order by requested_time DESC";
+						//full normal and signature with unfinished
+				        // $req_by = "SELECT * FROM tbl_drop_off_request WHERE ( to_email ='".$rfile['email']."' AND from_id IS NOT NULL) Order by requested_time DESC";
 						
-				// 		 $req_by = "SELECT tdr.* FROM tbl_drop_off_request AS tdr LEFT JOIN tbl_draw_sign_details AS tdsd ON tdr.id = tdsd.drop_off_request_id WHERE (  to_email ='".$rfile['email']."' AND from_id IS NOT NULL AND tdsd.drop_off_request_id = tdr.id) Order by requested_time DESC";
+						
+                        //only signature without unfinished
+				        // $req_by = "SELECT tdr.* FROM tbl_drop_off_request AS tdr LEFT JOIN tbl_draw_sign_details AS tdsd ON tdr.id = tdsd.drop_off_request_id WHERE (  to_email ='".$rfile['email']."' AND from_id IS NOT NULL AND tdsd.drop_off_request_id = tdr.id) Order by requested_time DESC";
+				        
+				        
+                        // signature with unfinished and normal file
+				        // $req_by = "SELECT tdr.* FROM tbl_drop_off_request AS tdr LEFT JOIN tbl_draw_sign_details AS tdsd ON tdr.id = tdsd.drop_off_request_id WHERE (tdr.to_email ='".$rfile['email']."' AND tdr.from_id IS NOT NULL) Order by requested_time DESC";
+				        
+				        $req_by = "SELECT tdr.* FROM tbl_drop_off_request AS tdr LEFT JOIN tbl_draw_sign_details AS tdsd ON tdr.id = tdsd.drop_off_request_id WHERE to_email ='".$rfile['email']."' AND (from_id IS NOT NULL AND tdsd.drop_off_request_id = tdr.id OR tdr.signaturestatus != 1) Order by requested_time DESC";
 
 						$req_by_files = $dbh->prepare($req_by);
+				// 		var_dump($req_by_files);die();
 						$req_by_files->execute();
 
 						$rqcount = $req_by_files->rowCount();

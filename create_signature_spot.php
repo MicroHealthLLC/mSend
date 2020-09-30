@@ -25,18 +25,25 @@ if($_GET['mail_status']){
 
 if(!empty($pdf_name)){
     if (file_exists(__DIR__ . "/upload/files/mysignature/".$userid."/".$req_id.'/'.$pdf_name)) {
-                
+
+		
             // create Imagick object
             $imagick = new Imagick();
             
-            //$imagick->setResolution(300, 300);
-            $imagick->setResolution(150, 150);
+            $imagick->setResolution(576, 576);
             $pdf_name = __DIR__ . "/upload/files/mysignature/".$userid."/".$req_id.'/'.$pdf_name;
             // Reads image from PDF
             $imagick->readImage($pdf_name);
+			//$imagick = $imagick->flattenImages();
             //echo "exist";exit;
             $number_of_pdf_images = $imagick->getNumberImages();
-            $imagick->setImageCompressionQuality(95);
+			$imagick->setCompression(Imagick::COMPRESSION_JPEG); 
+		
+			//$imagick->setImageBackgroundColor('white');
+			//$imagick->setImageAlphaChannel(11);
+			$imagick->setImageFormat('jpg');
+            $imagick->setImageCompressionQuality(100);
+			$imagick->mergeImageLayers(imagick::LAYERMETHOD_FLATTEN);
             
             // $image_name = md5(date("dmYhisA"));
             $image_name = pathinfo($pname, PATHINFO_FILENAME);
@@ -46,24 +53,10 @@ if(!empty($pdf_name)){
 		        mkdir($image_converted_folder, 0777, true);
 	        }
             $new_image_name = $image_converted_folder."/".$image_name.'.jpg';
-			$imagick->setImageBackgroundColor('#ffffff');
-// 			$imagick->flattenImages();
-            //$imagick->mergeImageLayers();
-            $imagick->mergeImageLayers(imagick::LAYERMETHOD_FLATTEN);
-			$imagick->setImageFormat("jpg");
-			$imagick->setImageAlphaChannel(11);
-			//$imagick->mergeImageLayers(imagick::LAYERMETHOD_FLATTEN);
-			//$imagick->resizeImage( 1140, 1613, imagick::FILTER_GAUSSIAN, 0);
-			//$imagick->mergeImageLayers(imagick::LAYERMETHOD_FLATTEN);
-			//$imagick->resizeImage( 1140, 1613, imagick::FILTER_LANCZOS, 0.9, TRUE );
-			$imagick->resizeImage( 1140, 1613, imagick::COMPOSITE_ATOP, 0.9);
-            
-            // Writes an image or image sequence Example- converted-0.jpg, converted-1.jpg
-            $imagick->writeImages($new_image_name, false);
-            // $new_image_name = $pdf_name;
-            //var_dump($new_image_name);
+            $imagick->writeImages($new_image_name, true);
+			$imagick->clear();
+			$imagick->destroy();
             chmod($new_image_name, 0755);
-
 
     } else {
         echo "The file $pdf_name does not exist";

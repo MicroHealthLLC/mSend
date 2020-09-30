@@ -17,6 +17,7 @@ if($url_argument=='sign'){
     $form_action = "request-drop-off.php/sign";
 }else{
     $form_action = "request-drop-off.php";
+    // echo "<script>$('.btnsend').prop('disabled', true);</script>";
 }
 $active_nav = 'request-a-drop-off';
 $cc_active_page = 'Request a File';
@@ -557,6 +558,7 @@ $(document).ready(function() {
         $('#signature_tab').removeClass('disnone').addClass('disnone');
     <?php }?>	
 });
+   
 </script>
 
 

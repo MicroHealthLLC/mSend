@@ -106,8 +106,8 @@
 	?>
 
 	<div class="inside_form_buttons">
-		<button type="submit" name="submit" class="btn btn-wide btn-primary">Send the request</button>
-		<button type="button" name="clear" class="btn btn-default clear_button">Clear</button>
+		<button type="submit" name="submit" class="btn btn-wide btn-primary btnsend">Send the request</button>
+		<button type="button" name="clear" class="btn btn-default clear_button btnclr">Clear</button>
 	</div>
 
 </form>
@@ -120,5 +120,9 @@
             $('#signature_tab').removeClass('disnone').addClass('disnone');
             $('#sigfile').removeClass('disnone').addClass('disnone');
         <?php }?>	
+    });
+
+    $("form").submit(function () {
+        $(this).find(":submit").attr('disabled', 'disabled');
     });
 </script>

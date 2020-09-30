@@ -65,8 +65,8 @@ if ($page_status === 1) {
 	$alternate->execute();
 	$alternate->setFetchMode(PDO::FETCH_ASSOC);
 	$alternate_email_array = array();
-	while ( $data = $alternate->fetch() ) {
-			$alternate_email_array[] = $data['value'];
+	while ( $data11 = $alternate->fetch() ) {
+			$alternate_email_array[] = $data11['value'];
 	}
 }
 $profile_pic = $dbh->prepare("SELECT * FROM " . TABLE_USER_EXTRA_PROFILE . " WHERE user_id=:user_id AND name = :name AND sig_type = 1");
@@ -75,8 +75,8 @@ $profile_pic->bindValue(':name', 'profile_pic');
 $profile_pic->execute();
 $profile_pic->setFetchMode(PDO::FETCH_ASSOC);
 $profile_pic_email_array = array();
-while ( $data = $profile_pic->fetch() ) {
-		$profile_pic_img = $data['value'];
+while ( $data22 = $profile_pic->fetch() ) {
+		$profile_pic_img = $data22['value'];
 }
 /**
  * Compare the client editing this account to the on the db.
@@ -199,19 +199,19 @@ include('header.php');
 				} else {
 					$pic_id = $_GET['id'] ; 
 				}
-				$profile_pic = $dbh->prepare("SELECT * FROM " . TABLE_USER_EXTRA_PROFILE . " WHERE user_id=:user_id AND name = :name AND sig_type = 1");
-				$profile_pic->bindParam(':user_id', $pic_id, PDO::PARAM_INT);
-				$profile_pic->bindValue(':name', 'profile_pic');
-				$profile_pic->execute();
-				$profile_pic->setFetchMode(PDO::FETCH_ASSOC);
-				$profile_pic_email_array = array();
-				while ( $data = $profile_pic->fetch() ) {
-						$profile_pic_img = $data['value'];
+				$profile_pic1 = $dbh->prepare("SELECT * FROM " . TABLE_USER_EXTRA_PROFILE . " WHERE user_id=:user_id AND name = :name AND sig_type = 1");
+				$profile_pic1->bindParam(':user_id', $pic_id, PDO::PARAM_INT);
+				$profile_pic1->bindValue(':name', 'profile_pic');
+				$profile_pic1->execute();
+				$profile_pic1->setFetchMode(PDO::FETCH_ASSOC);
+				$profile_pic_email_array1 = array();
+				while ( $data33 = $profile_pic1->fetch() ) {
+						$profile_pic_img1 = $data33['value'];
 				}
 
-					if(!empty($profile_pic_img)){?>
+					if(!empty($profile_pic_img1)){?>
 
-								<img src="<?php echo "img/avatars/".$profile_pic_img;?>?<?php echo rand();?>" alt="demo user" class="zoom">
+								<img src="<?php echo "img/avatars/".$profile_pic_img1;?>?<?php echo rand();?>" alt="demo user" class="zoom">
 					<?php }else{
 				?>
 						<img src="img/avatars/no-image.png" alt="demo user">
