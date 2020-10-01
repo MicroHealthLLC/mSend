@@ -30,7 +30,7 @@ if(!empty($pdf_name)){
             // create Imagick object
             $imagick = new Imagick();
             
-            $imagick->setResolution(576, 576);
+            $imagick->setResolution(250, 250);
             $pdf_name = __DIR__ . "/upload/files/mysignature/".$userid."/".$req_id.'/'.$pdf_name;
             // Reads image from PDF
             $imagick->readImage($pdf_name);

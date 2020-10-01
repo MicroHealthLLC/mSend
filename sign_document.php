@@ -1031,9 +1031,10 @@ include('header_no_left.php');
 
                         //var doc = new jsPDF('l', 'px', [h,w]);
 
-                        var doc = new jsPDF("l", "px", "a4",true);
-
-                        console.log(doc);
+                        //var doc = new jsPDF("l", "px", "a4",true);
+						var doc = new jsPDF("p", "mm", "a4");
+						var width = doc.internal.pageSize.getWidth();
+						var height = doc.internal.pageSize.getHeight();
 
                         for (let i = 0; i < $('.ba-page-wrap').length; i++) {
 
@@ -1164,10 +1165,12 @@ include('header_no_left.php');
 
 
                 function generateCanvas(i, doc, deferred){
+						var width = doc.internal.pageSize.getWidth();
+						var height = doc.internal.pageSize.getHeight();
 
-                        var w=595;
+                        //var w=595;
 
-                        var h=842;
+                        //var h=842;
 
 
 
@@ -1190,9 +1193,12 @@ include('header_no_left.php');
                                         //doc.addImage(img, 'JPEG',  0, 0,w,h);
 
                                         //doc.addImage(img, 'JPEG', 45, 10, 520, 430,'FAST');
-
-                                        //doc.addImage(img, 'JPEG', 56, 10, 520, 430,'','FAST');
-										doc.addImage(img, 'JPEG', 56, 10, 520, 430);
+										//var width = doc.internal.pageSize.getWidth();
+										//var height = doc.internal.pageSize.getHeight();
+                                        //doc.addImage(img, 'JPEG', 56, 10, 520, 430,'','NONE');
+										doc.addImage(img, 'JPEG', 0, 0, width, height,'','MEDIUM');
+										//doc.addImage(img, 'JPEG', 56, 10, 520, 430,'','NONE');
+										//doc.addImage(img, 'JPEG', 56, 10, 520, 430);
 
                                         var number_of_page = $('.ba-page-wrap').length;
 
