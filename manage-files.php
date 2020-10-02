@@ -791,7 +791,7 @@ error_reporting(E_ALL);
 
 			$sql_files->execute( $params );
 			$count = $sql_files->rowCount();
-			
+			 //echo "<pre>";print_r($count);echo "</pre>";
 			if($count>0){
                 $sql_files1 = $dbh->prepare("SELECT * from " . TABLE_FILES . " WHERE req_status='0' AND tbl_drop_off_request_id!='0'");
             	$sql_files1->execute();
