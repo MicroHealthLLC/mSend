@@ -990,171 +990,165 @@ include('header_no_left.php');
                 function genPDF() {
                     changefont('');
                     var tot_signaturecount = $('.signature_exist').length;
-
                     var sig_count=$(".signature_exist > img").length;
-
-                    
-
                     if(tot_signaturecount!=sig_count){
-
                          alert('Please fill out all signature filed');
-
-                         
-
                     }else{
-                        // $('#btnSaveSign').removeClass("disable_click").addClass("disable_click");
-                         $('#headerdiv .savebtn').removeClass('disnone').addClass("disnone");
-
-                        $('#contentdiv').html('Please wait...');
-
-                        $('#status').fadeIn(); 
-
-                        $('#preloader').fadeIn('slow');
-
-                        
-
-                        $('.not_signature_exist').css("border","2px solid #ffffff");
-
-                        $('.signature_exist').css("border","2px solid #ffffff");
-
-                        $('.sign_pad_pos').css("border","2px solid #ffffff");
-
-                    
-
-                    
-
-                        var w=595;
-
-                        var h=842;
-
-                        var deferreds = [];
-
-                        //var doc = new jsPDF('l', 'px', [h,w]);
-
-                        //var doc = new jsPDF("l", "px", "a4",true);
-						var doc = new jsPDF("p", "mm", "a4");
-						var width = doc.internal.pageSize.getWidth();
-						var height = doc.internal.pageSize.getHeight();
-
-                        for (let i = 0; i < $('.ba-page-wrap').length; i++) {
-
-                                var deferred = $.Deferred();
-
-                                deferreds.push(deferred.promise());
-
-                                generateCanvas(i, doc, deferred);
-
-                        }
-
+                        var tot_textcount = $('.signature_text').length;
+                        // var sig_textcount=$(".signature_text .sign_text").length;
+                        var sig_textcount=$('.sign_text').filter(function(){return $(this).val();}).length;
+                        if(tot_textcount!=sig_textcount){
+                            alert('Please fill out all Input Text filed');
+                        }else{
+                            
+                            // $('#btnSaveSign').removeClass("disable_click").addClass("disable_click");
+                             $('#headerdiv .savebtn').removeClass('disnone').addClass("disnone");
     
-
-                        $.when.apply($, deferreds).then(function () { // executes after adding all images
-
-                        //doc.save('test.pdf');
-
-                        var ajxurl='<?php echo BASE_URI; ?>';
-
-                        var blob = doc.output('blob');
-
-                        var formData = new FormData();
-
-                        formData.append('pdf', blob);
-
-                        formData.append('drop_off_request_id', '<?php echo $drop_off_request_id;?>');
-
-                        $.ajax({
-
-                            url: ajxurl+'save_signature.php',
-
-                            method: 'POST',
-
-                            data: formData,
-
-                            processData: false,
-
-                            contentType: false,
-
-                            success: function(response){
-
-                                // alert(response);
-
-                                if(response == 1) {
-
-                        //          alert(response);
-
-                                //  alert('Success!');
-
-                                    $('#status').fadeOut();
-
-                                    $('#preloader').fadeOut();
-
-                                    $("#cc-mail-status1").modal("toggle").trigger('change');
-
-                                    //window.location.href="<?php //echo BASE_URI.'inbox.php';?>";
-
-                                }
-
-                                else {
-
-                                //  alert('Something Went wrong.!');
-
-                                    $('#main1').fadeIn();
-
-                                    $('#status').fadeOut();
-
-                                    $('#preloader').fadeOut();
-
-                                    $('#msg1').html('Something Went wrong.!');
-
-                                    $("#cc-mail-status1").modal("toggle");
-
-                                }
-
-                            },
-
-                            error: function(response){
-
-                                if(response == 1) {
-
-                        //          alert('Success!');
-
-                                    $('#status').fadeOut();
-
-                                    $('#preloader').fadeOut();
-
-                                    $('#msg1').html('Success!');
-
-                                    $("#cc-mail-status1").modal("toggle");
-
-                                    //window.location.href="<?php //echo BASE_URI.'inbox.php';?>";
-
-                                }
-
-                                else {
-
-                        //          alert('Something Went wrong.!');
-
-                                    $('#main1').fadeIn();
-
-                                    $('#status').fadeOut();
-
-                                    $('#preloader').fadeOut();
-
-                                    $('#msg1').html('Something Went wrong.!');
-
-                                    $("#cc-mail-status1").modal("toggle");
-
-                                }
-
+                            $('#contentdiv').html('Please wait...');
+    
+                            $('#status').fadeIn(); 
+    
+                            $('#preloader').fadeIn('slow');
+    
+                            
+                            $('.not_signature_exist').css("border","2px solid #ffffff");
+    
+                            $('.signature_exist').css("border","2px solid #ffffff");
+    
+                            $('.sign_pad_pos').css("border","2px solid #ffffff");
+    
+                            var w=595;
+    
+                            var h=842;
+    
+                            var deferreds = [];
+    
+                            //var doc = new jsPDF('l', 'px', [h,w]);
+    
+                            //var doc = new jsPDF("l", "px", "a4",true);
+                            var doc = new jsPDF("p", "mm", "a4");
+                            var width = doc.internal.pageSize.getWidth();
+                            var height = doc.internal.pageSize.getHeight();
+    
+                            for (let i = 0; i < $('.ba-page-wrap').length; i++) {
+    
+                                    var deferred = $.Deferred();
+    
+                                    deferreds.push(deferred.promise());
+    
+                                    generateCanvas(i, doc, deferred);
+    
                             }
-
-                        });
-
-                        //----------------------------------------------------------
-
-                        });
-
-                        
+    
+        
+    
+                            $.when.apply($, deferreds).then(function () { // executes after adding all images
+    
+                            //doc.save('test.pdf');
+    
+                            var ajxurl='<?php echo BASE_URI; ?>';
+    
+                            var blob = doc.output('blob');
+    
+                            var formData = new FormData();
+    
+                            formData.append('pdf', blob);
+    
+                            formData.append('drop_off_request_id', '<?php echo $drop_off_request_id;?>');
+    
+                            $.ajax({
+    
+                                url: ajxurl+'save_signature.php',
+    
+                                method: 'POST',
+    
+                                data: formData,
+    
+                                processData: false,
+    
+                                contentType: false,
+    
+                                success: function(response){
+    
+                                    // alert(response);
+    
+                                    if(response == 1) {
+    
+                            //          alert(response);
+    
+                                    //  alert('Success!');
+    
+                                        $('#status').fadeOut();
+    
+                                        $('#preloader').fadeOut();
+    
+                                        $("#cc-mail-status1").modal("toggle").trigger('change');
+    
+                                        //window.location.href="<?php //echo BASE_URI.'inbox.php';?>";
+    
+                                    }
+    
+                                    else {
+    
+                                    //  alert('Something Went wrong.!');
+    
+                                        $('#main1').fadeIn();
+    
+                                        $('#status').fadeOut();
+    
+                                        $('#preloader').fadeOut();
+    
+                                        $('#msg1').html('Something Went wrong.!');
+    
+                                        $("#cc-mail-status1").modal("toggle");
+    
+                                    }
+    
+                                },
+    
+                                error: function(response){
+    
+                                    if(response == 1) {
+    
+                            //          alert('Success!');
+    
+                                        $('#status').fadeOut();
+    
+                                        $('#preloader').fadeOut();
+    
+                                        $('#msg1').html('Success!');
+    
+                                        $("#cc-mail-status1").modal("toggle");
+    
+                                        //window.location.href="<?php //echo BASE_URI.'inbox.php';?>";
+    
+                                    }
+    
+                                    else {
+    
+                            //          alert('Something Went wrong.!');
+    
+                                        $('#main1').fadeIn();
+    
+                                        $('#status').fadeOut();
+    
+                                        $('#preloader').fadeOut();
+    
+                                        $('#msg1').html('Something Went wrong.!');
+    
+                                        $("#cc-mail-status1").modal("toggle");
+    
+                                    }
+    
+                                }
+    
+                            });
+    
+                            //----------------------------------------------------------
+    
+                            });
+                            
+                        } 
 
                     }
 
