@@ -152,6 +152,7 @@ include('header.php');
          * Apply the corresponding action to the selected files.
          */
         if(isset($_POST['do_action'])) {
+            // var_dump($_POST);die();
             /** Continue only if 1 or more files were selected. */
             
             if ($_POST['files_actions']=='show') {

@@ -460,9 +460,10 @@ cursor: pointer;
 
 		 if(isset($_POST['delete_file'])) {
 
-			 // print_r($_POST);
+			 // print_r($_POST);die();
 
 			 $file_id = $_POST['delete_file'];
+			 $request_id = $_POST['delete_file_reqid'];
 
 			 $delete_results	= array(
 
@@ -473,9 +474,12 @@ cursor: pointer;
 								 );
 
 				 $this_file		= new FilesActions();
-
-				 $delete_status	= $this_file->delete_inbox_files($file_id);
-
+				 if($request_id!=0){
+				     $delete_status	= $this_file->delete_inbox_files($file_id,$request_id);
+				 }else{
+				     $delete_status	= $this_file->delete_inbox_files($file_id);
+				 }
+				 
 				 if ( $delete_status == true ) {
 
 					 $delete_results['ok']++;
@@ -527,8 +531,6 @@ cursor: pointer;
 			 echo system_message('ok',$msg);
 
 			 $log_action_number = 11;
-
-
 
 		  }
 
@@ -2185,7 +2187,7 @@ cursor: pointer;
 
 									<?php if (($current_level != '0') && (($row['request_type'] == '1' || $row['request_type'] == '2'))) {if($row['tbl_drop_off_request_id']!=0){ ?>
 
-                                        <a del-id="<?php echo $row["file_id"]; ?>" class="delBtn1" id="delBtn1" >
+                                        <a del-id="<?php echo $row["file_id"]; ?>" del-reqid="<?php echo $row["tbl_drop_off_request_id"]; ?>" class="delBtn1" id="delBtn1" >
 
                                             <i class="fa fa-times" aria-hidden="true"></i>
 
@@ -2271,6 +2273,7 @@ cursor: pointer;
 <form  id="deleteForm" action="" method="POST" style="display:none;">
 
 	<input id="delete_file" name="delete_file" type="text" value="">
+	<input id="delete_file_reqid" name="delete_file_reqid" type="text" value="">
 
 </form>
 
@@ -2545,7 +2548,7 @@ $(".refreshcls").on("click", function (e) {
 					if (confirm(msg_1)) {
 
 						$('#delete_file').val($(this).attr('del-id'));
-
+						$('#delete_file_reqid').val($(this).attr('del-reqid'));
 					  $('#deleteForm').submit();
 
 				} else {
