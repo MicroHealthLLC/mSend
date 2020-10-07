@@ -189,7 +189,7 @@ include('header_no_left.php');
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: 0;z
   background-color: #fff;
   /* change if the mask should have another color then white */
   z-index: 99;
