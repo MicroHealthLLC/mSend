@@ -60,81 +60,180 @@ include('header-unlogged.php');
 		
 		if ($can_download == true) {
 			$real_file_url	= $got_url['url'];
-
-			if (!isset($_GET['download'])) {
-				// $download_link = BASE_URI . 'download.php?id=' . $got_file_id . '&token=' . $got_token . '&download';
+            
+// 			if (!isset($_GET['download'])) {
+// 				// $download_link = BASE_URI . 'download.php?id=' . $got_file_id . '&token=' . $got_token . '&download';
 				
-				$download_link = BASE_URI .'process.php?do=download&amp;client='.$global_user.'&amp;id='.$got_file_id.'&amp;n=1';
-			}
-			else {
+// 				// $download_link = BASE_URI .'process.php?do=download&amp;client='.$global_user.'&amp;id='.$got_file_id.'&amp;n=1';
+// 			}
+// 			else {
 			    
-				/** Add the download row */
-				$statement = $dbh->prepare("INSERT INTO " . TABLE_DOWNLOADS . " (file_id, remote_ip, remote_host, anonymous)"
-											." VALUES (:file_id, :remote_ip, :remote_host, :anonymous)");
-				$statement->bindParam(':file_id', $got_file_id, PDO::PARAM_INT);
-				$statement->bindParam(':remote_ip', $_SERVER['REMOTE_ADDR']);
-				$statement->bindParam(':remote_host', $_SERVER['REMOTE_HOST']);
-				$statement->bindValue(':anonymous', 1, PDO::PARAM_INT);
-				$statement->execute();
+// 				/** Add the download row */
+// 				$statement = $dbh->prepare("INSERT INTO " . TABLE_DOWNLOADS . " (file_id, remote_ip, remote_host, anonymous)"
+// 											." VALUES (:file_id, :remote_ip, :remote_host, :anonymous)");
+// 				$statement->bindParam(':file_id', $got_file_id, PDO::PARAM_INT);
+// 				$statement->bindParam(':remote_ip', $_SERVER['REMOTE_ADDR']);
+// 				$statement->bindParam(':remote_host', $_SERVER['REMOTE_HOST']);
+// 				$statement->bindValue(':anonymous', 1, PDO::PARAM_INT);
+// 				$statement->execute();
 
-				/** Record the action log */
-				$new_log_action = new LogActions();
-				$log_action_args = array(
-										'action'				=> 37,
-										'owner_id'				=> 0,
-										'affected_file'			=> (int)$got_file_id,
-										'affected_file_name'	=> $got_url['url'],
-									);
-				$new_record_action = $new_log_action->log_action_save($log_action_args);
+// 				/** Record the action log */
+// 				$new_log_action = new LogActions();
+// 				$log_action_args = array(
+// 										'action'				=> 37,
+// 										'owner_id'				=> 0,
+// 										'affected_file'			=> (int)$got_file_id,
+// 										'affected_file_name'	=> $got_url['url'],
+// 									);
+// 				$new_record_action = $new_log_action->log_action_save($log_action_args);
 
-				// DOWNLOAD
-				$real_file = UPLOADED_FILES_FOLDER.$real_file_url;
-				/* AES Decryption started by RJ-07-Oct-2016. 
-					Encrypted file is decrypted and saved to temp folder.This file will be downloaded.
-					After downloading the file, this file will be removed from the server.
+// 				// DOWNLOAD
+// 				$real_file = UPLOADED_FILES_FOLDER.$real_file_url;
+// 				/* AES Decryption started by RJ-07-Oct-2016. 
+// 					Encrypted file is decrypted and saved to temp folder.This file will be downloaded.
+// 					After downloading the file, this file will be removed from the server.
 					 
-				*/
-				/*
-				$blockSize = BLOCKSIZE;
-				$inputKey = ENCRYPTION_KEY;
-				$fileData1 = file_get_contents($real_file);
-			    	$aes1 = new AES($fileData1, $inputKey, $blockSize);
-			    	$encData1 = $aes1->decrypt();
-				if (!file_exists(UPLOADED_FILES_FOLDER.'temp')) {
-				    mkdir(UPLOADED_FILES_FOLDER.'/temp', 0777, true);
-				}
-				$real_file = UPLOADED_FILES_FOLDER.'/temp/'.$real_file_url;
-			    	file_put_contents($real_file  , $encData1);*/
-				/* AES Decryption ended by RJ-07-Oct-2016 */
+// 				*/
+// 				/*
+// 				$blockSize = BLOCKSIZE;
+// 				$inputKey = ENCRYPTION_KEY;
+// 				$fileData1 = file_get_contents($real_file);
+// 			    	$aes1 = new AES($fileData1, $inputKey, $blockSize);
+// 			    	$encData1 = $aes1->decrypt();
+// 				if (!file_exists(UPLOADED_FILES_FOLDER.'temp')) {
+// 				    mkdir(UPLOADED_FILES_FOLDER.'/temp', 0777, true);
+// 				}
+// 				$real_file = UPLOADED_FILES_FOLDER.'/temp/'.$real_file_url;
+// 			    	file_put_contents($real_file  , $encData1);*/
+// 				/* AES Decryption ended by RJ-07-Oct-2016 */
 				
-				// 	$aes = new AESENCRYPT();
-    //                 $aes->decryptZipFile($real_file);
+// 				// 	$aes = new AESENCRYPT();
+//     //                 $aes->decryptZipFile($real_file);
                     
 
-				if (file_exists($real_file)) {
-					session_write_close(); 
-					while (ob_get_level()) ob_end_clean();
-					header('Content-Type: application/octet-stream');
-					header('Content-Disposition: attachment; filename='.basename($real_file));
-					header('Expires: 0');
-					header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-					header('Pragma: public');
-					header('Cache-Control: private',false);
-					header('Content-Length: ' . get_real_size($real_file));
-					header('Connection: close');
-					//readfile($real_file);
+// 				if (file_exists($real_file)) {
+// 					session_write_close(); 
+// 					while (ob_get_level()) ob_end_clean();
+// 					header('Content-Type: application/octet-stream');
+// 					header('Content-Disposition: attachment; filename='.basename($real_file));
+// 					header('Expires: 0');
+// 					header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+// 					header('Pragma: public');
+// 					header('Cache-Control: private',false);
+// 					header('Content-Length: ' . get_real_size($real_file));
+// 					header('Connection: close');
+// 					//readfile($real_file);
 					
-					$context = stream_context_create();
-					$file = fopen($real_file, 'rb', FALSE, $context);
-					while ( !feof( $file ) ) {
-						//usleep(1000000); //Reduce download speed
-						echo stream_get_contents($file, 2014);
-					}
+// 					$context = stream_context_create();
+// 					$file = fopen($real_file, 'rb', FALSE, $context);
+// 					while ( !feof( $file ) ) {
+// 						//usleep(1000000); //Reduce download speed
+// 						echo stream_get_contents($file, 2014);
+// 					}
 					
-					fclose( $file );
-					die();
-				}
-			}
+// 					fclose( $file );
+// 					die();
+// 				}
+// 			}
+
+            if($global_user!=''){
+                $download_link = BASE_URI .'process.php?do=download&amp;client='.$global_user.'&amp;id='.$got_file_id.'&amp;n=1';
+            }else{
+                $download_link = BASE_URI . 'download.php?id=' . $got_file_id . '&token=' . $got_token . '&download=true';
+                if (isset($_GET['download'])) {
+                    /** Add the download row */
+    				$statement = $dbh->prepare("INSERT INTO " . TABLE_DOWNLOADS . " (file_id, remote_ip, remote_host, anonymous)"
+    											." VALUES (:file_id, :remote_ip, :remote_host, :anonymous)");
+    				$statement->bindParam(':file_id', $got_file_id, PDO::PARAM_INT);
+    				$statement->bindParam(':remote_ip', $_SERVER['REMOTE_ADDR']);
+    				$statement->bindParam(':remote_host', $_SERVER['REMOTE_HOST']);
+    				$statement->bindValue(':anonymous', 1, PDO::PARAM_INT);
+    				$statement->execute();
+    				/** Record the action log */
+    				$new_log_action = new LogActions();
+    				$log_action_args = array(
+    										'action'				=> 37,
+    										'owner_id'				=> 0,
+    										'affected_file'			=> (int)$got_file_id,
+    										'affected_file_name'	=> $got_url['url'],
+    									);
+    				$new_record_action = $new_log_action->log_action_save($log_action_args);
+    
+    				// DOWNLOAD
+    				$real_file = UPLOADED_FILES_FOLDER.$real_file_url;
+                    $filePath = $real_file;
+					$handle = @fopen($filePath, "r");
+                    if ($handle) {
+                        $ext = pathinfo($filePath, PATHINFO_EXTENSION);
+						if($ext =='zip'){
+							$path = UPLOADED_FILES_FOLDER.$real_file_url;
+                            $zip = new ZipArchive;
+                            $unzipped = array();
+                            if ($zip->open($path) === true) {
+                                for($i = 0; $i < $zip->numFiles; $i++) {
+                                    $filename = $zip->getNameIndex($i);
+                                    $fileinfo = pathinfo($filename);
+                                    copy("zip://".$path."#".$filename, UPLOADED_FILES_FOLDER.'temp/'.$fileinfo['basename']);
+								    $unzipped[]= $fileinfo['basename'];
+                                }
+                                $zip->close();
+                            }
+                            
+							if(!empty($unzipped)){
+                            	/* REMOVED THE '_' BEFORE .ZIP*/
+								$updatedfilename=str_replace("_.zip",".zip",$real_file_url);
+								$zip = new ZipArchive();
+								$zipFilePath = UPLOADED_FILES_FOLDER.'temp/'.$updatedfilename;
+								$r = $zip->open($zipFilePath,  ZipArchive::CREATE);
+								if(!file_exists(UPLOADED_FILES_FOLDER.'temp/zip')){
+									mkdir(UPLOADED_FILES_FOLDER.'temp/zip');
+								}
+								//Decrypting invidual zip entries
+                            	foreach ($unzipped as $unzip) {
+									$aes = new AESENCRYPT();
+									$aes->decryptZipFile($unzip);
+									$zip->addFile(UPLOADED_FILES_FOLDER.'temp/zip/'.$unzip,$unzip);
+								}
+								$r=$zip->close();
+								//Deleting all encrypted zip entries extracted to temp
+								foreach ($unzipped as $unzip) {
+									unlink(UPLOADED_FILES_FOLDER.'temp/'.$unzip);
+								}
+							}
+                            $real_file1 = $zipFilePath;
+						}
+                        if (file_exists($real_file1)) {
+                            session_write_close();
+							while (ob_get_level()) ob_end_clean();
+							header('Content-Type: application/octet-stream');
+							header('Content-Disposition: attachment; filename='.basename($real_file1));
+							header('Expires: 0');
+							header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+							header('Pragma: public');
+							header('Cache-Control: private',false);
+							header('Content-Length: ' . get_real_size($real_file1));
+							header('Connection: close');
+                            //readfile($this->real_file);
+							$context = stream_context_create();
+							$file = fopen($real_file1, 'rb', FALSE, $context);
+							while( !feof( $file ) ) {
+								//usleep(1000000); //Reduce download speed
+								echo stream_get_contents($file, 2014);
+							}
+							fclose( $file );
+							unlink($real_file1);
+                            //Deleting all decrypted zip entries extracted in temp/zip folder
+							$zentries = glob(UPLOADED_FILES_FOLDER.'temp/zip/*'); // get all file names
+							foreach($zentries as $zentry){ // iterate files
+							  if(is_file($zentry))
+							    unlink($zentry); // delete file
+							}
+							exit;   
+                        } 
+                    }
+                }
+            }
+
 		}
 		else {
 			$errorstate = 'token_invalid';

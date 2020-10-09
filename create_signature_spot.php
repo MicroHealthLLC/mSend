@@ -9,7 +9,6 @@ error_reporting(-1);
 // Same as error_reporting(E_ALL);
 ini_set('error_reporting', E_ALL);
 
-
 $pdf_name = $_GET['pdf_name'];
 $userid = $_GET['id'];
 $req_id = $_GET['req_id'];

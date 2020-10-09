@@ -140,7 +140,7 @@ include('header-unlogged.php');
 						$allfile = new FilesActions();
 						//Marking all hidden files visible
 						$allfile->show_all();
-						if ($user_level == '9') {
+						if ($user_level == '9' || $user_level == '8') {
 						    header("location:".BASE_URI."home.php");
 						}else{
 						    header("location:".BASE_URI."inbox.php");

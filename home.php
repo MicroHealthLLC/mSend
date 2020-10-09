@@ -109,7 +109,7 @@ define('CAN_INCLUDE_FILES', true);
               </div>
             </div>
           </div>
-          <?php if (isset($show_log) && $show_log == true) { ?>
+          <?php if (isset($show_log) && $show_log == true) {?>
           <div class="col-sm-4">
             <div class="widget">
               <h4>
