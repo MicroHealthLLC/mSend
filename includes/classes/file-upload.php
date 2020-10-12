@@ -279,11 +279,14 @@ class PSend_Upload_File
 		$this->groups = $arguments['all_groups'];
 		$this->users = $arguments['all_users'];
 		$this->fromid = $arguments['from_id'];
+		
+
 
 		if (!empty($arguments['assign_to'])) {
 			$this->assign_to = $arguments['assign_to'];
 			foreach ($this->assign_to as $this->assignment) {
 				$this->id_only = substr($this->assignment, 1);
+
 				switch ($this->assignment[0]) {
 					case 'c':
 						$this->add_to = 'client_id';
@@ -296,17 +299,27 @@ class PSend_Upload_File
 						$this->action_number = 26;
 						break;
 				}
-				$this->assignment = substr($this->assignment, 1);
-				$this->statement = $this->dbh->prepare("INSERT INTO " . TABLE_FILES_RELATIONS . " (file_id, from_id, $this->add_to, hidden)"
+				
+				$this->statement = $this->dbh->prepare("SELECT client_id FROM " . TABLE_FILES_RELATIONS. " WHERE client_id ='".$this->id_only."' AND file_id ='".$this->file_id."' AND from_id ='".$this->fromid."' ");
+				// $this->statement->bindParam(':sendstatus', $this->send_status);
+				$this->statement->execute();
+				$this->statement->setFetchMode(PDO::FETCH_ASSOC);
+				$this->checkclientid = $this->statement->fetch();
+				if(empty($this->checkclientid)){
+				    $this->assignment = substr($this->assignment, 1);
+    				$this->statement = $this->dbh->prepare("INSERT INTO " . TABLE_FILES_RELATIONS . " (file_id, from_id, $this->add_to, hidden)"
 														."VALUES (:file_id, :fromid, :assignment, :hidden)");
-				$this->statement->bindParam(':file_id', $this->file_id, PDO::PARAM_INT);
-				$this->statement->bindParam(':fromid', $this->fromid, PDO::PARAM_INT);
-				$this->statement->bindParam(':assignment', $this->assignment);
-				$this->statement->bindParam(':hidden', $this->hidden, PDO::PARAM_INT);
-				$this->statement->execute();
-				$this->statement = $this->dbh->prepare("UPDATE tbl_files SET prev_assign ='0' WHERE id = :file_id");
-				$this->statement->bindParam(':file_id', $this->file_id, PDO::PARAM_INT);
-				$this->statement->execute();
+    				$this->statement->bindParam(':file_id', $this->file_id, PDO::PARAM_INT);
+    				$this->statement->bindParam(':fromid', $this->fromid, PDO::PARAM_INT);
+    				$this->statement->bindParam(':assignment', $this->assignment);
+    				$this->statement->bindParam(':hidden', $this->hidden, PDO::PARAM_INT);
+    				$this->statement->execute();
+    				$this->statement = $this->dbh->prepare("UPDATE tbl_files SET prev_assign ='0' WHERE id = :file_id");
+    				$this->statement->bindParam(':file_id', $this->file_id, PDO::PARAM_INT);
+    				$this->statement->execute();
+				}
+				
+				// echo "<pre>";print_r($this->row);echo "</pre>";
 
 				if ($this->uploader_type == 'user') {
 					/** Record the action log */
@@ -402,6 +415,7 @@ class PSend_Upload_File
 	 */
 	function clean_assignments($arguments)
 	{
+	    
 		$this->assign_to = $arguments['assign_to'];
 		$this->file_id = $arguments['file_id'];
 		$this->file_name = $arguments['file_name'];
@@ -572,6 +586,7 @@ class PSend_Upload_File
 	 */
 	function upload_save_categories($arguments)
 	{
+	     
 		$this->file_id		= $arguments['file_id'];
 		$this->categories	= $arguments['categories'];
 		
