@@ -5,7 +5,7 @@
  * Allows to hide, show or delete the files assigend to the
 
  * selected client.
-
+Uploader
  *
 
  * @package ProjectSend
@@ -792,16 +792,16 @@ error_reporting(E_ALL);
 			$sql_files->execute( $params );
 			$count = $sql_files->rowCount();
 			 //echo "<pre>";print_r($count);echo "</pre>";
-			if($count>0){
-                $sql_files1 = $dbh->prepare("SELECT * from " . TABLE_FILES . " WHERE req_status='0' AND tbl_drop_off_request_id!='0'");
-            	$sql_files1->execute();
-            	$sql_files1->setFetchMode(PDO::FETCH_ASSOC);
-            	$countinfo=$sql_files1->fetch();
-            	$count_non = $sql_files1->rowCount();
-            	if($count_non>0){
-            	    $count=$count-$count_non;
-            	}
-            }
+// 			if($count>0){
+//                 $sql_files1 = $dbh->prepare("SELECT * from " . TABLE_FILES . " WHERE req_status='0' AND tbl_drop_off_request_id!='0'");
+//             	$sql_files1->execute();
+//             	$sql_files1->setFetchMode(PDO::FETCH_ASSOC);
+//             	$countinfo=$sql_files1->fetch();
+//             	$count_non = $sql_files1->rowCount();
+//             	if($count_non>0){
+//             	    $count=$count-$count_non;
+//             	}
+//             }
 
 		}
 
@@ -1109,15 +1109,17 @@ error_reporting(E_ALL);
 							$sql_files->setFetchMode(PDO::FETCH_ASSOC);
 
 							while( $row = $sql_files->fetch() ) {
-                                if($row['req_status']=='1' || $row['tbl_drop_off_request_id']=='0'){
+					//  815 Start
+                                // if($row['req_status']=='1' || $row['tbl_drop_off_request_id']=='0'){
                                
-                                    if($row['tbl_drop_off_request_id']!='0'){
-                                        $sql_files = $dbh->prepare("SELECT * from " . TABLE_DROPOFF . " WHERE id=:drop_id");
-                                    	$sql_files->bindParam(':drop_id', $row['tbl_drop_off_request_id'], PDO::PARAM_INT);
-                                    	$sql_files->execute();
-                                    	$sql_files->setFetchMode(PDO::FETCH_ASSOC);
-                                    	$req_info=$sql_files->fetch();
-                                    }
+                                    // if($row['tbl_drop_off_request_id']!='0'){
+                                    //     $sql_files = $dbh->prepare("SELECT * from " . TABLE_DROPOFF . " WHERE id=:drop_id");
+                                    // 	$sql_files->bindParam(':drop_id', $row['tbl_drop_off_request_id'], PDO::PARAM_INT);
+                                    // 	$sql_files->execute();
+                                    // 	$sql_files->setFetchMode(PDO::FETCH_ASSOC);
+                                    // 	$req_info=$sql_files->fetch();
+                                    // }
+                    //  815 End
 								$file_id = $row['id'];
 
 								/**
@@ -1125,30 +1127,41 @@ error_reporting(E_ALL);
 								 * Construct the complete file URI to use on the download button.
 
 								 */
-								//  echo "<pre>";print_r($req_info['status']);echo "</pre>";
-								  
-							
-							
-							
-							
-							 if($row['req_status']=='1'){
-                                        $this_file_absolute = UPLOADED_FILES_FOLDER.'../../upload/files/mysignature/'.$row["client_id"].'/'.$row["tbl_drop_off_request_id"].'/'.$row["url"];
-                                    }else{
-                                        $this_file_absolute = UPLOADED_FILES_FOLDER.'../../upload/files/mysignature/'.$row["client_id"].'/'.$row["tbl_drop_off_request_id"].'/signed/'.$row["url"];
-                                    }
-							
-
-                                if($req_info['status']=='1'){
-                                    $this_file_absolute = UPLOADED_FILES_FOLDER.'mysignature/'.$req_info["from_id"].'/'.$row["tbl_drop_off_request_id"].'/signed/'.$row['url'];
-                                }else if($req_info['status']=='0'){
-                                    $this_file_absolute = UPLOADED_FILES_FOLDER.'mysignature/'.$req_info["reqclientid"].'/'.$row["tbl_drop_off_request_id"].'/'.$row['url'];
-                                }else{
-                                    $this_file_absolute = UPLOADED_FILES_FOLDER.$row['url'];
-                                }
-
+								 
+								 
+				// 			echo "<pre>";print_r($row);echo "</pre><br>";
 								
+							        if($row['req_status']=='1'){
+							             if($row['tbl_drop_off_request_id']!='0'){
+                                            $sql_files55 = $dbh->prepare("SELECT * from " . TABLE_DROPOFF . " WHERE id=:drop_id");
+                                            $sql_files55->bindParam(':drop_id', $row['tbl_drop_off_request_id'], PDO::PARAM_INT);
+                                            $sql_files55->execute();
+                                            $sql_files55->setFetchMode(PDO::FETCH_ASSOC);
+                                            $req_info55=$sql_files55->fetch();
+                                        }
+                                            $this_file_absolute = UPLOADED_FILES_FOLDER.'../../upload/files/mysignature/'.$req_info55['reqclientid'].'/'.$row["tbl_drop_off_request_id"].'/'.$row["url"];
+                                        
+                                        
+							        }else{
+                                        if($row['tbl_drop_off_request_id']!='0'){
+                                            $sql_files555 = $dbh->prepare("SELECT * from " . TABLE_DROPOFF . " WHERE id=:drop_id");
+                                            $sql_files555->bindParam(':drop_id', $row['tbl_drop_off_request_id'], PDO::PARAM_INT);
+                                            $sql_files555->execute();
+                                            $sql_files555->setFetchMode(PDO::FETCH_ASSOC);
+                                            $req_info555=$sql_files555->fetch();
+                                            // 	echo "<pre>";print_r($req_info555['reqclientid']);echo "</pre><br>";
+                                            $this_file_absolute = UPLOADED_FILES_FOLDER.'../../upload/files/mysignature/'.$req_info555['from_id'].'/'.$row["tbl_drop_off_request_id"].'/signed/'.$row["url"];
+                                        }else{
+                                            $this_file_absolute =         UPLOADED_FILES_FOLDER.$row['url'];
+                                        }
+							        }
+							
 
-								$this_file_uri = BASE_URI.UPLOADED_FILES_URL.$row['url'];					
+								$this_file_uri = BASE_URI.UPLOADED_FILES_URL.$row['url'];		
+								
+								
+								
+								
 
 								/**
 
@@ -1648,7 +1661,7 @@ error_reporting(E_ALL);
                 </tr>
 
                 <?php
-							}
+							//}
 							}
 
 						}
