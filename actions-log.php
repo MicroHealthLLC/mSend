@@ -389,17 +389,26 @@ border: solid 1px #ccc;
     					if($log['file_type']!=''){
     					    $this_action["text"].=' ('.$log['file_type'].')';
     					}else{
-    					     $this_action["text"].=' (normal request file)';
+    					   //  $this_action["text"].=' (normal request file)';
     					}
 					}else if($log['action']=='5'){
 					    if($log['file_type']!=''){
 					         $this_action["text"].=' ('.$log['file_type'].')';
     					}else{
-    					     $this_action["text"].=' (normal request file)';
+    					    if(!empty($log['affected_file'])){
+                                $sql55 = "SELECT request_type FROM tbl_files WHERE id='".$log['affected_file']."'";
+                                $statement55	= $dbh->prepare($sql55);
+                                $statement55->execute();
+                                $statement55->setFetchMode(PDO::FETCH_ASSOC);
+                                $request_type55 = $statement55->fetch();
+                                if($request_type55['request_type']==1){
+                                    $this_action["text"].=' (normal request file)';
+                                }
+    					    }
     					}
 					}
 				?>
-				<tr>		<?php //echo "<pre>";print_r($log['action']);echo "</pre>";?>
+				<tr>
 					<td><input type="checkbox" name="activities[]" value="<?php echo $log["id"]; ?>" /></td>
 					<td data-value="<?php echo strtotime($log['timestamp']); ?>">
 						<?php echo $date; ?>

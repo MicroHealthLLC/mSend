@@ -981,6 +981,7 @@ function current_download_count_user($file_id)
  */
 function render_log_action($params)
 {
+    global $dbh;
 	$action = $params['action'];
 	$timestamp = $params['timestamp'];
 	$owner_id = $params['owner_id'];
@@ -989,6 +990,20 @@ function render_log_action($params)
 	$affected_file_name = $params['affected_file_name'];
 	$affected_account = $params['affected_account'];
 	$affected_account_name = $params['affected_account_name'];
+
+
+    $sql5 = "SELECT level FROM tbl_users WHERE id='".$owner_id."'";
+    $statement5	= $dbh->prepare($sql5);
+    $statement5->execute();
+    $statement5->setFetchMode(PDO::FETCH_ASSOC);
+    $user_info = $statement5->fetch();
+
+    // echo "<pre>";print_r($user_info['level']);echo "</pre>";
+    
+
+
+
+
 
 	switch ($action) {
 		case 0:
@@ -1020,7 +1035,14 @@ function render_log_action($params)
 		case 5:
 			$action_ico = 'file-add';
 			$part1 = $owner_user;
-			$action_text = __('(user) uploaded the file','cftp_admin');
+			
+			if($user_info['level']==0){
+			    $action_text = __('(user) uploaded the file','cftp_admin');
+			}else{
+			    $action_text = __('(client) uploaded the file','cftp_admin');
+			}
+			
+			
 			$part2 = $affected_file_name;
 			break;
 		case 6:
@@ -1150,7 +1172,11 @@ function render_log_action($params)
 			$part1 = $owner_user;
 			$action_text = __('assigned the file','cftp_admin');
 			$part2 = $affected_file_name;
-			$part3 = __('to the client:','cftp_admin');
+			if($user_info['level']==0){
+			    $part3 = __('to the client:','cftp_admin');
+			}else{
+			    $part3 = __('from the client:','cftp_admin');
+			}
 			$part4 = $affected_account_name;
 			break;
 		case 26:
