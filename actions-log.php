@@ -370,6 +370,10 @@ border: solid 1px #ccc;
 			<tbody>
 			<?php
 				$sql->setFetchMode(PDO::FETCH_ASSOC);
+				
+				// var_dump($sql->fetch());
+				
+				
 				while ( $log = $sql->fetch() ) {
 					$this_action = render_log_action(
 										array(
