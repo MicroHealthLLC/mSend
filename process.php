@@ -689,8 +689,6 @@ class process {
 
 								 $real_file1 = UPLOADED_FILES_FOLDER."temp/".$this->real_file_url;
 
-
-
 							 } else {
 
 
@@ -834,19 +832,14 @@ class process {
 									$real_file1 = $zipFilePath;
 
 
-
 							 }
 
-
-
-
-
-
+                     
 
 						if (file_exists($real_file1)) {
-
-
-
+						    if(end(explode('/',$real_file1))==''){
+						        header("location:" . BASE_URI . "inbox.php?status=1");
+						    }
 							session_write_close();
 
 
@@ -957,6 +950,7 @@ class process {
 
 						}
 
+var_dump($real_file1. '444');die();
 
 
 
@@ -1622,6 +1616,9 @@ class process {
 		    }
 		}else{
 		    $this->real_file = UPLOADED_FILES_FOLDER.'../../upload/files/mysignature/'.$this->download_filedata1["from_id"].'/'.$this->download_filedata['tbl_drop_off_request_id'].'/signed/'.$this->download_filedata['filename'].'.pdf';
+            if (!file_exists($this->real_file)) {
+                header("location:" . BASE_URI . "inbox.php?status=1");
+            }
 		}
 		
 		
