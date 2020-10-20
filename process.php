@@ -564,7 +564,7 @@ class process {
 
 
 
-
+// var_dump('111111111111111111111111');die();
 
 
 						$this->can_download = true;
@@ -950,7 +950,7 @@ class process {
 
 						}
 
-var_dump($real_file1. '444');die();
+// var_dump($real_file1. '444');die();
 
 
 
@@ -1650,6 +1650,38 @@ var_dump($real_file1. '444');die();
 			 //var_dump($real_file1);die();
 
 			if (file_exists($real_file1)) {
+			    
+			    
+			      $this->download_statement5 = $this->dbh->prepare("SELECT COUNT(*) as download_count FROM " . TABLE_DOWNLOADS . " WHERE file_id=:id AND user_id=".CURRENT_USER_ID);
+                $this->download_statement5->bindParam(':id', $_GET['id'], PDO::PARAM_INT);
+                $this->download_statement5->execute();
+                $this->download_statement5->setFetchMode(PDO::FETCH_ASSOC);
+                $this->download_count5 = $this->download_statement5->fetch();
+                
+                $this->can_download5 = true;
+                
+                // if($this->row['number_downloads'] != 0) {
+                //     if($this->download_count5['download_count'] >= $this->row['number_downloads']) {
+                // //         $this->can_download5 = false;
+                //     }
+                // }
+                
+               
+                
+                /** Continue */
+                if ($this->can_download5 == true) {
+                    /**
+                     * If the file is being downloaded by a client, add +1 to
+                     * the download count
+                     */
+                    $this->statement = $this->dbh->prepare("INSERT INTO " . TABLE_DOWNLOADS . " (user_id , file_id, remote_ip, remote_host) VALUES (:user_id, :file_id, :remote_ip, :remote_host)");
+                    $this->statement->bindValue(':user_id', CURRENT_USER_ID, PDO::PARAM_INT);
+                    $this->statement->bindParam(':file_id', $_GET['id'], PDO::PARAM_INT);
+                    $this->statement->bindParam(':remote_ip', $_SERVER['REMOTE_ADDR']);
+                    $this->statement->bindParam(':remote_host', $_SERVER['REMOTE_HOST']);
+                    $this->statement->execute();
+                }
+			    
 				session_write_close();
 				while (ob_get_level()) ob_end_clean();
 				header('Content-Type: application/octet-stream');

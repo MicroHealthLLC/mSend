@@ -1713,12 +1713,12 @@ cursor: pointer;
                                                     $data55 = $stmt55->fetch();
                     						        $download_link = BASE_URI.'sign_document.php?auth='.$data55['keypath'].'&key=sign';
                                                 }else{
-                                                    // var_dump('222');
+                                                    // var_dump('2222222222222222222222222');
                                                     $download_link = BASE_URI.'process.php?do=req_download&amp;client='.$global_user.'&amp;id='.$row['file_id'].'&amp;n=1&amp;request_type='.$row['request_type'].'';
                                                     // $download_link = BASE_URI.$form_action_url.'?status=1';
                                                 }
                                             }else{
-                                                // var_dump('333');
+                                                // var_dump('3333333333333333333333333');
                                                 $download_link = BASE_URI.'process.php?do=download&amp;client='.$global_user.'&amp;id='.$row['file_id'].'&amp;n=1&amp;request_type='.$row['request_type'].'';
                                             }
 
