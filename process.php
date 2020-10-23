@@ -252,11 +252,8 @@ class process {
 
 
 					if ((CURRENT_USER_LEVEL == 0 ) && ($curr_usr_nm != $this->row['uploader'])) {
-
-
-
-
-
+					    
+					    //var_dump('11111111111111111111');
 
 
 						if ($this->expires == '0' || $this->expired == false) {
@@ -561,12 +558,6 @@ class process {
 
 					else {
 
-
-
-
-// var_dump('111111111111111111111111');die();
-
-
 						$this->can_download = true;
 
 
@@ -837,11 +828,15 @@ class process {
                      
 
 						if (file_exists($real_file1)) {
+						    
 						    if(end(explode('/',$real_file1))==''){
 						        header("location:" . BASE_URI . "inbox.php?status=1");
 						    }
 							session_write_close();
-
+                            global $dbh;
+                        	$f_id = $_GET['id'];
+                        	$sql6 = $dbh->prepare("UPDATE " . TABLE_FILES . " SET `unread_flag` = '1' WHERE id = ". $f_id);
+                        	$sql6->execute();
 
 
 							while (ob_get_level()) ob_end_clean();
@@ -941,9 +936,7 @@ class process {
 
 
 								}
-
-
-
+								
 							exit;
 
 
@@ -1683,6 +1676,10 @@ class process {
                 }
 			    
 				session_write_close();
+				global $dbh;
+            	$f_id = $_GET['id'];
+            	$sql6 = $dbh->prepare("UPDATE " . TABLE_FILES . " SET `unread_flag` = '1' WHERE id = ". $f_id);
+            	$sql6->execute();
 				while (ob_get_level()) ob_end_clean();
 				header('Content-Type: application/octet-stream');
 				header('Content-Disposition: attachment; filename='.basename($real_file1));

@@ -11,6 +11,19 @@ $items = array();
 /**
  * Items for system users
  */
+ 
+ /** Unread count*/
+    $sqlunread = "SELECT  tbl_files.* FROM tbl_files LEFT JOIN tbl_files_relations ON tbl_files.id = tbl_files_relations.file_id where  tbl_files_relations.client_id =" . CURRENT_USER_ID." AND unread_flag=0" ;
+    $statement55 = $dbh->prepare($sqlunread);
+    $statement55->execute();
+	$sqlunreadcount		= $statement55->rowCount();
+	if($sqlunreadcount>0){
+	    $sqlunread_count=' ('.$sqlunreadcount.')';
+	}else{
+	    $sqlunread_count='';
+	}
+	
+
 if ( in_session_or_cookies( array( 9,8,7 ) ) )
 {
 
@@ -24,6 +37,7 @@ if ( in_session_or_cookies( array( 9,8,7 ) ) )
 	$sql_inactive->execute();
 	$inactive_users		= $sql_inactive->rowCount();
 
+    
 /*
 	$items['dashboard'] = array(
 								'nav'	=> 'dashboard',
@@ -71,7 +85,7 @@ if ( in_session_or_cookies( array( 9,8,7 ) ) )
 													'link'	=> 'upload-from-computer.php',
 												),*/
 												array(
-													'label'	=> __('Inbox Files', 'cftp_admin'),
+													'label'	=> __('Inbox Files'.$sqlunread_count, 'cftp_admin'),
 													'link'	=> 'inbox.php',
 												),
 												array(
@@ -312,7 +326,7 @@ else
 													'link'	=> 'upload-from-computer.php',
 												),*/
 												array(
-													'label'	=> __('Inbox Files', 'cftp_admin'),
+													'label'	=> __('Inbox Files'.$sqlunread_count, 'cftp_admin'),
 													'link'	=> 'inbox.php',
 												),
 												array(

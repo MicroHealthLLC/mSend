@@ -7,7 +7,6 @@ require_once('sys.includes.php');
 $this_current_id = $_SESSION['loggedin_id'];
 
 
-
 if(isset($_POST)){
 
         $sign_left_pos = $_POST['sign_left_pos'];
@@ -52,8 +51,6 @@ if(isset($_POST)){
 
 $signature_request_key = $_GET['auth'];
 
-
-
 $stmt1 = $dbh->prepare("SELECT * FROM tbl_draw_sign_details WHERE keypath=:keypath");
 
 $stmt1->execute(['keypath' => $signature_request_key]); 
@@ -73,6 +70,10 @@ $tbl_draw_sign_detail_info = $stmt1->fetch();
 
 
 if($tbl_draw_sign_detail_info){
+    
+$f_id = $tbl_draw_sign_detail_info['drop_off_request_id'];
+$sql6 = $dbh->prepare("UPDATE " . TABLE_FILES . " SET `unread_flag` = '1' WHERE tbl_drop_off_request_id = ". $f_id);
+$sql6->execute();
 
     // $stmt5 = $dbh->prepare("SELECT * FROM tbl_drop_off_request WHERE id=".$tbl_draw_sign_detail_info['drop_off_request_id']." AND status=0");
 

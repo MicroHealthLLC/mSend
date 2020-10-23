@@ -42,6 +42,7 @@ if (defined('TRY_INSTALL')) {
 								  `prev_assign` ENUM(\'0\',\'1\',\'2\') NOT NULL DEFAULT \'0\',
 								  `tbl_drop_off_request_id` INT(1) NOT NULL default \'0\',
 								  `req_status` INT(1) NOT NULL default \'0\',
+								  `unread_flag` INT(1) NOT NULL default \'0\',
 								  PRIMARY KEY (`id`)
 								) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 								',
