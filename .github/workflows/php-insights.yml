@@ -12,5 +12,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - name: PHP-Insights
+    - name: phpinsights
       uses: tienvx/phpinsights-action@v1.0.0
