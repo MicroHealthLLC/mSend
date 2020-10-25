@@ -14,4 +14,4 @@
       - name: Check out code into the workspace
         uses: actions/checkout@v2
       - name: Run php check code with reviewdog
-        uses: GeneaLabs/action-reviewdog-phpstan
+        uses: GeneaLabs/action-reviewdog-phpstan@1.0.0
