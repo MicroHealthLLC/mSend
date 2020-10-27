@@ -8,6 +8,7 @@ $drop_off_request_id=$_POST['drop_off_request_id'];
 $stmt = $dbh->prepare("SELECT * FROM tbl_draw_sign_details WHERE drop_off_request_id=:drop_off_request_id");
 $stmt->execute(['drop_off_request_id' => $drop_off_request_id]); 
 $data = $stmt->fetch();
+
 if($data){
 	$stmt1 = $dbh->prepare("SELECT * FROM tbl_drop_off_request WHERE id=:drop_off_request_id");
 	$stmt1->execute(['drop_off_request_id' => $drop_off_request_id]); 
