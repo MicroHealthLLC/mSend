@@ -14,7 +14,7 @@ echo "$(timestamp): Deploying mSend"
 
 cd /var/www/mSend \
 && sudo git pull \
-&& chown -R chown -R apache:apache * \
+&& chown -R apache:apache * \
 && apachectl restart \
 
 echo "$(timestamp): mSend Deployed"
