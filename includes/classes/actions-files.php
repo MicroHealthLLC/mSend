@@ -93,6 +93,8 @@ class FilesActions
     				
         			/** Delete the reference to the file on the database */
     				if ( true === $this->can_delete ) {
+    				    
+    				    /**--- start ---*/
     				    $filerelationdelt = $this->dbh->prepare("DELETE FROM " . TABLE_FILES_RELATIONS. " WHERE file_id = :file_id AND client_id =".CURRENT_USER_ID);
     					$filerelationdelt->bindParam(':file_id', $rel_id, PDO::PARAM_INT);
     					$filerelationdelt->execute();
@@ -113,7 +115,7 @@ class FilesActions
     					$dropoffdelt = $this->dbh->prepare("DELETE FROM tbl_drop_off_request WHERE id = :reqid");
     					$dropoffdelt->bindParam(':reqid', $request_id, PDO::PARAM_INT);
     					$dropoffdelt->execute();
-    					
+    					/**--- End ---*/
     					
     					
     				// 	/**
@@ -123,9 +125,13 @@ class FilesActions
     				// 	 */
     				 $this_file_absolute =UPLOADED_FILES_FOLDER.'../../upload/files/mysignature/'.$reqinfo['reqclientid'].'/'.$request_id.'/*';
     				 
-    				 $this_file_absolute1 =UPLOADED_FILES_FOLDER.'../../upload/files/mysignature/'.$reqinfo['reqclientid'].'/'.$request_id.'/signed/';
+    				 $this_file_absolute1 =UPLOADED_FILES_FOLDER.'../../upload/files/mysignature/1/'.$request_id.'/signed/';
+    			    
+    			 //   var_dump($this_file_absolute.' <br>');
+    			 //   var_dump($this_file_absolute1);
     			    
     			     if (file_exists($this_file_absolute1)) {
+    			         //var_dump('1111111111111111111111');die();
 					    $files5 = glob($this_file_absolute1.'*'); // get all file names
                         foreach($files5 as $file5){ // iterate files
                           if(is_file($file5))
@@ -136,6 +142,7 @@ class FilesActions
     				
     				$files1 = glob($this_file_absolute); // get all file names
                     foreach($files1 as $file1){ // iterate files
+                    //   var_dump('2222222222222222222222');die();
                       if(is_file($file1))
                         unlink($file1); // delete file
                     }
