@@ -35,8 +35,6 @@ if (in_session_or_cookies($core_update_allowed)) {
 	require_once(ROOT_DIR.'/includes/core.update.php');
 }
 
-
-
 ?>
 <!doctype html>
 <html lang="<?php echo SITE_LANG; ?>">
@@ -127,10 +125,13 @@ print_r($alternate_email_list);
 					
 				<!-- PLACE YOUR LOGO HERE -->
 				<span id="logo"><?php //echo THIS_INSTALL_SET_TITLE; ?>
-			<?php echo BRAND_NAME; ?>
+			        <?php echo BRAND_NAME; ?>
+			        
                 	<!--<img src="img/logo.png" alt="SmartAdmin"> -->
                 </span>
+                
                 </div>
+                
 				<!-- END LOGO PLACEHOLDER -->
 
 				<!-- Note: The activity badge color changes when clicked and resets the number to 0
@@ -164,6 +165,7 @@ print_r($alternate_email_list);
 		<aside id="left-panel">
 
 			<!-- User info -->
+			
 			<div class="login-info">
 				<span> <!-- User image size is adjusted inside CSS, it should stay as it --> 
 					
@@ -180,6 +182,7 @@ print_r($alternate_email_list);
 						<img src="<?php echo BASE_URI . '/img/avatars/no-image.png';?>" alt="demo user">
 
 <?php }?>
+
 						<span>
 							<?php echo $global_name; ?>
 						</span>
@@ -187,6 +190,8 @@ print_r($alternate_email_list);
 					</a> 
 					
 				</span>
+				<p id="demo" style="font-size:15px;text-align:center;color:red;"></p>
+				<p id="submitted"></p>
 			</div>
 			<!-- end user info -->
 
@@ -214,3 +219,36 @@ print_r($alternate_email_list);
 	 */
 	can_see_content($allowed_levels);
 ?>
+
+
+
+    
+<script>
+    
+    function CountDown(duration, display) {
+        if (!isNaN(duration)) {
+            var timer = duration, minutes, seconds;
+            var interVal=  setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                $(display).html("<b>" + minutes + "m : " + seconds + "s" + "</b>");
+                if (--timer < 0) {
+                    timer = duration;
+                  SubmitFunction();
+                  $('#demo').empty();
+                  clearInterval(interVal)
+                }
+            },1000);
+        }
+    }
+    
+    function SubmitFunction(){
+        window.location.href="<?php echo BASE_URI.'process.php?do=logout';?>"
+    }
+    CountDown('<?php echo (float)1800-(time() - $_SESSION['loggedin_time']);?>',$('#demo'));
+    
+</script>

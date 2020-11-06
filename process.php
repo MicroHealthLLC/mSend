@@ -1467,6 +1467,10 @@ class process {
 
 
 		unset($_SESSION['lang']);
+		
+		
+		
+		unset($_SESSION['loggedin_time']);
 
 
 

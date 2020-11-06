@@ -86,7 +86,9 @@ include('header-unlogged.php');
 					$_SESSION['loggedin'] = $sysuser_username;
 					$_SESSION['userlevel'] = $user_level;
 					$_SESSION['lang'] = $selected_form_lang;
+					$_SESSION['loggedin_time'] = time();
 
+var_dump($_SESSION['loggedin_time'].'   1111111111111111');
 					/**
 					 * Language cookie
 					 * TODO: Implement.
