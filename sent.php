@@ -196,13 +196,14 @@ include('header.php');
                 /**
                  * Then get the files names to add to the log action.
                  */
-                $sql_file = $dbh->prepare("SELECT id, filename FROM " . TABLE_FILES . " WHERE FIND_IN_SET(id, :files)");
+                $sql_file = $dbh->prepare("SELECT id, filename, tbl_drop_off_request_id FROM " . TABLE_FILES . " WHERE FIND_IN_SET(id, :files)");
                 $sql_file->bindParam(':files', $files_to_get);
                 $sql_file->execute();
                 $sql_file->setFetchMode(PDO::FETCH_ASSOC);
                 while( $data_file = $sql_file->fetch() ) {
                     $all_files[$data_file['id']] = $data_file['filename'];
                 }
+                //  var_dump($_POST['modify_id']);die();
                 switch($_POST['files_actions']) {
                     case 'hide':
                         /**

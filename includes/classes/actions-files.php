@@ -19,6 +19,7 @@ class FilesActions
 
 	function delete_files($rel_id)
 	{
+	   // var_dump('221222');die();
 		$this->can_delete		= false;
 		$this->result			= '';
 		$this->check_level		= array(9,8,0);
@@ -27,7 +28,7 @@ class FilesActions
 			/** Do a permissions check */
 			if (isset($this->check_level) && in_session_or_cookies($this->check_level)) {
 				$this->file_id = $rel_id;
-				$this->sql = $this->dbh->prepare("SELECT url, uploader FROM " . TABLE_FILES . " WHERE id = :file_id");
+				$this->sql = $this->dbh->prepare("SELECT url, uploader, tbl_drop_off_request_id FROM " . TABLE_FILES . " WHERE id = :file_id");
 				$this->sql->bindParam(':file_id', $this->file_id, PDO::PARAM_INT);
 				$this->sql->execute();
 				$this->sql->setFetchMode(PDO::FETCH_ASSOC);
@@ -42,25 +43,65 @@ class FilesActions
 					}
 
 					$this->file_url = $this->row['url'];
+				    $this->request_id=$this->row['tbl_drop_off_request_id'];
 				}
+
+            	$clientid = $this->dbh->prepare("SELECT reqclientid FROM tbl_drop_off_request WHERE id = :req_id");
+				$clientid->bindParam(':req_id', $this->request_id, PDO::PARAM_INT);
+				$clientid->execute();
+				$clientid->setFetchMode(PDO::FETCH_ASSOC);
+				$reqinfo=$clientid->fetch();
+				
+				
+// 		var_dump($reqinfo['reqclientid']);
 
 				/** Delete the reference to the file on the database */
 				if ( true === $this->can_delete ) {
-					$this->sql = $this->dbh->prepare("DELETE FROM " . TABLE_FILES . " WHERE id = :file_id");
-					$this->sql->bindParam(':file_id', $this->file_id, PDO::PARAM_INT);
-					$this->sql->execute();
-					/**
-					 * Use the id and uri information to delete the file.
-					 *
-					 * @see delete_file_from_disk
-					 */
-					delete_file_from_disk(UPLOADED_FILES_FOLDER . $this->file_url);
-					$this->result = true;
-				}
-				else {
+				    if($this->request_id!=0){
+				        $filerelationdelt = $this->dbh->prepare("DELETE FROM " . TABLE_FILES_RELATIONS. " WHERE file_id = :file_id AND client_id =".CURRENT_USER_ID);
+    					$filerelationdelt->bindParam(':file_id', $rel_id, PDO::PARAM_INT);
+    					$filerelationdelt->execute();
+    					
+    					$this->sql = $this->dbh->prepare("DELETE FROM " . TABLE_FILES . " WHERE id = :file_id");
+    					$this->sql->bindParam(':file_id', $this->file_id, PDO::PARAM_INT);
+    					$this->sql->execute();
+    					
+    				    $filepositiondelt = $this->dbh->prepare("DELETE FROM tbl_draw_sign_pos_details WHERE tbl_draw_sign_details_id = :request_id");
+    					$filepositiondelt->bindParam(':request_id', $this->request_id, PDO::PARAM_INT);
+    					$filepositiondelt->execute();
+    					
+    					$filedrawdelt = $this->dbh->prepare("DELETE FROM tbl_draw_sign_details WHERE drop_off_request_id = :drequest_id");
+    					$filedrawdelt->bindParam(':drequest_id', $this->request_id, PDO::PARAM_INT);
+    					$filedrawdelt->execute();
+    					
+    					$dropoffdelt = $this->dbh->prepare("DELETE FROM tbl_drop_off_request WHERE id = :reqid");
+    					$dropoffdelt->bindParam(':reqid', $this->request_id, PDO::PARAM_INT);
+    					$dropoffdelt->execute();
+    					
+    					$this_file_absolute =UPLOADED_FILES_FOLDER.'../../upload/files/mysignature/'.$reqinfo['reqclientid'].'/'.$this->request_id.'/*';
+    				//  $this_file_absolute1 =UPLOADED_FILES_FOLDER.'../../upload/files/mysignature/1/'.$request_id.'/signed/';
+    				
+    					$files1 = glob($this_file_absolute); // get all file names
+                        foreach($files1 as $file1){ // iterate files
+                            if(is_file($file1))
+                            unlink($file1); // delete file
+                        }
+    				
+				    }else{
+				        $this->sql = $this->dbh->prepare("DELETE FROM " . TABLE_FILES . " WHERE id = :file_id");
+    					$this->sql->bindParam(':file_id', $this->file_id, PDO::PARAM_INT);
+    					$this->sql->execute();
+    					// 	/**
+        				// 	 * Use the id and uri information to delete the file.
+        				// 	 *
+        				// 	 * @see delete_file_from_disk
+        				// 	 */
+        				delete_file_from_disk(UPLOADED_FILES_FOLDER . $this->file_url);
+				    }
+				    $this->result = true;
+				}else {
 					$this->result = false;
 				}
-				
 				return $this->result;
 			}
 		}
@@ -75,6 +116,8 @@ class FilesActions
 			/** Do a permissions check */
 			if (isset($this->check_level) && in_session_or_cookies($this->check_level)) {
 			    if($request_id!=0){
+			        
+		  //  var_dump('11111111111111111111111111');die();
 			        $this->file_id = $rel_id;
     				$this->sql = $this->dbh->prepare("SELECT url, uploader FROM " . TABLE_FILES . " WHERE id = :file_id");
     				$this->sql->bindParam(':file_id', $this->file_id, PDO::PARAM_INT);
@@ -85,7 +128,7 @@ class FilesActions
     						$this->file_url = $this->row['url'];
     				}
     				
-    				$clientid = $this->dbh->prepare("SELECT reqclientid FROM tbl_drop_off_request WHERE id = :req_id");
+    				$clientid = $this->dbh->prepare("SELECT from_id,reqclientid,status FROM tbl_drop_off_request WHERE id = :req_id");
     				$clientid->bindParam(':req_id', $request_id, PDO::PARAM_INT);
     				$clientid->execute();
     				$clientid->setFetchMode(PDO::FETCH_ASSOC);
@@ -94,6 +137,12 @@ class FilesActions
         			/** Delete the reference to the file on the database */
     				if ( true === $this->can_delete ) {
     				    
+    				// 	/**
+    				// 	 * Use the id and uri information to delete the file.
+    				// 	 *
+    				// 	 * @see delete_file_from_disk
+    				// 	 */
+    				if($reqinfo['status']==0){
     				    /**--- start ---*/
     				    $filerelationdelt = $this->dbh->prepare("DELETE FROM " . TABLE_FILES_RELATIONS. " WHERE file_id = :file_id AND client_id =".CURRENT_USER_ID);
     					$filerelationdelt->bindParam(':file_id', $rel_id, PDO::PARAM_INT);
@@ -117,18 +166,23 @@ class FilesActions
     					$dropoffdelt->execute();
     					/**--- End ---*/
     					
+    				    $this_file_absolute =UPLOADED_FILES_FOLDER.'../../upload/files/mysignature/'.$reqinfo['reqclientid'].'/'.$request_id.'/*';
+    				}else{
+    				    /**--- start ---*/
+    				    $filerelationdelt = $this->dbh->prepare("DELETE FROM " . TABLE_FILES_RELATIONS. " WHERE file_id = :file_id AND client_id =".CURRENT_USER_ID);
+    					$filerelationdelt->bindParam(':file_id', $rel_id, PDO::PARAM_INT);
+    					$filerelationdelt->execute();
+					
+					
+    					$filedelt = $this->dbh->prepare("DELETE FROM " . TABLE_FILES . " WHERE id = :file_id");
+    					$filedelt->bindParam(':file_id', $this->file_id, PDO::PARAM_INT);
+    					$filedelt->execute();
     					
-    				// 	/**
-    				// 	 * Use the id and uri information to delete the file.
-    				// 	 *
-    				// 	 * @see delete_file_from_disk
-    				// 	 */
-    				 $this_file_absolute =UPLOADED_FILES_FOLDER.'../../upload/files/mysignature/'.$reqinfo['reqclientid'].'/'.$request_id.'/*';
+    					/**--- End ---*/
+    					
+    				    $this_file_absolute1 =UPLOADED_FILES_FOLDER.'../../upload/files/mysignature/'.$reqinfo['from_id'].'/'.$request_id.'/signed/';
+    				}
     				 
-    				 $this_file_absolute1 =UPLOADED_FILES_FOLDER.'../../upload/files/mysignature/1/'.$request_id.'/signed/';
-    			    
-    			 //   var_dump($this_file_absolute.' <br>');
-    			 //   var_dump($this_file_absolute1);
     			    
     			     if (file_exists($this_file_absolute1)) {
     			         //var_dump('1111111111111111111111');die();
@@ -155,6 +209,7 @@ class FilesActions
     				}
 			        
 			    }else{
+			     //   var_dump('2222222222222222222222222');die();
 			       /** Delete the reference to the file on the database */
 					$normalfilerelationdlt = $this->dbh->prepare("DELETE FROM " . TABLE_FILES_RELATIONS. " WHERE file_id = :file_id AND client_id =".CURRENT_USER_ID);
 					$normalfilerelationdlt->bindParam(':file_id', $rel_id, PDO::PARAM_INT);
