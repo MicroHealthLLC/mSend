@@ -308,7 +308,7 @@ catch ( Exception $e ) {
                                         ?>
               </select>
             </section>
-            <section>
+            <section style="display:none;">
               <label class="checkbox">
                 <input type="checkbox" name="remember" checked="">
                 <i></i>Stay signed in</label>

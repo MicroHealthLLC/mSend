@@ -509,6 +509,13 @@ $allowed_file_types = implode(',',$allowed_file_types);
         <?php _e('Social Login', 'cftp_admin'); ?>
 
         </a></li>
+        
+        
+      <li><a href="#tab_logintimeout" aria-controls="tab_logintimeout" role="tab" data-toggle="tab">
+
+        <?php _e('Login Time Out', 'cftp_admin'); ?>
+
+        </a></li>
 
        <li class="cc-group-submit"> <button type="submit" class="btn btn-wide btn-primary empty">
 
@@ -1867,6 +1874,8 @@ $allowed_file_types = implode(',',$allowed_file_types);
               </div>
 
             </div>
+            
+            
 
             <div role="tabpanel" class="tab-pane fade" id="tab_sociallogin">
 
@@ -2547,7 +2556,81 @@ $allowed_file_types = implode(',',$allowed_file_types);
               </div>
 
             </div>
+            
+            
+            
+            
+            
+            
+             <div role="tabpanel" class="tab-pane fade" id="tab_logintimeout">
 
+              <div class="row">
+
+                <div class="col-xs-12 col-xs-offset-0 col-sm-8 col-sm-offset-2 col-md-7 col-md-offset-3 white-box">
+
+                  <div class="white-box-interior">
+
+                    <h3>
+
+                      <?php _e('Login Time Out Settings','cftp_admin'); ?>
+
+                    </h3>
+
+                    <p>
+
+                      <?php //_e("Like the thumbnails options, these have to be changed taking into account the client's template design, since it can be shown there. The default template uses a fixed width for the logo, however the Gallery template uses this setting to show the image on top.",'cftp_admin'); ?>
+
+                    </p>
+
+                    <div class="options_column">
+
+                      <div class="options_col_left">
+
+                        <div class="form-group">
+
+                          <label for="max_logo_width" class="col-sm-8 control-label">
+
+                            <?php _e('Period of Time (Minutes)','cftp_admin'); ?>
+
+                          </label>
+
+                          <div class="col-sm-4">
+
+                            <input type="number" name="max_period_of_time" id="max_period_of_time" class="form-control" value="<?php echo html_output(MAX_PERIOD_OF_TIME); ?>"/>
+
+                          </div>
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
           </div>
 
         </div>

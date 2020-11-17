@@ -130,6 +130,8 @@ if(!empty($options_values)) {
 	define('CLIENTS_CAN_REGISTER',$options_values['clients_can_register']);
 
 	define('BRAND_NAME',$options_values['branding_title']);
+	
+	define('MAX_PERIOD_OF_TIME',$options_values['max_period_of_time']);
 
 
 

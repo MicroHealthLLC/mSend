@@ -344,7 +344,8 @@ if (defined('TRY_INSTALL')) {
 								('recaptcha_secret_key', ''),
 								('orphan_deletion_settings', 'm'),
 								('download_limit_max_tries', '0'),
-								('file_expiry_max_days', '0')
+								('file_expiry_max_days', '0'),
+								('max_period_of_time', '30')
 								",
 					'params' => array(
 										':base_uri'	=> $base_uri,

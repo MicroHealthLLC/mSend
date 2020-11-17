@@ -249,6 +249,7 @@ print_r($alternate_email_list);
     function SubmitFunction(){
         window.location.href="<?php echo BASE_URI.'process.php?do=logout';?>"
     }
-    CountDown('<?php echo (float)1800-(time() - $_SESSION['loggedin_time']);?>',$('#demo'));
+    
+    CountDown('<?php echo (float)html_output(MAX_PERIOD_OF_TIME)*60-(time() - $_SESSION['loggedin_time']);?>',$('#demo'));
     
 </script>
