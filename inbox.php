@@ -2213,7 +2213,14 @@ cursor: pointer;
 
                                         </a>
 
-                                    <?php } else { echo(" -- ");  }?>
+                                    <?php } else {
+                                        if($row['tbl_drop_off_request_id']!=0){
+                                    ?>
+                                            <a del-id="<?php echo $row["file_id"]; ?>" del-reqid="<?php echo $row["tbl_drop_off_request_id"]; ?>" class="delBtn1" id="delBtn1" >
+                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                            </a>
+                                    <?php
+                                        }else{echo(" -- ");  }}?>
 
 								</td>
 
