@@ -389,11 +389,12 @@ border: solid 1px #ccc;
 										)
 					);
 					$date = date(TIMEFORMAT_USE,strtotime($log['timestamp']));
+				// 	var_dump($log['file_type']);die();
 					if($log['action']=='25'){
-    					if($log['file_type']!=''){
+    					if($log['file_type']!=null){
     					    $this_action["text"].=' ('.$log['file_type'].')';
     					}else{
-    					   //  $this_action["text"].=' (normal request file)';
+    					     $this_action["text"].=' (normal request file)';
     					}
 					}else if($log['action']=='5'){
 					    if($log['file_type']!=''){
@@ -405,9 +406,9 @@ border: solid 1px #ccc;
                                 $statement55->execute();
                                 $statement55->setFetchMode(PDO::FETCH_ASSOC);
                                 $request_type55 = $statement55->fetch();
-                                if($request_type55['request_type']==1){
+                                // if($request_type55['request_type']==1){
                                     $this_action["text"].=' (normal request file)';
-                                }
+                                // }
     					    }
     					}
 					}
