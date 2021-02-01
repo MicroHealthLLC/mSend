@@ -194,9 +194,9 @@ switch ($user_form_type) {
 				<label for="add_user_form_level" class="col-sm-4 control-label"><?php _e('Role','cftp_admin'); ?></label>
 				<div class="col-sm-8">
 					<select name="add_user_form_level" id="add_user_form_level" class="form-control">
-						<option value="9" <?php echo (isset($add_user_data_level) && $add_user_data_level == '9') ? 'selected="selected"' : ''; ?>><?php echo USER_ROLE_LVL_9; ?></option>
-						<option value="8" <?php echo (isset($add_user_data_level) && $add_user_data_level == '8') ? 'selected="selected"' : ''; ?>><?php echo USER_ROLE_LVL_8; ?></option>
 						<option value="7" <?php echo (isset($add_user_data_level) && $add_user_data_level == '7') ? 'selected="selected"' : ''; ?>><?php echo USER_ROLE_LVL_7; ?></option>
+						<option value="8" <?php echo (isset($add_user_data_level) && $add_user_data_level == '8') ? 'selected="selected"' : ''; ?>><?php echo USER_ROLE_LVL_8; ?></option>
+						<option value="9" <?php echo (isset($add_user_data_level) && $add_user_data_level == '9') ? 'selected="selected"' : ''; ?>><?php echo USER_ROLE_LVL_9; ?></option>
 					</select>
 				</div>
 			</div>
