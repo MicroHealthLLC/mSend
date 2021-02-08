@@ -998,7 +998,7 @@ function render_log_action($params)
     $statement5->setFetchMode(PDO::FETCH_ASSOC);
     $user_info = $statement5->fetch();
 
-    // echo "<pre>";print_r($action);echo "</pre>";
+    // echo "<pre>";print_r($user_info);echo "</pre>";
     
 
 
@@ -1050,6 +1050,14 @@ function render_log_action($params)
 			$part1 = $owner_user;
 			$action_text = __('(client) uploaded the file','cftp_admin');
 			$part2 = $affected_file_name;
+			if($user_info['level']==0){
+			    $part3 = __('from the client:','cftp_admin');
+			}else{
+			    $part3 = __('to the client:','cftp_admin');
+			}
+			$part4 = $affected_account_name;
+			
+			
 			break;
 		case 7:
 			$action_ico = 'file-download';

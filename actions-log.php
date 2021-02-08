@@ -389,7 +389,7 @@ border: solid 1px #ccc;
 										)
 					);
 					$date = date(TIMEFORMAT_USE,strtotime($log['timestamp']));
-				// 	var_dump($log['file_type']);die();
+				
 					if($log['action']=='25'){
     					if($log['file_type']!=null){
     					    $this_action["text"].=' ('.$log['file_type'].')';
@@ -411,6 +411,8 @@ border: solid 1px #ccc;
                                 // }
     					    }
     					}
+					}else if($log['action']=='6'){
+					    $this_action["text"].=' (normal request file)';
 					}
 				?>
 				<tr>

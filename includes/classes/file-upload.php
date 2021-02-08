@@ -148,6 +148,7 @@ class PSend_Upload_File
 	 */
 	function upload_add_to_database($arguments)
 	{
+	   // var_dump($arguments);die();
 		$this->post_file		= $arguments['file'];
 		$this->requestType		= $arguments['requestType'];
 		$this->name			= encode_html($arguments['name']);
@@ -201,6 +202,36 @@ class PSend_Upload_File
 			elseif ($this->uploader_type == 'client') {
 				$this->action_type = 6;
 			}
+			
+// 			var_dump($this->state);die();
+			
+// 			$users = array();
+            
+//             $statement = $dbh->prepare("SELECT id, name, email, level FROM " . TABLE_USERS . " WHERE active = 1 ORDER BY name ASC");
+            
+//             $statement->execute();
+            
+//             $statement->setFetchMode(PDO::FETCH_ASSOC);
+            
+//             while( $row = $statement->fetch() ) {
+            
+//             	$users[$row["id"]] = $row["name"];
+            
+//             	//if ($row["level"] == '0') {
+            
+//             		//$clients[$row["id"]] = $row["name"];
+            
+//             	//}
+            
+//             		$clients[$row["id"]] = $row["name"]." : ".$row["email"];
+            
+//             }
+			
+			
+			
+			
+			
+			
 			$new_log_action = new LogActions();
 			$log_action_args = array(
 					'action' => $this->action_type,
@@ -209,6 +240,7 @@ class PSend_Upload_File
 					'affected_file_name' => $this->name,
 					'affected_account_name' => $this->uploader
 				);
+				// var_dump($this->file_id);die();
 			$new_record_action = $new_log_action->log_action_save($log_action_args);
 		}
 		else {
@@ -287,6 +319,9 @@ class PSend_Upload_File
 			foreach ($this->assign_to as $this->assignment) {
 				$this->id_only = substr($this->assignment, 1);
 
+// var_dump($this->users[$this->id_only]);die();
+
+
 				switch ($this->assignment[0]) {
 					case 'c':
 						$this->add_to = 'client_id';
@@ -300,12 +335,14 @@ class PSend_Upload_File
 						break;
 				}
 				
+				
 				$this->statement = $this->dbh->prepare("SELECT client_id FROM " . TABLE_FILES_RELATIONS. " WHERE client_id ='".$this->id_only."' AND file_id ='".$this->file_id."' AND from_id ='".$this->fromid."' ");
 				// $this->statement->bindParam(':sendstatus', $this->send_status);
 				$this->statement->execute();
 				$this->statement->setFetchMode(PDO::FETCH_ASSOC);
 				$this->checkclientid = $this->statement->fetch();
 				if(empty($this->checkclientid)){
+				    // var_dump($this->uploader_type);die();
 				    $this->assignment = substr($this->assignment, 1);
     				$this->statement = $this->dbh->prepare("INSERT INTO " . TABLE_FILES_RELATIONS . " (file_id, from_id, $this->add_to, hidden)"
 														."VALUES (:file_id, :fromid, :assignment, :hidden)");
@@ -319,7 +356,7 @@ class PSend_Upload_File
     				$this->statement->execute();
 				}
 				
-				// echo "<pre>";print_r($this->row);echo "</pre>";
+				// echo "<pre>";print_r($this->account_name);echo "</pre>";
 
 				if ($this->uploader_type == 'user') {
 					/** Record the action log */

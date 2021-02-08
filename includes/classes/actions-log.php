@@ -67,6 +67,9 @@ class LogActions
 		global $dbh;
 		global $global_name;
 		$this->state = array();
+		
+// 		var_dump($arguments);die();
+// var_dump($arguments['owner_id']);die();
 
 		/** Define the account information */
 		$this->action = $arguments['action'];
@@ -77,7 +80,8 @@ class LogActions
 		$this->affected_file_name = (!empty($arguments['affected_file_name'])) ? $arguments['affected_file_name'] : '';
 		$this->affected_account_name = (!empty($arguments['affected_account_name'])) ? $arguments['affected_account_name'] : '';
 		$this->file_type = (!empty($arguments['file_type'])) ? $arguments['file_type'] : '';
-// 		var_dump($this->file_type);die();
+		
+		
 		
 		/** Get the real name of the client or user */
 		if (!empty($arguments['get_user_real_name'])) {
@@ -104,7 +108,7 @@ class LogActions
 				$this->affected_file_name = $srow['filename'];
 			}
 		}
-
+// var_dump($this->affected_file);
 		/** Insert the client information into the database */
 		$lq = "INSERT INTO " . TABLE_LOG . " (action,owner_id,owner_user";
 		

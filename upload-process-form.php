@@ -1,5 +1,5 @@
 <?php
-	// var_dump($_POST);die();
+// 	var_dump($_POST['file']);
 
 /**
 
@@ -274,9 +274,8 @@ while( $row = $statement->fetch() ) {
 		 * Get the ID of the current client that is uploading files.
 
 		 */
-
+// var_dump($_POST);die();
 		if ($current_level == 0) {
-
 			$client_my_info = get_client_by_username($global_user);
 
 			$client_my_id = $client_my_info["id"];
@@ -371,6 +370,7 @@ while( $row = $statement->fetch() ) {
 
 
 						/** Add to the database for each client / group selected */
+				// 		var_dump($file['assignments']);die();
 
 						$add_arguments = array(
 
@@ -447,6 +447,7 @@ while( $row = $statement->fetch() ) {
 				if(!empty($file['assignments'])){
 
 					$full_list = $file['assignments'];
+					
 
 				}else{
 
@@ -515,6 +516,7 @@ while( $row = $statement->fetch() ) {
 				}
 
 				$full_assi_user = $full_list;
+				// var_dump($full_assi_user);die();
 				$add_arguments['assign_to'] = $full_assi_user;
 				$assignations_count	= count($full_assi_user);
 				$newassigns=1;
