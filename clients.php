@@ -114,13 +114,22 @@ $(document).ready(function() {
 					break;
 
 				case 'delete':
+				    
+				    foreach ($selected_clients as $work_client1) {
+						$this_client1 = new ClientActions();
+						$hide_client = $this_client1->change_client_active_status($work_client1,'0');
+					}
+					$msg = __('The selected clients were marked as inactive.','cftp_admin');
+					echo system_message('ok',$msg);
+					$log_action_number = 20;
+					
 					foreach ($selected_clients as $client) {
 						$this_client = new ClientActions();
 						$delete_client = $this_client->delete_client($client);
 					}
-					
-					$msg = __('The selected clients were deleted.','cftp_admin');
+						$msg = __('The selected clients were deleted.','cftp_admin');
 					echo system_message('ok',$msg);
+				
 					$log_action_number = 17;
 					break;
 			}
